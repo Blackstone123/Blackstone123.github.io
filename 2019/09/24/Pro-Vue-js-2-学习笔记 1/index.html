@@ -88,9 +88,9 @@
 <meta property="og:description" content="前言我又挖坑啦～～～，开始《pro vue.js 2》学习笔记。一直想学 vue，也不停地重复写 vue 的  hello world，总是没能系统性地深入学习。emmm，不废话了，加油吧。  Part 1 Getting started with vue.jsChapter 1: Your first Vue.js Application P3">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/24/Pro-Vue-js-2-学习笔记%201/webwxgetmsgimg.jpeg">
-<meta property="og:image" content="http://yoursite.com/2019/09/24/Pro-Vue-js-2-学习笔记%201/vue_hello.jpeg">
 <meta property="og:image" content="http://yoursite.com/2019/09/24/Pro-Vue-js-2-学习笔记%201/902138306.jpg">
-<meta property="og:updated_time" content="2019-09-24T06:58:21.088Z">
+<meta property="og:image" content="http://yoursite.com/2019/09/24/Pro-Vue-js-2-学习笔记%201/vue_hello.jpeg">
+<meta property="og:updated_time" content="2019-09-24T07:22:22.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pro Vue.js 2 学习笔记 1（Chapter 1 Your first Vue.js Application）">
 <meta name="twitter:description" content="前言我又挖坑啦～～～，开始《pro vue.js 2》学习笔记。一直想学 vue，也不停地重复写 vue 的  hello world，总是没能系统性地深入学习。emmm，不废话了，加油吧。  Part 1 Getting started with vue.jsChapter 1: Your first Vue.js Application P3">
@@ -412,9 +412,8 @@
 <p>All the current-generation browsers have good developer support and work well with Vue.js, but there is a useful extension for Chrome and Firefox called vue-devtools that provides insights into the state of a Vue.js application and that is especially useful in complex projects. See <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="noopener">https://github.com/vuejs/vue-devtools</a> for details of installing the extension, which I use in later chapters.</p>
 </blockquote>
 <h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>总于可以创建项目啦</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vue create todo --default</span><br><span class="line">$ cd todo</span><br><span class="line">$ npm run serve</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vue create todo --default</span><br></pre></td></tr></table></figure>
 
-<p>不出意外，运行起来后打开  <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> 就可以看到 vue 的欢迎界面了。<br><img src="vue_hello.jpeg" alt></p>
 <h3 id="理解项目结构"><a href="#理解项目结构" class="headerlink" title="理解项目结构"></a>理解项目结构</h3><p>在 vscode 中有如下结构，不同编辑器，稍有不同。<br><img src="902138306.jpg" alt><br>项目中一些重要的文件</p>
 <table>
 <thead>
@@ -425,9 +424,25 @@
 </thead>
 <tbody><tr>
 <td align="center">public/index.html</td>
-<td align="center">一个会被浏览器加载的 HTML 文件，app 会在它一个元素中显示，同时 script 元素会加载　app 的相关文件</td>
+<td align="center">一个会被浏览器加载的 HTML 文件，app 会在它一个元素中显示，同时 script 元素会加载 app 的相关文件。</td>
+</tr>
+<tr>
+<td align="center">src/main.js</td>
+<td align="center">一个 js 文件，负责对　vue.js app 进行配置。它也用于对要依赖的第三方包进行注册。</td>
+</tr>
+<tr>
+<td align="center">src/App.vue</td>
+<td align="center">vue.js 的组件，包括了会展现给用户的 HTML 内容、HTML 所需要的 js 代码、渲染元素的 CCS。在 Vue 中，组件 components 是主要的构建单元。</td>
+</tr>
+<tr>
+<td align="center">src/assets/logo.png</td>
+<td align="center">assets 文件夹被用来存储静态内容，例如图片等。在新建项目时，里面的 logo.png 是 vue.js logo 图片。</td>
 </tr>
 </tbody></table>
+<h3 id="启动项目-starting-the-development-tolls"><a href="#启动项目-starting-the-development-tolls" class="headerlink" title="启动项目( starting the development tolls)"></a>启动项目( starting the development tolls)</h3><p>当用 vue 命令创建了项目后，一个完整的工具集也就安装上了。我们就可以用这些工具对项目工程进行编译、打包、发布到浏览器。用如下命令，启动项目：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd todo</span><br><span class="line">$ npm run serve</span><br></pre></td></tr></table></figure>
+
+<p>不出意外，运行起来后打开  <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> 就可以看到 vue 的欢迎界面了。<br><img src="vue_hello.jpeg" alt></p>
 <h2 id="替换-placeholder-content"><a href="#替换-placeholder-content" class="headerlink" title="替换 placeholder content"></a>替换 placeholder content</h2><h2 id="添加动态内容"><a href="#添加动态内容" class="headerlink" title="添加动态内容"></a>添加动态内容</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
       
     </div>
@@ -620,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备开发环境"><span class="nav-number">2.1.</span> <span class="nav-text">准备开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#node-npm-的安装"><span class="nav-number">2.1.1.</span> <span class="nav-text">node npm 的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-＠vue-cli-包"><span class="nav-number">2.1.2.</span> <span class="nav-text">安装 ＠vue/cli 包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Git"><span class="nav-number">2.1.3.</span> <span class="nav-text">安装 Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装编辑器"><span class="nav-number">2.1.4.</span> <span class="nav-text">安装编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Browser"><span class="nav-number">2.1.5.</span> <span class="nav-text">安装 Browser</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目"><span class="nav-number">2.2.</span> <span class="nav-text">创建项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解项目结构"><span class="nav-number">2.2.1.</span> <span class="nav-text">理解项目结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换-placeholder-content"><span class="nav-number">2.3.</span> <span class="nav-text">替换 placeholder content</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加动态内容"><span class="nav-number">2.4.</span> <span class="nav-text">添加动态内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.5.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备开发环境"><span class="nav-number">2.1.</span> <span class="nav-text">准备开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#node-npm-的安装"><span class="nav-number">2.1.1.</span> <span class="nav-text">node npm 的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-＠vue-cli-包"><span class="nav-number">2.1.2.</span> <span class="nav-text">安装 ＠vue/cli 包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Git"><span class="nav-number">2.1.3.</span> <span class="nav-text">安装 Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装编辑器"><span class="nav-number">2.1.4.</span> <span class="nav-text">安装编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Browser"><span class="nav-number">2.1.5.</span> <span class="nav-text">安装 Browser</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目"><span class="nav-number">2.2.</span> <span class="nav-text">创建项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解项目结构"><span class="nav-number">2.2.1.</span> <span class="nav-text">理解项目结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动项目-starting-the-development-tolls"><span class="nav-number">2.2.2.</span> <span class="nav-text">启动项目( starting the development tolls)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换-placeholder-content"><span class="nav-number">2.3.</span> <span class="nav-text">替换 placeholder content</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加动态内容"><span class="nav-number">2.4.</span> <span class="nav-text">添加动态内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.5.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
