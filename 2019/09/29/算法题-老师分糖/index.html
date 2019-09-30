@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="前言第一篇关于算法题的 Blog。据小马同学知，这个题是字节跳动的。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。">
+<meta name="description" content="前言第一篇关于算法题的 Blog。据小马同学，这个题是字节跳动的(待考)。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。">
 <meta name="keywords" content="Algorithm,Python,算法,字节跳动">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法题 - 老师分糖">
 <meta property="og:url" content="http://yoursite.com/2019/09/29/算法题-老师分糖/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="前言第一篇关于算法题的 Blog。据小马同学知，这个题是字节跳动的。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。">
+<meta property="og:description" content="前言第一篇关于算法题的 Blog。据小马同学，这个题是字节跳动的(待考)。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/29/算法题-老师分糖/title.jpeg">
-<meta property="og:updated_time" content="2019-09-30T02:16:05.446Z">
+<meta property="og:updated_time" content="2019-09-30T02:16:43.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法题 - 老师分糖">
-<meta name="twitter:description" content="前言第一篇关于算法题的 Blog。据小马同学知，这个题是字节跳动的。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。">
+<meta name="twitter:description" content="前言第一篇关于算法题的 Blog。据小马同学，这个题是字节跳动的(待考)。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。">
 <meta name="twitter:image" content="http://yoursite.com/2019/09/29/算法题-老师分糖/title.jpeg">
 
 
@@ -364,7 +364,7 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>第一篇关于算法题的 Blog。据小马同学知，这个题是字节跳动的。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>第一篇关于算法题的 Blog。据小马同学，这个题是字节跳动的(待考)。大意一个很抠的老师，给一队孩子评分，然后根据评分发糖。要求每个孩子至少分配到一颗糖，且在相邻孩子中，评分高的孩子必须获得更多的糖。</p>
 <a id="more"></a>
 <p>原题干见下图：<br><img src="title.jpeg" alt></p>
 <h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="My-Solution"><a href="#My-Solution" class="headerlink" title="My Solution"></a>My Solution</h2><p>第一遍的代码，写了很多的 if-else 并且不解决问题。原先的思路是按递增和递减两种情况来考虑，但当时忽略了一个很不符合常识的情形，就是两个相邻孩子，如果评分一样，糖果数量有可能相差很大。这里很诡异的地方在于，某个小孩的糖果数量只和与他相邻孩子得分的不相同有关，得分相同反而造成没有关联。</p>
