@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="python,Django,用户权限管理,">
+  <meta name="keywords" content="Golang,Design Patterns,设计模式,">
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="前言借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。">
-<meta name="keywords" content="python,Django,用户权限管理">
+<meta name="description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
+<meta name="keywords" content="Golang,Design Patterns,设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Django用户权限管理学习">
-<meta property="og:url" content="http://yoursite.com/2019/09/20/Django用户权限管理学习/index.html">
+<meta property="og:title" content="Go-Design-Patterns-学习笔记 1">
+<meta property="og:url" content="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记 1/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="前言借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。">
+<meta property="og:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-24T03:36:27.289Z">
+<meta property="og:image" content="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记%201/bookface.jpeg">
+<meta property="og:updated_time" content="2019-09-30T08:38:35.601Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Django用户权限管理学习">
-<meta name="twitter:description" content="前言借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。">
+<meta name="twitter:title" content="Go-Design-Patterns-学习笔记 1">
+<meta name="twitter:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记%201/bookface.jpeg">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/20/Django用户权限管理学习/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记 1/">
 
 
 
 
 
-  <title>Django用户权限管理学习 | Clay's Blog</title>
+  <title>Go-Design-Patterns-学习笔记 1 | Clay's Blog</title>
   
 
 
@@ -273,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/Django用户权限管理学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记 1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Clay Chen">
@@ -290,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Django用户权限管理学习</h1>
+          <h1 class="post-title" itemprop="name headline">Go-Design-Patterns-学习笔记 1</h1>
         
 
         <div class="post-meta">
@@ -302,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T10:12:53+08:00">
-                2019-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-30T15:02:53+08:00">
+                2019-09-30
               </time>
             
 
@@ -325,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/WEB/" itemprop="url" rel="index">
-                    <span itemprop="name">WEB</span>
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
                   </a>
                 </span>
 
@@ -362,18 +364,35 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。</p>
 <a id="more"></a>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><ul>
-<li>Python == 3.6.8</li>
-<li>Django == 2.2.5 </li>
-<li>DocUrl == <a href="https://docs.djangoproject.com/en/2.2/" target="_blank" rel="noopener">https://docs.djangoproject.com/en/2.2/</a></li>
+<p>书封面如下：<br><img src="bookface.jpeg" alt></p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h1 id="Chapter-1-Ready…Steady…Go"><a href="#Chapter-1-Ready…Steady…Go" class="headerlink" title="Chapter 1: Ready…Steady…Go!"></a>Chapter 1: Ready…Steady…Go!</h1><p>这章讲一些历史背景和 Golang 基本语法，也算对自己基础的巩固。</p>
+<h2 id="简史"><a href="#简史" class="headerlink" title="简史"></a>简史</h2><p>缘起：</p>
+<ul>
+<li>在过去 20 年中，计算机科学经历了 incredible 增长。存储、内存都显著进步，CPU 也更快了。然而，相较存储和内存的增长而言，单个CPU 的进步却没有那么显著。实际上 CPU 工业的发展遇到了瓶颈，如果让单个  CPU 满功率地跑，散热已经不能满足了。</li>
+<li>为了解决这个问题，CPU 制造者开始在每台计算机上布置更多的 CPU 核心，以实现在满足散热的同时，增强计算机的计算能力。这种情形对一些系统编程语言变得挑战起来，尤其是那些一开始并不是为多核系统或分布式系统而设计的语言。比如 Google 意识到这越来越是个问题，尤其当他们挣扎于用 Java 或 C++ 这种一开始并不是为并发而设计的语言去开发分布式应用的时候。</li>
+<li>另一方面，现代程序越来越大、越来越复杂，维护起来越来越困难，同时容易出现坏的实践。我们的电脑有更多的核心以及越来越快，而我们在编写多核程序或者分布式应用时，并没有更快！</li>
 </ul>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>blabla</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>blabla</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>blabla</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>blabla</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><h1 id="…-待续-2019-09-20"><a href="#…-待续-2019-09-20" class="headerlink" title="….待续(2019.09.20)"></a>….待续(2019.09.20)</h1>
+<p>上帝说，要有 Golang：</p>
+<ul>
+<li>Go 语言的设计开始于 2007 年，三个谷歌员工研究一种能够解决像谷歌这种大体量分布式系统中的通用问题的编程语言，这个三个员工是：<ul>
+<li>Rob Pike: Plan 9 and Inferno OS.</li>
+<li>Robert Griesemer: Google V8 js engine that powers Google Chrome.</li>
+<li>Ken Thompson: Worked at Bell labs and Unix team. involved in designing of Plan 9 OS and definition of the UTF-8 encoding.   </li>
+</ul>
+</li>
+<li>2008 年，编译器完成，团队获得 Russ Cox 和 Ian Lance Taylor 的支援</li>
+<li>2009 年，项目开源</li>
+<li>2012 年 3 月，经历 50 次小版本迭代后，发布了 1.0 版本</li>
+</ul>
+<h2 id="安装-Go"><a href="#安装-Go" class="headerlink" title="安装 Go"></a>安装 Go</h2><p>Go 的安装需要两个基本的东西：</p>
+<ul>
+<li>存放在硬盘上 Golang 二进制文件</li>
+<li>系统上中的 GOPATH 系统路径，用于存放工程文件以及从其他人那里下载的工程文件</li>
+</ul>
+<p>（未完待续，2019.09.30）</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><h2 id="类型-Types"><a href="#类型-Types" class="headerlink" title="类型 Types"></a>类型 Types</h2><h2 id="变量和常量-Variables-and-constants"><a href="#变量和常量-Variables-and-constants" class="headerlink" title="变量和常量 Variables and constants"></a>变量和常量 Variables and constants</h2><h2 id="操作符-Operators"><a href="#操作符-Operators" class="headerlink" title="操作符 Operators"></a>操作符 Operators</h2><h2 id="流程控制-Flow-control"><a href="#流程控制-Flow-control" class="headerlink" title="流程控制 Flow control"></a>流程控制 Flow control</h2><h2 id="函数-Functions"><a href="#函数-Functions" class="headerlink" title="函数 Functions"></a>函数 Functions</h2><h2 id="数组、切片、maps-Arrays-slices-maps"><a href="#数组、切片、maps-Arrays-slices-maps" class="headerlink" title="数组、切片、maps Arrays, slices, maps"></a>数组、切片、maps Arrays, slices, maps</h2><h2 id="可见性-Visibility"><a href="#可见性-Visibility" class="headerlink" title="可见性 Visibility"></a>可见性 Visibility</h2><h2 id="零初始化-Zero-initialization"><a href="#零初始化-Zero-initialization" class="headerlink" title="零初始化 Zero-initialization"></a>零初始化 Zero-initialization</h2><h2 id="指针和结构体-Pointers-and-structures"><a href="#指针和结构体-Pointers-and-structures" class="headerlink" title="指针和结构体 Pointers and structures"></a>指针和结构体 Pointers and structures</h2><h2 id="接口-Interfaces"><a href="#接口-Interfaces" class="headerlink" title="接口 Interfaces"></a>接口 Interfaces</h2><h2 id="测试和测试驱动开发-Testing-and-TDD"><a href="#测试和测试驱动开发-Testing-and-TDD" class="headerlink" title="测试和测试驱动开发 Testing and TDD"></a>测试和测试驱动开发 Testing and TDD</h2><h2 id="库-Libraries"><a href="#库-Libraries" class="headerlink" title="库 Libraries"></a>库 Libraries</h2><h2 id="Go-get-工具-The-Go-get-tool"><a href="#Go-get-工具-The-Go-get-tool" class="headerlink" title="Go get 工具 The Go get tool"></a>Go get 工具 The Go get tool</h2><h2 id="JSON-数据管理-Managing-JSON-data"><a href="#JSON-数据管理-Managing-JSON-data" class="headerlink" title="JSON 数据管理 Managing JSON data"></a>JSON 数据管理 Managing JSON data</h2><h2 id="Go-工具-Go-tools"><a href="#Go-工具-Go-tools" class="headerlink" title="Go 工具 Go tools"></a>Go 工具 Go tools</h2><h2 id="在-Github-上为-Go-开源项目贡献代码"><a href="#在-Github-上为-Go-开源项目贡献代码" class="headerlink" title="在 Github 上为 Go 开源项目贡献代码"></a>在 Github 上为 Go 开源项目贡献代码</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
       
     </div>
     
@@ -390,11 +409,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"># python</a>
+            <a href="/tags/Golang/" rel="tag"># Golang</a>
           
-            <a href="/tags/Django/" rel="tag"># Django</a>
+            <a href="/tags/Design-Patterns/" rel="tag"># Design Patterns</a>
           
-            <a href="/tags/用户权限管理/" rel="tag"># 用户权限管理</a>
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
           
         </div>
       
@@ -407,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/19/流水帐啊，我的流水帐～/" rel="next" title="流水帐啊，我的流水帐～">
-                <i class="fa fa-chevron-left"></i> 流水帐啊，我的流水帐～
+              <a href="/2019/09/29/算法题-老师分糖/" rel="next" title="算法题 - 老师分糖">
+                <i class="fa fa-chevron-left"></i> 算法题 - 老师分糖
               </a>
             
           </div>
@@ -416,10 +435,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/24/Pro-Vue-js-2-学习笔记 1/" rel="prev" title="Pro Vue.js 2 学习笔记 1">
-                Pro Vue.js 2 学习笔记 1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -571,7 +586,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置条件"><span class="nav-number">2.1.</span> <span class="nav-text">前置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#…-待续-2019-09-20"><span class="nav-number">5.</span> <span class="nav-text">….待续(2019.09.20)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-1-Ready…Steady…Go"><span class="nav-number">3.</span> <span class="nav-text">Chapter 1: Ready…Steady…Go!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简史"><span class="nav-number">3.1.</span> <span class="nav-text">简史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Go"><span class="nav-number">3.2.</span> <span class="nav-text">安装 Go</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">3.3.</span> <span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发环境"><span class="nav-number">3.4.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型-Types"><span class="nav-number">3.5.</span> <span class="nav-text">类型 Types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量和常量-Variables-and-constants"><span class="nav-number">3.6.</span> <span class="nav-text">变量和常量 Variables and constants</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符-Operators"><span class="nav-number">3.7.</span> <span class="nav-text">操作符 Operators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程控制-Flow-control"><span class="nav-number">3.8.</span> <span class="nav-text">流程控制 Flow control</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数-Functions"><span class="nav-number">3.9.</span> <span class="nav-text">函数 Functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组、切片、maps-Arrays-slices-maps"><span class="nav-number">3.10.</span> <span class="nav-text">数组、切片、maps Arrays, slices, maps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可见性-Visibility"><span class="nav-number">3.11.</span> <span class="nav-text">可见性 Visibility</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#零初始化-Zero-initialization"><span class="nav-number">3.12.</span> <span class="nav-text">零初始化 Zero-initialization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指针和结构体-Pointers-and-structures"><span class="nav-number">3.13.</span> <span class="nav-text">指针和结构体 Pointers and structures</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口-Interfaces"><span class="nav-number">3.14.</span> <span class="nav-text">接口 Interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试和测试驱动开发-Testing-and-TDD"><span class="nav-number">3.15.</span> <span class="nav-text">测试和测试驱动开发 Testing and TDD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#库-Libraries"><span class="nav-number">3.16.</span> <span class="nav-text">库 Libraries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-get-工具-The-Go-get-tool"><span class="nav-number">3.17.</span> <span class="nav-text">Go get 工具 The Go get tool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON-数据管理-Managing-JSON-data"><span class="nav-number">3.18.</span> <span class="nav-text">JSON 数据管理 Managing JSON data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-工具-Go-tools"><span class="nav-number">3.19.</span> <span class="nav-text">Go 工具 Go tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Github-上为-Go-开源项目贡献代码"><span class="nav-number">3.20.</span> <span class="nav-text">在 Github 上为 Go 开源项目贡献代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.21.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
