@@ -88,7 +88,7 @@
 <meta property="og:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记%201/bookface.jpeg">
-<meta property="og:updated_time" content="2019-09-30T08:38:35.601Z">
+<meta property="og:updated_time" content="2019-09-30T09:01:07.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go-Design-Patterns-学习笔记 1">
 <meta name="twitter:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
@@ -390,6 +390,28 @@
 <ul>
 <li>存放在硬盘上 Golang 二进制文件</li>
 <li>系统上中的 GOPATH 系统路径，用于存放工程文件以及从其他人那里下载的工程文件</li>
+</ul>
+<p>Go 安装可能涉及三个系统 Linux、Window、OS X。我只关心 Linux：</p>
+<ul>
+<li><p>无障碍安装：</p>
+<ul>
+<li><p>RHEL/Fedora/Centos users with YUM/DNF:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y golang</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Ubuntu/Debian users using APT with:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install -y golang</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>高级安装：<br>Downloading the latest distribution from <a href="https://golang.org" target="_blank" rel="noopener">https://golang.org</a></p>
+</li>
+</ul>
+<p>Golang 的更新会维持向后兼容，所以更新版本时不用担心。书中推荐用高级方法安装，我就无障碍安装就好了。不过这里还是笔记一下 Linux 高级安装的相关信息：</p>
+<ul>
+<li>到官网 <a href="https://golang.org" target="_blank" rel="noopener">https://golang.org</a> 下载 beta 版本的二进制安装包到下载文件夹中，比如保存为 tar.gz 文件</li>
+<li>解压，并放到合适的路径下，一般而言会放到 /usr/local/go 路径下，注意将下面第一条命令的 * 号替换为具体的版本号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf go*.*.*.linux-amd64.tar.gz</span><br><span class="line">$ sudo mv go /usr/local/go</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
 <p>（未完待续，2019.09.30）</p>
 <h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><h2 id="类型-Types"><a href="#类型-Types" class="headerlink" title="类型 Types"></a>类型 Types</h2><h2 id="变量和常量-Variables-and-constants"><a href="#变量和常量-Variables-and-constants" class="headerlink" title="变量和常量 Variables and constants"></a>变量和常量 Variables and constants</h2><h2 id="操作符-Operators"><a href="#操作符-Operators" class="headerlink" title="操作符 Operators"></a>操作符 Operators</h2><h2 id="流程控制-Flow-control"><a href="#流程控制-Flow-control" class="headerlink" title="流程控制 Flow control"></a>流程控制 Flow control</h2><h2 id="函数-Functions"><a href="#函数-Functions" class="headerlink" title="函数 Functions"></a>函数 Functions</h2><h2 id="数组、切片、maps-Arrays-slices-maps"><a href="#数组、切片、maps-Arrays-slices-maps" class="headerlink" title="数组、切片、maps Arrays, slices, maps"></a>数组、切片、maps Arrays, slices, maps</h2><h2 id="可见性-Visibility"><a href="#可见性-Visibility" class="headerlink" title="可见性 Visibility"></a>可见性 Visibility</h2><h2 id="零初始化-Zero-initialization"><a href="#零初始化-Zero-initialization" class="headerlink" title="零初始化 Zero-initialization"></a>零初始化 Zero-initialization</h2><h2 id="指针和结构体-Pointers-and-structures"><a href="#指针和结构体-Pointers-and-structures" class="headerlink" title="指针和结构体 Pointers and structures"></a>指针和结构体 Pointers and structures</h2><h2 id="接口-Interfaces"><a href="#接口-Interfaces" class="headerlink" title="接口 Interfaces"></a>接口 Interfaces</h2><h2 id="测试和测试驱动开发-Testing-and-TDD"><a href="#测试和测试驱动开发-Testing-and-TDD" class="headerlink" title="测试和测试驱动开发 Testing and TDD"></a>测试和测试驱动开发 Testing and TDD</h2><h2 id="库-Libraries"><a href="#库-Libraries" class="headerlink" title="库 Libraries"></a>库 Libraries</h2><h2 id="Go-get-工具-The-Go-get-tool"><a href="#Go-get-工具-The-Go-get-tool" class="headerlink" title="Go get 工具 The Go get tool"></a>Go get 工具 The Go get tool</h2><h2 id="JSON-数据管理-Managing-JSON-data"><a href="#JSON-数据管理-Managing-JSON-data" class="headerlink" title="JSON 数据管理 Managing JSON data"></a>JSON 数据管理 Managing JSON data</h2><h2 id="Go-工具-Go-tools"><a href="#Go-工具-Go-tools" class="headerlink" title="Go 工具 Go tools"></a>Go 工具 Go tools</h2><h2 id="在-Github-上为-Go-开源项目贡献代码"><a href="#在-Github-上为-Go-开源项目贡献代码" class="headerlink" title="在 Github 上为 Go 开源项目贡献代码"></a>在 Github 上为 Go 开源项目贡献代码</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
