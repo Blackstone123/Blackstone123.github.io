@@ -88,7 +88,7 @@
 <meta property="og:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记%201/bookface.jpeg">
-<meta property="og:updated_time" content="2019-10-08T06:40:41.133Z">
+<meta property="og:updated_time" content="2019-10-08T09:50:49.782Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go-Design-Patterns-学习笔记 1">
 <meta name="twitter:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
@@ -448,7 +448,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go build -o hello_world</span><br></pre></td></tr></table></figure>
 
 <p>得到一个 hello_world 文件，用命令可运行起来：</p>
-<pre><code>./hello_world</code></pre><p>得到同之前同样的输出。这个可执行文件可以放在其他地方运行，不需要其他任何依赖。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hello_world</span><br></pre></td></tr></table></figure>
+
+<p>得到同之前同样的输出。这个可执行文件可以放在其他地方运行，不需要其他任何依赖。</p>
 <h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>IDE (Intergrated Development Environment) 是一个用户界面，通过集成了一系列工具加速开发中一些常规流程，如 compiling、building、管理依赖等，从而帮助开发者编写代码。　</p>
 <p>对于 Go 而言，专门面向 Golang 开发的 IDE 有 LiteIDE 和 Intellij Goland。其中 LiteIDE 功能较为单一，Goland 则强大很多。另外一些通用的 IDE 或者 编辑器有 Go 插件来帮助 Go 程序的开发。如：</p>
 <ul>
@@ -459,7 +461,118 @@
 <li>Vim</li>
 <li>Visual Studio and Visual Code</li>
 </ul>
-<h2 id="类型-Types"><a href="#类型-Types" class="headerlink" title="类型 Types"></a>类型 Types</h2><h2 id="变量和常量-Variables-and-constants"><a href="#变量和常量-Variables-and-constants" class="headerlink" title="变量和常量 Variables and constants"></a>变量和常量 Variables and constants</h2><h2 id="操作符-Operators"><a href="#操作符-Operators" class="headerlink" title="操作符 Operators"></a>操作符 Operators</h2><h2 id="流程控制-Flow-control"><a href="#流程控制-Flow-control" class="headerlink" title="流程控制 Flow control"></a>流程控制 Flow control</h2><h2 id="函数-Functions"><a href="#函数-Functions" class="headerlink" title="函数 Functions"></a>函数 Functions</h2><h2 id="数组、切片、maps-Arrays-slices-maps"><a href="#数组、切片、maps-Arrays-slices-maps" class="headerlink" title="数组、切片、maps Arrays, slices, maps"></a>数组、切片、maps Arrays, slices, maps</h2><h2 id="可见性-Visibility"><a href="#可见性-Visibility" class="headerlink" title="可见性 Visibility"></a>可见性 Visibility</h2><h2 id="零初始化-Zero-initialization"><a href="#零初始化-Zero-initialization" class="headerlink" title="零初始化 Zero-initialization"></a>零初始化 Zero-initialization</h2><h2 id="指针和结构体-Pointers-and-structures"><a href="#指针和结构体-Pointers-and-structures" class="headerlink" title="指针和结构体 Pointers and structures"></a>指针和结构体 Pointers and structures</h2><h2 id="接口-Interfaces"><a href="#接口-Interfaces" class="headerlink" title="接口 Interfaces"></a>接口 Interfaces</h2><h2 id="测试和测试驱动开发-Testing-and-TDD"><a href="#测试和测试驱动开发-Testing-and-TDD" class="headerlink" title="测试和测试驱动开发 Testing and TDD"></a>测试和测试驱动开发 Testing and TDD</h2><h2 id="库-Libraries"><a href="#库-Libraries" class="headerlink" title="库 Libraries"></a>库 Libraries</h2><h2 id="Go-get-工具-The-Go-get-tool"><a href="#Go-get-工具-The-Go-get-tool" class="headerlink" title="Go get 工具 The Go get tool"></a>Go get 工具 The Go get tool</h2><h2 id="JSON-数据管理-Managing-JSON-data"><a href="#JSON-数据管理-Managing-JSON-data" class="headerlink" title="JSON 数据管理 Managing JSON data"></a>JSON 数据管理 Managing JSON data</h2><h2 id="Go-工具-Go-tools"><a href="#Go-工具-Go-tools" class="headerlink" title="Go 工具 Go tools"></a>Go 工具 Go tools</h2><h2 id="在-Github-上为-Go-开源项目贡献代码"><a href="#在-Github-上为-Go-开源项目贡献代码" class="headerlink" title="在 Github 上为 Go 开源项目贡献代码"></a>在 Github 上为 Go 开源项目贡献代码</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
+<h2 id="类型-Types"><a href="#类型-Types" class="headerlink" title="类型 Types"></a>类型 Types</h2><p>类型 Types　赋予用户以一个方便好记的名字去存储数据。所有编程语言都有涉及到数字（存储整数、负数或者浮点数）、字符、字符串等等。Go 有如下常用的类型：</p>
+<ul>
+<li>bool 布尔类型，存储 True 或者 False 状态</li>
+<li>数字类型：<ul>
+<li>int 整型，可表示的数字范围从 0 到 4294967295 (对于 32 位计算机)或 0 到 18446744073709551615 (对于 64 位机)</li>
+<li>byte 可表示 0 到 255</li>
+<li>float32 以及 float64 是所有 IEEE-754 64/-bit floating-point 数字集合</li>
+<li>对于 signed int，rune 是 int32 的别名，可以表示 -2147483648 到 2147483647，complex64 和 complex128 分别是所有 实部和虚部都是 float32 或 float64所有复数的集合</li>
+</ul>
+</li>
+<li>string 字符串型，表示一个字符序列，用引号括起来</li>
+<li>array 数组内省，是具有固定长度，单一类型的有序元素序列</li>
+<li>slice 切片类型，是对数组进行切分后的一个子集，和数组有些相似，但是使用更为方便和广泛</li>
+<li>structures 结构类型，是不同类型元素的聚合</li>
+<li>pointers 指针类型，是整型变量，记录所指向数据的内存地址，可以间接通过指针来修改查询某个对象的数据值</li>
+<li>functions 函数类型，你可以定义函数类型为变量，作为参数值传入到其他函数中</li>
+<li>interface 接口类型，一种非常重要的数据类型，提供了我们经常用到的封装和抽象功能</li>
+<li>map 字面为映射，一种无序的 key-value 结构，需要说明的是，key 和　value 必须分别为统一数据类型</li>
+<li>channels 通道类型，Go 语言中面向并发编程的重要数据类型，用于不同 go rountine 的通信</li>
+</ul>
+<h2 id="变量和常量-Variables-and-constants"><a href="#变量和常量-Variables-and-constants" class="headerlink" title="变量和常量 Variables and constants"></a>变量和常量 Variables and constants</h2><p>变量是在计算机内存中用来存储数据的空间，在程序运行的过程中，他的值可以被改变。这里有两种定义变量的方式，第一种是显式，第二种是隐式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 显式</span></span><br><span class="line"><span class="keyword">var</span> explicit <span class="keyword">string</span> = <span class="string">"Hello, I'm a explicitly declared variable"</span></span><br><span class="line"><span class="comment">// 隐式</span></span><br><span class="line">infered := <span class="string">", I'm an inferred vairalble"</span></span><br></pre></td></tr></table></figure>
+
+<p>通过　reflect 包可以判断变量的类型，main.go 完整代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"reflect"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"Hello World!"</span>)</span><br><span class="line">    <span class="keyword">var</span> explicit <span class="keyword">string</span> = <span class="string">"Hello, I'm a explicitly declared variable"</span></span><br><span class="line">    inferred := <span class="string">"Hello, I'm an inferred vairalble"</span></span><br><span class="line">    fmt.Println(explicit)</span><br><span class="line">    fmt.Println(inferred)</span><br><span class="line">    fmt.Println(<span class="string">"variable 'explicit' is of type: "</span>,</span><br><span class="line">        reflect.TypeOf(explicit))</span><br><span class="line">    fmt.Println(<span class="string">"Variable 'inferred' is of type: "</span>,</span><br><span class="line">        reflect.TypeOf(inferred))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后用 <code>go run main.go</code> 获得结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Hello World!</span><br><span class="line">Hello, I&apos;m a explicitly declared variable</span><br><span class="line">Hello, I&apos;m an inferred vairalble</span><br><span class="line">variable &apos;explicit&apos; is of type:  string</span><br><span class="line">Variable &apos;inferred&apos; is of type:  string</span><br></pre></td></tr></table></figure>
+
+<h2 id="操作符-Operators"><a href="#操作符-Operators" class="headerlink" title="操作符 Operators"></a>操作符 Operators</h2><p>操作符被用于进行算术运算或这多个对象的比较。如下操作符是 Go 的保留操作符：</p>
+<table>
+<thead>
+<tr>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">+</td>
+<td align="center">&amp;</td>
+<td align="center">+=</td>
+<td align="center">&amp;=</td>
+<td align="center">&amp;&amp;</td>
+<td align="center">==</td>
+<td align="center">!=</td>
+<td align="center">(</td>
+<td align="center">)</td>
+</tr>
+<tr>
+<td align="center">-</td>
+<td align="center">|</td>
+<td align="center">-=</td>
+<td align="center">|=</td>
+<td align="center">||</td>
+<td align="center">&lt;</td>
+<td align="center">&lt;=</td>
+<td align="center">[</td>
+<td align="center">]</td>
+</tr>
+<tr>
+<td align="center">*</td>
+<td align="center">^</td>
+<td align="center">*=</td>
+<td align="center">^=</td>
+<td align="center">&lt;-</td>
+<td align="center">&gt;</td>
+<td align="center">&gt;=</td>
+<td align="center">{</td>
+<td align="center">}</td>
+</tr>
+<tr>
+<td align="center">/</td>
+<td align="center">&lt;&lt;</td>
+<td align="center">/=</td>
+<td align="center">&lt;&lt;=</td>
+<td align="center">++</td>
+<td align="center">=</td>
+<td align="center">:=</td>
+<td align="center">,</td>
+<td align="center">;</td>
+</tr>
+<tr>
+<td align="center">%</td>
+<td align="center">&gt;&gt;</td>
+<td align="center">%=</td>
+<td align="center">&gt;&gt;=</td>
+<td align="center">–</td>
+<td align="center">!</td>
+<td align="center">…</td>
+<td align="center">.</td>
+<td align="center">:</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">&amp;^</td>
+<td align="center"></td>
+<td align="center">&amp;^=</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h2 id="流程控制-Flow-control"><a href="#流程控制-Flow-control" class="headerlink" title="流程控制 Flow control"></a>流程控制 Flow control</h2><h2 id="函数-Functions"><a href="#函数-Functions" class="headerlink" title="函数 Functions"></a>函数 Functions</h2><h2 id="数组、切片、maps-Arrays-slices-maps"><a href="#数组、切片、maps-Arrays-slices-maps" class="headerlink" title="数组、切片、maps Arrays, slices, maps"></a>数组、切片、maps Arrays, slices, maps</h2><h2 id="可见性-Visibility"><a href="#可见性-Visibility" class="headerlink" title="可见性 Visibility"></a>可见性 Visibility</h2><h2 id="零初始化-Zero-initialization"><a href="#零初始化-Zero-initialization" class="headerlink" title="零初始化 Zero-initialization"></a>零初始化 Zero-initialization</h2><h2 id="指针和结构体-Pointers-and-structures"><a href="#指针和结构体-Pointers-and-structures" class="headerlink" title="指针和结构体 Pointers and structures"></a>指针和结构体 Pointers and structures</h2><h2 id="接口-Interfaces"><a href="#接口-Interfaces" class="headerlink" title="接口 Interfaces"></a>接口 Interfaces</h2><h2 id="测试和测试驱动开发-Testing-and-TDD"><a href="#测试和测试驱动开发-Testing-and-TDD" class="headerlink" title="测试和测试驱动开发 Testing and TDD"></a>测试和测试驱动开发 Testing and TDD</h2><h2 id="库-Libraries"><a href="#库-Libraries" class="headerlink" title="库 Libraries"></a>库 Libraries</h2><h2 id="Go-get-工具-The-Go-get-tool"><a href="#Go-get-工具-The-Go-get-tool" class="headerlink" title="Go get 工具 The Go get tool"></a>Go get 工具 The Go get tool</h2><h2 id="JSON-数据管理-Managing-JSON-data"><a href="#JSON-数据管理-Managing-JSON-data" class="headerlink" title="JSON 数据管理 Managing JSON data"></a>JSON 数据管理 Managing JSON data</h2><h2 id="Go-工具-Go-tools"><a href="#Go-工具-Go-tools" class="headerlink" title="Go 工具 Go tools"></a>Go 工具 Go tools</h2><h2 id="在-Github-上为-Go-开源项目贡献代码"><a href="#在-Github-上为-Go-开源项目贡献代码" class="headerlink" title="在 Github 上为 Go 开源项目贡献代码"></a>在 Github 上为 Go 开源项目贡献代码</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
       
     </div>
     
