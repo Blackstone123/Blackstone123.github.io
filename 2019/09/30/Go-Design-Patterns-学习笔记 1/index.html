@@ -88,7 +88,7 @@
 <meta property="og:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记%201/bookface.jpeg">
-<meta property="og:updated_time" content="2019-10-08T06:28:16.345Z">
+<meta property="og:updated_time" content="2019-10-08T06:30:16.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go-Design-Patterns-学习笔记 1">
 <meta name="twitter:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
@@ -433,13 +433,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">验证一下：</span><br></pre></td></tr></table></figure>
 
 <p>echo $GOPATH</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">## Hello, world!</span><br><span class="line">终于到了 hello, world 环节。在 $GOPATH/src/[your_name]/hello_world 中新建 main.go　文件：</span><br><span class="line">```Golang</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line">运行：</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Hello, world!</span><br><span class="line">终于到了 hello, world 环节。在 $GOPATH/src/[your_name]/hello_world 中新建 main.go　文件：</span><br><span class="line">```Golang</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line">运行：</span><br></pre></td></tr></table></figure>
 
 <p>$ go run main.go</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出：</span><br></pre></td></tr></table></figure>
 
 <p>Hello, World!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">以上。go run [file] 会对源代码文件进行编译同时执行，但是不会生成可执行文件。如果你只是想编译并且得到一个可执行文件，可以用如下命令：</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以上。go run [file] 会对源代码文件进行编译同时执行，但是不会生成可执行文件。如果你只是想编译并且得到一个可执行文件，可以用如下命令：</span><br></pre></td></tr></table></figure>
 
 <p>$ go build -o hello_world</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">得到一个 hello_world 文件，用命令可运行起来：</span><br></pre></td></tr></table></figure>
