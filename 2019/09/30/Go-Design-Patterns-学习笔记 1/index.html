@@ -88,7 +88,7 @@
 <meta property="og:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/30/Go-Design-Patterns-学习笔记%201/bookface.jpeg">
-<meta property="og:updated_time" content="2019-09-30T09:01:07.220Z">
+<meta property="og:updated_time" content="2019-10-08T06:26:55.858Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go-Design-Patterns-学习笔记 1">
 <meta name="twitter:description" content="前言我又开始挖新坑啦，一直磨刀霍霍要学Go。变学边写，加深理解。之前粗略学了点 Golang 语法，现在借着这本书同时学习设计模式与 Golang。">
@@ -408,13 +408,73 @@
 </ul>
 <p>Golang 的更新会维持向后兼容，所以更新版本时不用担心。书中推荐用高级方法安装，我就无障碍安装就好了。不过这里还是笔记一下 Linux 高级安装的相关信息：</p>
 <ul>
-<li>到官网 <a href="https://golang.org" target="_blank" rel="noopener">https://golang.org</a> 下载 beta 版本的二进制安装包到下载文件夹中，比如保存为 tar.gz 文件</li>
-<li>解压，并放到合适的路径下，一般而言会放到 /usr/local/go 路径下，注意将下面第一条命令的 * 号替换为具体的版本号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf go*.*.*.linux-amd64.tar.gz</span><br><span class="line">$ sudo mv go /usr/local/go</span><br></pre></td></tr></table></figure>
+<li><p>到官网 <a href="https://golang.org" target="_blank" rel="noopener">https://golang.org</a> 下载 beta 版本的二进制安装包到下载文件夹中，比如保存为 tar.gz 文件</p>
+</li>
+<li><p>解压，并放到合适的路径下，一般而言会放到 /usr/local/go 路径下，注意将下面第一条命令的 * 号替换为具体的版本号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf go*.*.*.linux-amd64.tar.gz</span><br><span class="line">$ sudo mv go /usr/local/go</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加 /usr/local/go/bin 到 PATH 中，比如在 ~/.bashrc 中，我用的是 ohmyzh，所以在 ~/.zshrc 中添加就好了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<p>（未完待续，2019.09.30）</p>
-<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><h2 id="类型-Types"><a href="#类型-Types" class="headerlink" title="类型 Types"></a>类型 Types</h2><h2 id="变量和常量-Variables-and-constants"><a href="#变量和常量-Variables-and-constants" class="headerlink" title="变量和常量 Variables and constants"></a>变量和常量 Variables and constants</h2><h2 id="操作符-Operators"><a href="#操作符-Operators" class="headerlink" title="操作符 Operators"></a>操作符 Operators</h2><h2 id="流程控制-Flow-control"><a href="#流程控制-Flow-control" class="headerlink" title="流程控制 Flow control"></a>流程控制 Flow control</h2><h2 id="函数-Functions"><a href="#函数-Functions" class="headerlink" title="函数 Functions"></a>函数 Functions</h2><h2 id="数组、切片、maps-Arrays-slices-maps"><a href="#数组、切片、maps-Arrays-slices-maps" class="headerlink" title="数组、切片、maps Arrays, slices, maps"></a>数组、切片、maps Arrays, slices, maps</h2><h2 id="可见性-Visibility"><a href="#可见性-Visibility" class="headerlink" title="可见性 Visibility"></a>可见性 Visibility</h2><h2 id="零初始化-Zero-initialization"><a href="#零初始化-Zero-initialization" class="headerlink" title="零初始化 Zero-initialization"></a>零初始化 Zero-initialization</h2><h2 id="指针和结构体-Pointers-and-structures"><a href="#指针和结构体-Pointers-and-structures" class="headerlink" title="指针和结构体 Pointers and structures"></a>指针和结构体 Pointers and structures</h2><h2 id="接口-Interfaces"><a href="#接口-Interfaces" class="headerlink" title="接口 Interfaces"></a>接口 Interfaces</h2><h2 id="测试和测试驱动开发-Testing-and-TDD"><a href="#测试和测试驱动开发-Testing-and-TDD" class="headerlink" title="测试和测试驱动开发 Testing and TDD"></a>测试和测试驱动开发 Testing and TDD</h2><h2 id="库-Libraries"><a href="#库-Libraries" class="headerlink" title="库 Libraries"></a>库 Libraries</h2><h2 id="Go-get-工具-The-Go-get-tool"><a href="#Go-get-工具-The-Go-get-tool" class="headerlink" title="Go get 工具 The Go get tool"></a>Go get 工具 The Go get tool</h2><h2 id="JSON-数据管理-Managing-JSON-data"><a href="#JSON-数据管理-Managing-JSON-data" class="headerlink" title="JSON 数据管理 Managing JSON data"></a>JSON 数据管理 Managing JSON data</h2><h2 id="Go-工具-Go-tools"><a href="#Go-工具-Go-tools" class="headerlink" title="Go 工具 Go tools"></a>Go 工具 Go tools</h2><h2 id="在-Github-上为-Go-开源项目贡献代码"><a href="#在-Github-上为-Go-开源项目贡献代码" class="headerlink" title="在 Github 上为 Go 开源项目贡献代码"></a>在 Github 上为 Go 开源项目贡献代码</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
+<h2 id="设置-workspace"><a href="#设置-workspace" class="headerlink" title="设置 workspace"></a>设置 workspace</h2><p>Go 程序都会在同一工作空间下运行，这让编译器可以方便地找到可能用到的相关包或库。这个工作空间叫作 GOPATH。</p>
+<p>在开发 Go 程序的时候，GOPATH 是工作环境中一个很重要的角色。当你为你的代码 import 一个库时，它会在 $GOPATH/src 里面搜索这个库。同样，当你安装某些 Go 应用时，二进制文件会保存在 $GOPATH/bin 里。<br>同时需要注意，ＩＤＥ源代码也需要保存在一个有效路径中，也就是 $GOPATH/src 文件夹中。举个栗子，我在 GitHub 中保存我的项目，我的用户名是 Sayden，一个项目名是 minimal-mesos-go-framework，那么我会用 $GOPATH/src/github.com/sayden/minimal-mesos-go-framework 这样的一个文件结构去反映这个代码仓库的 URL。</p>
+<p>在本书中，我们这么去设置 GOPATH</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p $HOME/go</span><br><span class="line">```  </span><br><span class="line">$HOME/go 这个路径会成为 $GOPATH 的目标路径。我们需要去设置一个环境变量只想这个文件夹，打开 $HOME/.bashrc （我用的是 zsh, 就打开 $HOME/.zshrc)。添加如下一行：</span><br></pre></td></tr></table></figure>
+
+<p>export GOPATH=${HOME}/go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使之生效：</span><br></pre></td></tr></table></figure>
+
+<p>source $HOME/.bashrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或者</span><br></pre></td></tr></table></figure>
+
+<p>source $HOME/.zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">验证一下：</span><br></pre></td></tr></table></figure>
+
+<p>echo $GOPATH</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">## Hello, world!</span><br><span class="line">终于到了 hello, world 环节。在 $GOPATH/src/[your_name]/hello_world 中新建 main.go　文件：</span><br><span class="line">```Golang</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line">运行：</span><br></pre></td></tr></table></figure>
+
+<p>$ go run main.go</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出：</span><br></pre></td></tr></table></figure>
+
+<p>Hello, World!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">以上。go run [file] 会对源代码文件进行编译同时执行，但是不会生成可执行文件。如果你只是想编译并且得到一个可执行文件，可以用如下命令：</span><br></pre></td></tr></table></figure>
+
+<p>$ go build -o hello_world</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">得到一个 hello_world 文件，用命令可运行起来：</span><br></pre></td></tr></table></figure>
+
+<p>./hello_world</p>
+<pre><code>得到同之前同样的输出。这个可执行文件可以放在其他地方运行，不需要其他任何依赖。
+
+## 开发环境
+IDE (Intergrated Development Environment) 是一个用户界面，通过集成了一系列工具加速开发中一些常规流程，如 compiling、building、管理依赖等，从而帮助开发者编写代码。　　
+对于 Go 而言，专门面向 Golang 开发的 IDE 有 LiteIDE 和 Intellij Goland。其中 LiteIDE 功能较为单一，Goland 则强大很多。另外一些通用的 IDE 或者 编辑器有 Go 插件来帮助 Go 程序的开发。如：
+* IntelliJ Idea
+* Sublime Text 2/3
+* Atom
+* Eclipse
+* Vim
+* Visual Studio and Visual Code
+
+## 类型 Types
+## 变量和常量 Variables and constants
+## 操作符 Operators
+## 流程控制 Flow control
+## 函数 Functions
+## 数组、切片、maps Arrays, slices, maps
+## 可见性 Visibility
+## 零初始化 Zero-initialization
+## 指针和结构体 Pointers and structures
+## 接口 Interfaces
+## 测试和测试驱动开发 Testing and TDD
+## 库 Libraries
+## Go get 工具 The Go get tool
+## JSON 数据管理 Managing JSON data
+## Go 工具 Go tools
+## 在 Github 上为 Go 开源项目贡献代码
+## 小结
+# 总结</code></pre>
       
     </div>
     
@@ -608,7 +668,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-1-Ready…Steady…Go"><span class="nav-number">3.</span> <span class="nav-text">Chapter 1: Ready…Steady…Go!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简史"><span class="nav-number">3.1.</span> <span class="nav-text">简史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Go"><span class="nav-number">3.2.</span> <span class="nav-text">安装 Go</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">3.3.</span> <span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发环境"><span class="nav-number">3.4.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型-Types"><span class="nav-number">3.5.</span> <span class="nav-text">类型 Types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量和常量-Variables-and-constants"><span class="nav-number">3.6.</span> <span class="nav-text">变量和常量 Variables and constants</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符-Operators"><span class="nav-number">3.7.</span> <span class="nav-text">操作符 Operators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程控制-Flow-control"><span class="nav-number">3.8.</span> <span class="nav-text">流程控制 Flow control</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数-Functions"><span class="nav-number">3.9.</span> <span class="nav-text">函数 Functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组、切片、maps-Arrays-slices-maps"><span class="nav-number">3.10.</span> <span class="nav-text">数组、切片、maps Arrays, slices, maps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可见性-Visibility"><span class="nav-number">3.11.</span> <span class="nav-text">可见性 Visibility</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#零初始化-Zero-initialization"><span class="nav-number">3.12.</span> <span class="nav-text">零初始化 Zero-initialization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指针和结构体-Pointers-and-structures"><span class="nav-number">3.13.</span> <span class="nav-text">指针和结构体 Pointers and structures</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口-Interfaces"><span class="nav-number">3.14.</span> <span class="nav-text">接口 Interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试和测试驱动开发-Testing-and-TDD"><span class="nav-number">3.15.</span> <span class="nav-text">测试和测试驱动开发 Testing and TDD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#库-Libraries"><span class="nav-number">3.16.</span> <span class="nav-text">库 Libraries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-get-工具-The-Go-get-tool"><span class="nav-number">3.17.</span> <span class="nav-text">Go get 工具 The Go get tool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON-数据管理-Managing-JSON-data"><span class="nav-number">3.18.</span> <span class="nav-text">JSON 数据管理 Managing JSON data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-工具-Go-tools"><span class="nav-number">3.19.</span> <span class="nav-text">Go 工具 Go tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Github-上为-Go-开源项目贡献代码"><span class="nav-number">3.20.</span> <span class="nav-text">在 Github 上为 Go 开源项目贡献代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.21.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-1-Ready…Steady…Go"><span class="nav-number">3.</span> <span class="nav-text">Chapter 1: Ready…Steady…Go!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简史"><span class="nav-number">3.1.</span> <span class="nav-text">简史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Go"><span class="nav-number">3.2.</span> <span class="nav-text">安装 Go</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置-workspace"><span class="nav-number">3.3.</span> <span class="nav-text">设置 workspace</span></a></li></ol></li></ol></div>
             
 
           </div>
