@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭…">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-11T09:00:50.385Z">
+<meta property="og:updated_time" content="2019-10-11T09:09:13.532Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go-Design-Patterns-学习笔记 2 单例模式">
 <meta name="twitter:description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭…">
@@ -402,7 +402,26 @@
 <li>在 java 或者 C++ 中，在程序开始运行时，变量实例可以被初始化为 NULL。但在 Go 中，你虽然可以初始化指针变量为 nil，但是却不能初始化一个结构体为 nil。所以注意下 <code>var instance *singleton</code>，这里定义了一个指向 singleton 结构体的指针，同时初始化为 nil。</li>
 <li>由于 instance 是指针，所以可以判断和 nil 是否相等，相等则用 new 关键字进行创建，这个 new 会返回创建对象的指针。也就是和 instance 类型一直，才能赋值。如果 instance 不等于 nil，则返回 instance 指针</li>
 </ul>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>摘自书中对本小节例子的三点小结：</p>
+<ul>
+<li><p><strong>单例功能</strong></p>
+<blockquote>
+<p> We have seen a very simple example of the Singleton pattern, partially applied to some situation, that is, a simple counter. Just keep in mind that the Singleton pattern will give you the power to have a unique instance of some struct in your application and that no package can create any clone of this struct.</p>
+</blockquote>
+</li>
+<li><p><strong>封装</strong></p>
+<blockquote>
+<p>With Singleton, you are also hiding the complexity of creating the object, in case it requires some computation, and the pitfall of creating it every time you need an instance of it if all of them are similar. All this code writing, checking if the variable already exists, and storage, are encapsulated in the singleton and you won’t need to repeat it everywhere if you use a global variable.</p>
+</blockquote>
+</li>
+<li><p><strong>线程不安全</strong></p>
+<blockquote>
+<p>Here we are learning the classic singleton implementation for single threaded context. We will see a concurrent singleton implementation when we reach the chapters about concurrency because this implementation is not thread safe!</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>又水一篇，加油！</p>
+
       
     </div>
     
