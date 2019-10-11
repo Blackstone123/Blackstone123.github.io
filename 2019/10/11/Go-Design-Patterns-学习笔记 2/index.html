@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭… 额。。。鉴于上篇博客太长，怕难读，后面就一个模式一篇博客吧，这章主要是单例模式的笔记。">
+<meta name="description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭…">
 <meta name="keywords" content="Golang,Design Patterns,设计模式,创建型,单例模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go-Design-Patterns-学习笔记 2 单例模式">
 <meta property="og:url" content="http://yoursite.com/2019/10/11/Go-Design-Patterns-学习笔记 2/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭… 额。。。鉴于上篇博客太长，怕难读，后面就一个模式一篇博客吧，这章主要是单例模式的笔记。">
+<meta property="og:description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭…">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-11T08:56:21.851Z">
+<meta property="og:updated_time" content="2019-10-11T09:00:50.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go-Design-Patterns-学习笔记 2 单例模式">
-<meta name="twitter:description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭… 额。。。鉴于上篇博客太长，怕难读，后面就一个模式一篇博客吧，这章主要是单例模式的笔记。">
+<meta name="twitter:description" content="前言上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭…">
 
 
 
@@ -363,7 +363,6 @@
 
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上一篇笔记中，水水地学完 Golang 基本语法。开挖第二小坑，近身接触 Golang 的设计模式。这书的第二章中，我们主要学习单例模式、建造者模式、工厂模式、原型模式、抽象工厂模式这五大创建型设计模式，加油鸭…</p>
-<p>额。。。鉴于上篇博客太长，怕难读，后面就一个模式一篇博客吧，这章主要是单例模式的笔记。</p>
 <a id="more"></a>
 
 <h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h1 id="Chapter-2-Creational-Patterns-Singleton-Builder-Factory-Prototype-and-Abstract-Factory-Design-Patterns"><a href="#Chapter-2-Creational-Patterns-Singleton-Builder-Factory-Prototype-and-Abstract-Factory-Design-Patterns" class="headerlink" title="Chapter 2: Creational Patterns - Singleton, Builder, Factory, Prototype, and Abstract Factory Design Patterns"></a>Chapter 2: Creational Patterns - Singleton, Builder, Factory, Prototype, and Abstract Factory Design Patterns</h1><h2 id="单例模式-singleton-design-pattern"><a href="#单例模式-singleton-design-pattern" class="headerlink" title="单例模式　singleton design pattern"></a>单例模式　singleton design pattern</h2><p>单例模式是指在整个程序中有且仅有一个实例。</p>
