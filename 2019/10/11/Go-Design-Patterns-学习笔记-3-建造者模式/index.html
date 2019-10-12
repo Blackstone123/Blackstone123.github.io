@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Golang,Design Patterns,设计模式,创建型,建造者模式,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言对建造者模式，有些不懂呢，和工厂模式有啥区别呢？争取这篇写完，能清晰一些。">
+<meta name="keywords" content="Golang,Design Patterns,设计模式,创建型,建造者模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go-Design-Patterns-学习笔记 3 建造者模式">
+<meta property="og:url" content="http://yoursite.com/2019/10/11/Go-Design-Patterns-学习笔记-3-建造者模式/index.html">
+<meta property="og:site_name" content="Clay&#39;s Blog">
+<meta property="og:description" content="前言对建造者模式，有些不懂呢，和工厂模式有啥区别呢？争取这篇写完，能清晰一些。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-12T08:45:13.093Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go-Design-Patterns-学习笔记 3 建造者模式">
+<meta name="twitter:description" content="前言对建造者模式，有些不懂呢，和工厂模式有啥区别呢？争取这篇写完，能清晰一些。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/11/Go-Design-Patterns-学习笔记-3-建造者模式/">
+
+
+
+
+
+  <title>Go-Design-Patterns-学习笔记 3 建造者模式 | Clay's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?02f45f165696c8a588e08806d3cc79e0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">他山之石，可以攻玉</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/Go-Design-Patterns-学习笔记-3-建造者模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clay Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Go-Design-Patterns-学习笔记 3 建造者模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-11T17:17:02+08:00">
+                2019-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对建造者模式，有些不懂呢，和工厂模式有啥区别呢？争取这篇写完，能清晰一些。</p>
+<a id="more"></a>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h1 id="Chapter-2-Creational-Patterns-Singleton-Builder-Factory-Prototype-and-Abstract-Factory-Design-Pattern"><a href="#Chapter-2-Creational-Patterns-Singleton-Builder-Factory-Prototype-and-Abstract-Factory-Design-Pattern" class="headerlink" title="Chapter 2: Creational Patterns - Singleton, Builder, Factory, Prototype, and Abstract Factory Design Pattern"></a>Chapter 2: Creational Patterns - Singleton, Builder, Factory, Prototype, and Abstract Factory Design Pattern</h1><h2 id="建造者模式-Builder-design-pattern"><a href="#建造者模式-Builder-design-pattern" class="headerlink" title="建造者模式 Builder design pattern"></a>建造者模式 Builder design pattern</h2><h3 id="描述-Description"><a href="#描述-Description" class="headerlink" title="描述 Description"></a>描述 Description</h3><p>创建一个实例，需要的步骤可以很简单，也可以非常复杂。有时候，你需要相同的技术和步骤去创建不同类型的对象。比如，你用几乎相同的技术去建造一辆小轿车或者大客车，除了他们的尺寸以及作为数不太相同外。我们为什么不复用建造过程呢？ So, 建造者模式出现了。</p>
+<h3 id="目标-Objectives"><a href="#目标-Objectives" class="headerlink" title="目标 Objectives"></a>目标 Objectives</h3><p>建造者设计模式试图达成如下目标：</p>
+<ul>
+<li>对复杂创建过程进行抽象，让对象的创建与对象使用者进行分离</li>
+<li>通过填满对象的字段和内部包含的子对象，一步一步地创建完整对象</li>
+<li>针对多个对象的创建，复用创建算法</li>
+</ul>
+<h3 id="例子-交通工具的制造-example-vehicle-manufacturing"><a href="#例子-交通工具的制造-example-vehicle-manufacturing" class="headerlink" title="例子　交通工具的制造　example - vehicle manufacturing"></a>例子　交通工具的制造　example - vehicle manufacturing</h3><p>建造者模式一般被描述为一个指挥者，建造过程，一些建造者，以及建造者所生产的产品之间的关系。在我们的例子中，创建一个交通工具（产品），大致有这么些过程：</p>
+<ul>
+<li>原则交通工具类别</li>
+<li>组装结构主体</li>
+<li>装上轮子</li>
+<li>安装座位</li>
+</ul>
+<p>不失一般性，我们这里举例要建造小轿车和摩托车</p>
+<h3 id="要求和验收标准-Requirements-and-acceptance-criteria"><a href="#要求和验收标准-Requirements-and-acceptance-criteria" class="headerlink" title="要求和验收标准　Requirements and acceptance criteria"></a>要求和验收标准　Requirements and acceptance criteria</h3><p>如之前描述，我们需要创建小轿车、摩托车的建造者、一个总指挥 ManufacturingDirector。相关的要去如下：</p>
+<ul>
+<li>我们需要一个制造类型，负责车辆的所有结构</li>
+<li>一个 car 建造者，建造出的车辆产品是四个轮子，五个座位</li>
+<li>一个 motorbike 建造者，建造出的车辆产品是两个轮子，两个座位</li>
+<li>BuildProcess 创建的 VehicleProduct 必须对修改开放</li>
+</ul>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>新建一个文件 builder，创建 builder.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> builder</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> VehicleProduct <span class="keyword">struct</span> &#123;</span><br><span class="line">	Wheels <span class="keyword">int</span></span><br><span class="line">	Seats  <span class="keyword">int</span></span><br><span class="line">	Structure <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> BuildProcess <span class="keyword">interface</span> &#123;</span><br><span class="line">	SetWheels() BuildProcess</span><br><span class="line">	SetSeats() BuildProcess</span><br><span class="line">	SetStructure() BuildProcess</span><br><span class="line">	GetVehicle() VehicleProduct</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ManufacturingDirector <span class="keyword">struct</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *ManufacturingDirector)</span> <span class="title">SetBuilder</span><span class="params">(b BuildProcess)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Implementation goes here</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *ManufacturingDirector)</span> <span class="title">Construct</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Implementation goes here</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CarBuilder <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">SetWheels</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">SetSeats</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">SetStructure</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">GetVehicle</span><span class="params">()</span> <span class="title">VehicleProduct</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> VehicleProduct&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> BikeBuilder <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">SetWheels</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">SetSeats</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">SetStructure</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">GetVehicle</span><span class="params">()</span> <span class="title">VehicleProduct</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> VehicleProduct&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新建 builder_test.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> builder</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"testing"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestBuilderPattern</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	manufacturingComplex := ManufacturingDirector&#123;&#125;</span><br><span class="line"></span><br><span class="line">	carBuilder := &amp;CarBuilder&#123;&#125;</span><br><span class="line">	manufacturingComplex.SetBuilder(carBuilder)</span><br><span class="line">	manufacturingComplex.Construct()</span><br><span class="line"></span><br><span class="line">	car := carBuilder.GetVehicle()</span><br><span class="line">	expectedWheels := <span class="number">4</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> car.Wheels != expectedWheels &#123;</span><br><span class="line">		t.Errorf(<span class="string">"Wheels on a car must be 4 but we get %d \n"</span>, car.Wheels)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	expectedStructure := <span class="string">"Car"</span></span><br><span class="line">	<span class="keyword">if</span> car.Structure != expectedStructure &#123;</span><br><span class="line">		t.Errorf(<span class="string">"Structure on a car must be 'Car' but was %s \n "</span>, car.Structure)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	expectedSeats := <span class="number">5</span></span><br><span class="line">	<span class="keyword">if</span> car.Seats != expectedSeats &#123;</span><br><span class="line">		t.Errorf(<span class="string">"Seats on a car must be 5 but they were %d \n"</span>, car.Seats)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	bikeBuilder := &amp;BikeBuilder&#123;&#125;</span><br><span class="line">	manufacturingComplex.SetBuilder(bikeBuilder)</span><br><span class="line">	manufacturingComplex.Construct()</span><br><span class="line"></span><br><span class="line">	motorbike := bikeBuilder.GetVehicle()</span><br><span class="line"></span><br><span class="line">	expectedWheels = <span class="number">2</span></span><br><span class="line">	<span class="keyword">if</span> motorbike.Wheels != expectedWheels &#123;</span><br><span class="line">		t.Errorf(<span class="string">"wheels on a motorbike must be 2 but the were %d \n"</span>, motorbike.Wheels)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	expectedStructure = <span class="string">"Motorbike"</span></span><br><span class="line">	<span class="keyword">if</span> motorbike.Structure != expectedStructure &#123;</span><br><span class="line">		t.Errorf(<span class="string">"Sturcture on a motorbike must be 'Motorbike' and was %s \n"</span>, motorbike.Structure)</span><br><span class="line">	&#125;</span><br><span class="line">	 </span><br><span class="line">	expectedSeats = <span class="number">2</span></span><br><span class="line">	<span class="keyword">if</span> motorbike.Seats != expectedSeats &#123;</span><br><span class="line">		t.Errorf(<span class="string">"seats on a motorbike must be 2 but wa %d \n"</span>, motorbike.Seats)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现-Implementation"><a href="#实现-Implementation" class="headerlink" title="实现　Implementation"></a>实现　Implementation</h3><p>补齐 builder.go　中的代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> builder</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> VehicleProduct <span class="keyword">struct</span> &#123;</span><br><span class="line">	Wheels <span class="keyword">int</span></span><br><span class="line">	Seats  <span class="keyword">int</span></span><br><span class="line">	Structure <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> BuildProcess <span class="keyword">interface</span> &#123;</span><br><span class="line">	SetWheels() BuildProcess</span><br><span class="line">	SetSeats() BuildProcess</span><br><span class="line">	SetStructure() BuildProcess</span><br><span class="line">	GetVehicle() VehicleProduct</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ManufacturingDirector <span class="keyword">struct</span> &#123;</span><br><span class="line">    builder BuildProcess</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *ManufacturingDirector)</span> <span class="title">SetBuilder</span><span class="params">(b BuildProcess)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Implementation goes here</span></span><br><span class="line">	f.builder = b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *ManufacturingDirector)</span> <span class="title">Construct</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Implementation goes here</span></span><br><span class="line">	f.builder.SetSeats().SetStructure().SetWheels()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CarBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	v VehicleProduct</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">SetWheels</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	c.v.Wheels = <span class="number">4</span></span><br><span class="line">	<span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">SetSeats</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	c.v.Seats = <span class="number">5</span></span><br><span class="line">	<span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">SetStructure</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	c.v.Structure = <span class="string">"Car"</span></span><br><span class="line">	<span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CarBuilder)</span> <span class="title">GetVehicle</span><span class="params">()</span> <span class="title">VehicleProduct</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> c.v</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> BikeBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	v VehicleProduct</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">SetWheels</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	b.v.Wheels = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">SetSeats</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	b.v.Seats = <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">SetStructure</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	b.v.Structure = <span class="string">"Motorbike"</span></span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BikeBuilder)</span> <span class="title">GetVehicle</span><span class="params">()</span> <span class="title">VehicleProduct</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> b.v</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行　go test -cover 测试通过。<br>我们现在需要拓展下代码功能，比如希望加一个大客车建造者，先写必要的结构体名及函数。<br>在 builder.go 增加如下代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> BusBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	v VehicleProduct</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">SetStructure</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">SetWheels</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">SetSeats</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">GetVehicle</span><span class="params">()</span> <span class="title">VehicleProduct</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> VehicleProduct&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 builder_test.go，增加如下代码:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">busBuilder := &amp;BusBuilder&#123;&#125;</span><br><span class="line">	manufacturingComplex.SetBuilder(busBuilder)</span><br><span class="line">	manufacturingComplex.Construct()</span><br><span class="line"></span><br><span class="line">	bus := busBuilder.GetVehicle()</span><br><span class="line"></span><br><span class="line">	expectedStructure = <span class="string">"Bus"</span></span><br><span class="line">	<span class="keyword">if</span> bus.Structure != expectedStructure &#123;</span><br><span class="line">		t.Errorf(<span class="string">"Structure of the bus should be 'Bus', but got %s \n"</span>, bus.Structure)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	expectedWheels = <span class="number">4</span>*<span class="number">2</span></span><br><span class="line">	<span class="keyword">if</span> bus.Wheels != expectedWheels &#123;</span><br><span class="line">		t.Errorf(<span class="string">"Wheels on bus should be %d, but got %d \n"</span>, expectedWheels, bus.Wheels)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	expectedSeats = <span class="number">30</span></span><br><span class="line">	<span class="keyword">if</span> bus.Seats != expectedSeats &#123;</span><br><span class="line">		t.Errorf(<span class="string">"Seats on bus should be %d, but got %d \n"</span>, expectedSeats, bus.Seats)</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行 go test -cover，测试不通过，填补好代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> BusBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	v VehicleProduct</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">SetStructure</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	b.v.Structure = <span class="string">"bus"</span></span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">SetWheels</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	b.v.Wheels = <span class="number">4</span>*<span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">SetSeats</span><span class="params">()</span> <span class="title">BuildProcess</span></span> &#123;</span><br><span class="line">	b.v.Seats = <span class="number">30</span></span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *BusBuilder)</span> <span class="title">GetVehicle</span><span class="params">()</span> <span class="title">VehicleProduct</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> b.v</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行 go test -cover，测试通过。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>Director 用来指定 builder 并且发出建造指令</li>
+<li>BuilderProcess interface 用来对建造过程进行抽象，类比 python 中的抽象类的抽象方法</li>
+<li>Builder 建造者，被 Director 调用，并实现 BuilderProcess 的全部方法</li>
+<li>Product 产品，被 Builder 建造</li>
+</ul>
+<p>建造者模式让我们通过 director 以一种通用的构造算法去把控位置数量的对象的创建。</p>
+<p>同时，对建造模式的定义，让添加新的产品很是便利。未来 builders 必须实现 BuilderProcess 接口。</p>
+<p>当 BuilderProcess 不是很稳定的时候，要避免使用建造者模式，因为轻微的改动会影响到所有的建造者。并且会变得奇怪的是，你为一些建造者添加了一个新方法，但是另外一些建造者却没有这个方法</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>算是又有些进步了，但是对 Go 接口的理解还是不是很深刻，期待后期会加强。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Golang/" rel="tag"># Golang</a>
+          
+            <a href="/tags/Design-Patterns/" rel="tag"># Design Patterns</a>
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+            <a href="/tags/创建型/" rel="tag"># 创建型</a>
+          
+            <a href="/tags/建造者模式/" rel="tag"># 建造者模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/11/Go-Design-Patterns-学习笔记 2/" rel="next" title="Go-Design-Patterns-学习笔记 2 单例模式">
+                <i class="fa fa-chevron-left"></i> Go-Design-Patterns-学习笔记 2 单例模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="Clay Chen">
+            
+              <p class="site-author-name" itemprop="name">Clay Chen</p>
+              <p class="site-description motion-element" itemprop="description">Clay's Blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.endlex.net/" title="优秀的老马" target="_blank">优秀的老马</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.fullstackpentest.com/" title="腻害的小黎" target="_blank">腻害的小黎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-2-Creational-Patterns-Singleton-Builder-Factory-Prototype-and-Abstract-Factory-Design-Pattern"><span class="nav-number">3.</span> <span class="nav-text">Chapter 2: Creational Patterns - Singleton, Builder, Factory, Prototype, and Abstract Factory Design Pattern</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#建造者模式-Builder-design-pattern"><span class="nav-number">3.1.</span> <span class="nav-text">建造者模式 Builder design pattern</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述-Description"><span class="nav-number">3.1.1.</span> <span class="nav-text">描述 Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标-Objectives"><span class="nav-number">3.1.2.</span> <span class="nav-text">目标 Objectives</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子-交通工具的制造-example-vehicle-manufacturing"><span class="nav-number">3.1.3.</span> <span class="nav-text">例子　交通工具的制造　example - vehicle manufacturing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#要求和验收标准-Requirements-and-acceptance-criteria"><span class="nav-number">3.1.4.</span> <span class="nav-text">要求和验收标准　Requirements and acceptance criteria</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单元测试"><span class="nav-number">3.1.5.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现-Implementation"><span class="nav-number">3.1.6.</span> <span class="nav-text">实现　Implementation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">3.1.7.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clay Chen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
