@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/11/29/《Redis实战》学习笔记（一）/1080715265.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/11/29/《Redis实战》学习笔记（一）/1584777869.jpg">
-<meta property="og:updated_time" content="2019-11-29T06:03:18.107Z">
+<meta property="og:updated_time" content="2019-11-29T07:11:13.709Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Redis实战》学习笔记（一）">
 <meta name="twitter:description" content="又有好久没更新博客啦，罪过啊～罪过～对缓存这块一直云里雾里，确有学习Redis的必要，故有此笔记。">
@@ -403,6 +403,55 @@
 <li>ZSet 有序集合</li>
 </ul>
 <p><img src="1584777869.jpg" alt></p>
+<h2 id="1-2-1-Redis-中的字符串"><a href="#1-2-1-Redis-中的字符串" class="headerlink" title="1.2.1 Redis 中的字符串"></a>1.2.1 Redis 中的字符串</h2><p>字符串命令：</p>
+<ul>
+<li>GET 获取存储在给定键中的值</li>
+<li>SET 设置存储在给定键中的值</li>
+<li>DEL 删除存储在给定键中的值（这个命令可以用于所有类型）</li>
+</ul>
+<p>在docker中，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo docker exec -it redis-test bash</span><br><span class="line"></span><br><span class="line">redis-cli</span><br><span class="line">127.0.0.1:6379&gt; set hello world</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get hello</span><br><span class="line">&quot;world&quot;</span><br><span class="line">127.0.0.1:6379&gt; del hello</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; get hello</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-1-Redis-中的列表"><a href="#1-2-1-Redis-中的列表" class="headerlink" title="1.2.1 Redis 中的列表"></a>1.2.1 Redis 中的列表</h2><p>列表命令：</p>
+<ul>
+<li>RPUSH  将给定值推入列表的右端</li>
+<li>LRANGE 获取列表在给定范围上的所有值</li>
+<li>LINDEX 获取列表在给定位置上的单个元素</li>
+<li>LPOP 从列表的左端弹出一个值，并返回弹出的值</li>
+</ul>
+<p>在 docker 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; rpush list-key item</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; rpush list-key item2</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; rpush list-key item</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; lrange list-key 0 -1</span><br><span class="line">1) &quot;item&quot;</span><br><span class="line">2) &quot;item2&quot;</span><br><span class="line">3) &quot;item&quot;</span><br><span class="line">127.0.0.1:6379&gt; lindex list-key 1</span><br><span class="line">&quot;item2&quot;</span><br><span class="line">127.0.0.1:6379&gt; lpop list-key</span><br><span class="line">&quot;item&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list-key 0 -1</span><br><span class="line">1) &quot;item2&quot;</span><br><span class="line">2) &quot;item&quot;</span><br><span class="line">127.0.0.1:6379&gt; rpop list-key</span><br><span class="line">&quot;item&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list-key 0 -1</span><br><span class="line">1) &quot;item2&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-3-Redis-的集合"><a href="#1-2-3-Redis-的集合" class="headerlink" title="1.2.3 Redis 的集合"></a>1.2.3 Redis 的集合</h2><p>Redis 的集合和列表都可以存储多个字符串，它们之间的不同在于，列表可以存储多个相同的字符串，而集合则通过散列表来保证自己存储的每个字符串都是不相同的（这些散列表只有键，但是没有与键相关联的值）。</p>
+<p>集合命令：</p>
+<ul>
+<li>SADD 将给定元素添加到集合</li>
+<li>SMEMBERS 返回集合包含的所有元素</li>
+<li>SISMEMBERS 检查给定元素是否存在与集合中</li>
+<li>SREM 如果给定的元素存在于集合中，那么移除这个元素</li>
+<li>SINTER 集合交集</li>
+<li>SUNION 集合并集</li>
+<li>SDIFF 集合差集</li>
+</ul>
+<p>在docker中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd set-key item</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd set-key item2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd set-key item3</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd set-key item</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; smembers set-key</span><br><span class="line">1) &quot;item3&quot;</span><br><span class="line">2) &quot;item&quot;</span><br><span class="line">3) &quot;item2&quot;</span><br><span class="line">127.0.0.1:6379&gt; sismember set-key item4</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; sismember set-key item</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; srem set-key item2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; srem set-key item2</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; smembers set-key</span><br><span class="line">1) &quot;item3&quot;</span><br><span class="line">2) &quot;item&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-4-Redis-的散列"><a href="#1-2-4-Redis-的散列" class="headerlink" title="1.2.4 Redis 的散列"></a>1.2.4 Redis 的散列</h2><p>Redis 的散列可以存储多个键值对之间的映射。和字符串一样，散列存储的值既可以是字符串也可以是数字值，并且用户同样可以对散列存储的数字值执行自增操作或者自减操作。</p>
+<p>散列命令：<br>HSET 在散列里面关联起给定的键值对<br>HGET 获取指定散列键的值<br>HGETALL 获取散列包含的所有键值对<br>HDEL 如果给定键在于散列里面，那么移除这个键</p>
+<p>在 docker 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hset hash-key sub-key1 value1</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; hset hash-key sub-key2 value2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hset hash-key sub-key1 value1</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; hgetall hash-key</span><br><span class="line">1) &quot;sub-key1&quot;</span><br><span class="line">2) &quot;value1&quot;</span><br><span class="line">3) &quot;sub-key2&quot;</span><br><span class="line">4) &quot;value2&quot;</span><br><span class="line">127.0.0.1:6379&gt; hdel hash-key sub-key2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hdel hash-key sub-key2</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; hget hash-key sub-key1</span><br><span class="line">&quot;value1&quot;</span><br><span class="line">127.0.0.1:6379&gt; hgetall hash-key</span><br><span class="line">1) &quot;sub-key1&quot;</span><br><span class="line">2) &quot;value1&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-5-Redis-有序集合"><a href="#1-2-5-Redis-有序集合" class="headerlink" title="1.2.5 Redis 有序集合"></a>1.2.5 Redis 有序集合</h2><p>有序集合和散列一样，都用于存储键值对：有序集合的键被称为成员，每个成员都是各不相同的；而有序集合的值则被称为分值（score）,分值必须为浮点数。</p>
+<p>有序几个命令：</p>
+<ul>
+<li>ZADD 将一个带有给定分值的成员添加到有序集合里面</li>
+<li>ZRANGE 根据元素在有续排列中所处的位置，从有序集合里面获取多个元素</li>
+<li>ZRANGEBYSCORE 获取有序集合在给定分值范围内的所有元素</li>
+<li>ZREM 如果给定成员存在于有序集合，那么移除看这个成员</li>
+</ul>
+<p>在 docker 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd zset-key 728 member1 </span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd zset-key 982 member0</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; zadd zset-key 982 member0</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; zrange zset-key 0 -1 withscores</span><br><span class="line">1) &quot;member1&quot;</span><br><span class="line">2) &quot;728&quot;</span><br><span class="line">3) &quot;member0&quot;</span><br><span class="line">4) &quot;982&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrangebyscore zset-key 0 800 withscores</span><br><span class="line">1) &quot;member1&quot;</span><br><span class="line">2) &quot;728&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrem zset-key member1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zrem zset-key member1</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; zrange zset-key 0 -1 withscores</span><br><span class="line">1) &quot;member0&quot;</span><br><span class="line">2) &quot;982&quot;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -597,7 +646,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-Redis-简介"><span class="nav-number">1.</span> <span class="nav-text">1.1 Redis 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-1-Redis-与其他数据库和软件的对比"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.1 Redis 与其他数据库和软件的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-2-附加特性"><span class="nav-number">1.2.</span> <span class="nav-text">1.1.2 附加特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-Redis-数据结构简介"><span class="nav-number">2.</span> <span class="nav-text">1.2 Redis 数据结构简介</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-Redis-简介"><span class="nav-number">1.</span> <span class="nav-text">1.1 Redis 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-1-Redis-与其他数据库和软件的对比"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.1 Redis 与其他数据库和软件的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-2-附加特性"><span class="nav-number">1.2.</span> <span class="nav-text">1.1.2 附加特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-Redis-数据结构简介"><span class="nav-number">2.</span> <span class="nav-text">1.2 Redis 数据结构简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-Redis-中的字符串"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 Redis 中的字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-Redis-中的列表"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.1 Redis 中的列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-3-Redis-的集合"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.3 Redis 的集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-Redis-的散列"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.4 Redis 的散列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-Redis-有序集合"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.5 Redis 有序集合</span></a></li></ol></li></ol></div>
             
 
           </div>
