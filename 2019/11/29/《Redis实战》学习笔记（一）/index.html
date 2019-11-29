@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="流水账,老史语录,">
+  <meta name="keywords" content="Redis,NoSQL,database,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="我这博客既然还有人瞄，那么昨天的flag就不能这么快倒掉。">
-<meta name="keywords" content="流水账,老史语录">
+<meta name="description" content="前言又有好久没更新博客啦～对缓存这块一直云里雾里，确有学习Redis的必要，故有此笔记。">
+<meta name="keywords" content="Redis,NoSQL,database">
 <meta property="og:type" content="article">
-<meta property="og:title" content="流水帐啊，我的流水帐～">
-<meta property="og:url" content="http://yoursite.com/2019/09/19/流水帐啊，我的流水帐～/index.html">
+<meta property="og:title" content="《Redis实战》学习笔记（一）">
+<meta property="og:url" content="http://yoursite.com/2019/11/29/《Redis实战》学习笔记（一）/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="我这博客既然还有人瞄，那么昨天的flag就不能这么快倒掉。">
+<meta property="og:description" content="前言又有好久没更新博客啦～对缓存这块一直云里雾里，确有学习Redis的必要，故有此笔记。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-19T02:42:40.677Z">
+<meta property="og:updated_time" content="2019-11-29T02:04:02.694Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="流水帐啊，我的流水帐～">
-<meta name="twitter:description" content="我这博客既然还有人瞄，那么昨天的flag就不能这么快倒掉。">
+<meta name="twitter:title" content="《Redis实战》学习笔记（一）">
+<meta name="twitter:description" content="前言又有好久没更新博客啦～对缓存这块一直云里雾里，确有学习Redis的必要，故有此笔记。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/19/流水帐啊，我的流水帐～/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/29/《Redis实战》学习笔记（一）/">
 
 
 
 
 
-  <title>流水帐啊，我的流水帐～ | Clay's Blog</title>
+  <title>《Redis实战》学习笔记（一） | Clay's Blog</title>
   
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/19/流水帐啊，我的流水帐～/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/29/《Redis实战》学习笔记（一）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Clay Chen">
@@ -290,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">流水帐啊，我的流水帐～</h1>
+          <h1 class="post-title" itemprop="name headline">《Redis实战》学习笔记（一）</h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T10:18:13+08:00">
-                2019-09-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-29T10:00:52+08:00">
+                2019-11-29
               </time>
             
 
@@ -325,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂记/" itemprop="url" rel="index">
-                    <span itemprop="name">杂记</span>
+                  <a href="/categories/DataBase/" itemprop="url" rel="index">
+                    <span itemprop="name">DataBase</span>
                   </a>
                 </span>
 
@@ -362,13 +362,10 @@
       
 
       
-        <p>我这博客既然还有人瞄，那么昨天的flag就不能这么快倒掉。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>又有好久没更新博客啦～<br>对缓存这块一直云里雾里，确有学习Redis的必要，故有此笔记。</p>
 <a id="more"></a>
-<p>我觉得自己应该端正态度，对，就是端正态度，像老史那样。<br><br>老史： </p>
-<blockquote>
-<p>我现在要深刻的端正态度， 语言只是工具， Python能精简扼要的写出的代码，Java也可以。 其他语言也可以。<br>语言没有优劣之分，只有适用的场景之分。<br>我要端正这个态度。</p>
-</blockquote>
 
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1>
       
     </div>
     
@@ -385,9 +382,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/流水账/" rel="tag"># 流水账</a>
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
-            <a href="/tags/老史语录/" rel="tag"># 老史语录</a>
+            <a href="/tags/NoSQL/" rel="tag"># NoSQL</a>
+          
+            <a href="/tags/database/" rel="tag"># database</a>
           
         </div>
       
@@ -400,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/02/my-first-blog/" rel="next" title="Hello, world!">
-                <i class="fa fa-chevron-left"></i> Hello, world!
+              <a href="/2019/10/16/日常流水帐/" rel="next" title="日常流水帐">
+                <i class="fa fa-chevron-left"></i> 日常流水帐
               </a>
             
           </div>
@@ -409,10 +408,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/20/Django用户权限管理学习/" rel="prev" title="Django用户权限管理学习">
-                Django用户权限管理学习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -464,8 +459,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -545,6 +549,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
