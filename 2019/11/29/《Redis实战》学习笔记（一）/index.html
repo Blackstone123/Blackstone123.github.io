@@ -88,7 +88,8 @@
 <meta property="og:description" content="又有好久没更新博客啦，罪过啊～罪过～对缓存这块一直云里雾里，确有学习Redis的必要，故有此笔记。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/11/29/《Redis实战》学习笔记（一）/1080715265.jpg">
-<meta property="og:updated_time" content="2019-11-29T03:00:33.891Z">
+<meta property="og:image" content="http://yoursite.com/2019/11/29/《Redis实战》学习笔记（一）/1584777869.jpg">
+<meta property="og:updated_time" content="2019-11-29T06:03:18.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Redis实战》学习笔记（一）">
 <meta name="twitter:description" content="又有好久没更新博客啦，罪过啊～罪过～对缓存这块一直云里雾里，确有学习Redis的必要，故有此笔记。">
@@ -387,6 +388,21 @@
 </ul>
 <p>一般来说，许多用户只会在 Redis 的性能或者功能是必要的情况下，才会将数据存储到内容里面： 如果程序对性能要求不高，又或者因为费用原因而没有办法将大量数据存储到内存里面，那么用户可能会选择使用关系数据库，或者其他非关系数据库。</p>
 <p>下图是 Redis 与其他数据库的对比总结<br><img src="1080715265.jpg" alt></p>
+<h2 id="1-1-2-附加特性"><a href="#1-1-2-附加特性" class="headerlink" title="1.1.2 附加特性"></a>1.1.2 附加特性</h2><p>Redis 拥有两种不同形式的持久化方法：</p>
+<ul>
+<li>时间点转储（point-in-time dump），转储操作既可以在“指定时间段内有指定数量的写操作执行”这一条件被满足时执行，又可以通过调用两条转储到硬盘（dump-to-disk）命令的任何一条来执行</li>
+<li>将所有修改了数据库的命令都写入一个只追加（append-only）文件里面，用户可以根据数据的重要程度，将只追加写入设置为从不同步（sync），每秒同步一次或者每写入一个命令就同步一次。</li>
+</ul>
+<p>尽管 Redis 性能很好，但受限于 Redis 的内存存储设计，有时候只使用一台 Redis 服务器可能没有办法处理所有请求。因此，为了扩展 Redis 的读性能，并为 Redis 提供故障转移 (failover) 支持，Redis 实现了主从复制特性：执行复制的从服务器会连接上主服务器，接收主服务器发送的整个数据库的初始副本（copy）；之后主服务器执行的写命令，都会发送给所有连接这的从服务器去执行，从而实时地更新从服务器的数据集。因为从服务器包含的数据会不断的进行更新，所以客户端可以向任意一个服务器发送读请求，以此来避免对主服务器进集中式的访问。</p>
+<h1 id="1-2-Redis-数据结构简介"><a href="#1-2-Redis-数据结构简介" class="headerlink" title="1.2 Redis 数据结构简介"></a>1.2 Redis 数据结构简介</h1><p>Redis 可以存储键与 5 种不同数据结构类型之间的映射：</p>
+<ul>
+<li>String 字符串</li>
+<li>List   列表</li>
+<li>Set 集合</li>
+<li>Hash 散列</li>
+<li>ZSet 有序集合</li>
+</ul>
+<p><img src="1584777869.jpg" alt></p>
 
       
     </div>
@@ -581,7 +597,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-Redis-简介"><span class="nav-number">1.</span> <span class="nav-text">1.1 Redis 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-1-Redis-与其他数据库和软件的对比"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.1 Redis 与其他数据库和软件的对比</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-Redis-简介"><span class="nav-number">1.</span> <span class="nav-text">1.1 Redis 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-1-Redis-与其他数据库和软件的对比"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.1 Redis 与其他数据库和软件的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-2-附加特性"><span class="nav-number">1.2.</span> <span class="nav-text">1.1.2 附加特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-Redis-数据结构简介"><span class="nav-number">2.</span> <span class="nav-text">1.2 Redis 数据结构简介</span></a></li></ol></div>
             
 
           </div>
