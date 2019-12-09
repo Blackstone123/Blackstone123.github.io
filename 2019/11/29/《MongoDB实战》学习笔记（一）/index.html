@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="emmm，水老陈又开新篇啦，认识一下 Mongo。 MongoDB 实战之第一部分第一章 全新 WEB 数据库">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-29T08:27:16.178Z">
+<meta property="og:updated_time" content="2019-12-09T10:06:14.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《MongoDB实战》学习笔记（一）">
 <meta name="twitter:description" content="emmm，水老陈又开新篇啦，认识一下 Mongo。 MongoDB 实战之第一部分第一章 全新 WEB 数据库">
@@ -372,6 +372,28 @@
 <li>使用场景和限制</li>
 <li>MongoDB 最新更新</li>
 </ul>
+<h1 id="1-1-为互联网而生"><a href="#1-1-为互联网而生" class="headerlink" title="1.1 为互联网而生"></a>1.1 为互联网而生</h1><p>MongoDB 诞生于一个雄心勃勃的项目。在2007年，纽约一个叫10gen的创业团队开始在一个平台即服务上，有一个应用服务器和一个数据库组成，托管web 应用，根据需要伸缩。<br>10gen 最终发现，开发者并不喜欢放弃对技术栈的控制，但是用户却喜欢上了10gen的数据库技术。这就导致10gen团队专业开发这个数据库产品，最后形成了MongoDB项目。</p>
+<p>10gen公司的名字也已经修改成为MongoDB,Inc。该公司继续支持这个开源项目的开发工作。代码完全公开下载，并且可以免费修改、使用，只要遵守代码开源协议即可。</p>
+<p>从MongoDB历史中我们了解的最重要的事情就是MongoDB的设计目标就是极简、灵活、作为web应用栈的一部分。</p>
+<h1 id="1-2-MongoDB-键特性"><a href="#1-2-MongoDB-键特性" class="headerlink" title="1.2 MongoDB 键特性"></a>1.2 MongoDB 键特性</h1><h2 id="1-2-1-文档数据模型"><a href="#1-2-1-文档数据模型" class="headerlink" title="1.2.1 文档数据模型"></a>1.2.1 文档数据模型</h2><p>MongoDB的数据模型是面向文档的。</p>
+<ul>
+<li>JSON 文档中除了数值类型以外，其他都需要一对引号。</li>
+<li>从内部来讲，MongoDB以二进制JSON格式存储文档数据，或者叫做BSON。BSON 有相似的数据结构，但是专门为文档存储设计。当查询MongoDB并返回结果时，这些数据就会转换为易于阅读的数据格式。</li>
+<li>关系型数据库包含表，MongoDB 拥有集合。换句话说，MySQL在表的行里保存数据，而MongoDB在集合的文档里保存数据，你可以把集合当做一组文档数据。集合是MongoDB中非常重要的概念。集合中的数据存储在磁盘上，而且大部分查询需要指定查询的目标集合。</li>
+<li>MongoDB 是没有 schema 的，这带来一些好处。首先，应用程序的代码强制数据结构而不是数据库。在频繁修改数据定义的时候就可以加速应用程序开发。其次，无 schema 模型允许用户使用真正的变量属性来表示数据。</li>
+</ul>
+<h2 id="1-2-2-ad-hoc-查询"><a href="#1-2-2-ad-hoc-查询" class="headerlink" title="1.2.2 ad hoc 查询"></a>1.2.2 ad hoc 查询</h2><p>常说的系统支持主动查询模式（ad hoc queries）是指不需要事先定义系统接收何种查询。关系型数据库有这个属性，它们忠实地执行格式正确的包含各种条件的SQL查询。MongoDB的设计目标之一就是保留大部分关系型数据库的功能。</p>
+<h2 id="1-2-3-索引"><a href="#1-2-3-索引" class="headerlink" title="1.2.3 索引"></a>1.2.3 索引</h2><ul>
+<li>ad hoc 查询的一个关键元素就是查找在创建数据库时还不知道的值。随着数据库中添加的文档数据越来越多，查询值的成本变得越来越高。</li>
+<li>MongoDB中的索引使用了B-树(平衡树）数据结构。B-树索引也大量使用于许多关系型数据库中，对于不同的查询做了优化，包括范围扫描和条件子句查询。但是新的引擎已经支持日志结构合并-树（LSM）。</li>
+<li>大部分数据库会给每个文档对象一个主键（primary key），一个唯一的数据标识。每个主键会自动索引，这样就可以使用唯一的键来高效的访问每个数据，MongoDB也不例外。</li>
+<li>使用MongoDB，每个集合我们可以创建64个索引。这些索引也可以在其他关系型数据库中找到：升序、降序、复合键、hash、文本以及地理空间索引。因为MongoDB和绝大多数关系型数据库RDMBSs使用了相同的索引数据结构，所以管理这些系统的建议都是类似的。</li>
+</ul>
+<h2 id="1-2-4-复制"><a href="#1-2-4-复制" class="headerlink" title="1.2.4 复制"></a>1.2.4 复制</h2><p>MongoDB提供了数据库复制特性，叫做可复制集合（replica set）。可复制集合在多个机器上分布式存储数据，在服务器或者网络出错是，实现数据冗余存储和自动灾备。此外，复制还用于伸缩数据库操作。如果你在开发读取密集型应用，比如常见的一些网站项目，就可以通过分散读取压力到可复制集群中的服务器来实现。</p>
+<p>可复制集合由多台服务器组成。通常，每个服务器有独立的物理机。我们调用这些节点，任意时候，一个节点作为主节点，则其他的作为次节点。与其他数据库中的主从复制类似，可复制集合的主节点可以同时接收读/写操作，但是从服务器只能进行读操作。</p>
+<p>真正让可复制集合独一无二的是它可以支持自动化灾备：如果主节点失败，则集群中会选择一个从节点，并自动提升为主节点。当之前的主节点回归是，它会继续作为从节点。</p>
+<h2 id="1-2-5-加速与持久化"><a href="#1-2-5-加速与持久化" class="headerlink" title="1.2.5 加速与持久化"></a>1.2.5 加速与持久化</h2><p>在数据库系统领域，写入速度和持久化之间存在矛盾的关系。<br>写入速度（write speed）可以理解为数据库在给定的时间内插入、更新和删除的容量。持久性（durability）指的是这些写操作被永久保存的保证级别。</p>
+<p>MySQL 中的InnoDB是一个事务性存储引擎，他可以确保持久性。他通过两个地方确保实现这一目标：一是在事务日志，二是在内存缓存池里。事务日志会立即同步到磁盘，而缓存池则会通过后台线程同步到磁盘。对于MongoDB,用户通过选择写入语义来维持速度和持久性之间的平衡。对于高容量、低价值的数据（比如点击流和日志），写入后就不用管的模式比较理想。对于重要的数据，安全模式的设置是必须的。</p>
 
       
     </div>
@@ -470,8 +492,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -551,6 +582,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-为互联网而生"><span class="nav-number">1.</span> <span class="nav-text">1.1 为互联网而生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-MongoDB-键特性"><span class="nav-number">2.</span> <span class="nav-text">1.2 MongoDB 键特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-文档数据模型"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 文档数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-ad-hoc-查询"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 ad hoc 查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-3-索引"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.3 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-复制"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.4 复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-加速与持久化"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.5 加速与持久化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
