@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="emmm，水老陈又开新篇啦，认识一下 Mongo。 MongoDB 实战之第一部分第一章 全新 WEB 数据库">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-09T10:06:14.417Z">
+<meta property="og:updated_time" content="2019-12-10T01:48:12.350Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《MongoDB实战》学习笔记（一）">
 <meta name="twitter:description" content="emmm，水老陈又开新篇啦，认识一下 Mongo。 MongoDB 实战之第一部分第一章 全新 WEB 数据库">
@@ -394,6 +394,16 @@
 <p>真正让可复制集合独一无二的是它可以支持自动化灾备：如果主节点失败，则集群中会选择一个从节点，并自动提升为主节点。当之前的主节点回归是，它会继续作为从节点。</p>
 <h2 id="1-2-5-加速与持久化"><a href="#1-2-5-加速与持久化" class="headerlink" title="1.2.5 加速与持久化"></a>1.2.5 加速与持久化</h2><p>在数据库系统领域，写入速度和持久化之间存在矛盾的关系。<br>写入速度（write speed）可以理解为数据库在给定的时间内插入、更新和删除的容量。持久性（durability）指的是这些写操作被永久保存的保证级别。</p>
 <p>MySQL 中的InnoDB是一个事务性存储引擎，他可以确保持久性。他通过两个地方确保实现这一目标：一是在事务日志，二是在内存缓存池里。事务日志会立即同步到磁盘，而缓存池则会通过后台线程同步到磁盘。对于MongoDB,用户通过选择写入语义来维持速度和持久性之间的平衡。对于高容量、低价值的数据（比如点击流和日志），写入后就不用管的模式比较理想。对于重要的数据，安全模式的设置是必须的。</p>
+<p>从MongoDB 2.0开始，日志功能默认是启用的。启用日志功能后，默认100毫秒就会写入一次日志文件。如果服务器意外关机，日志会通过重启服务器来确保MongoDB数据文件恢复为一致状态。这是云信MongoDB最安全的方式。</p>
+<p>对于写入压力，可以通过关闭日志功能以提高性能。坏处是意外关机之后可能导致数据文件冲突。因此，关闭日志功能，就应该使用主从复制模式，推荐一个从服务器，即使一台机器关机，还有一台机器来保证数据完整性。</p>
+<p>设计 MongoDB 的目标就是让大家可以保持速度和持久性平衡，但是对于重要的数据，我们强烈推荐安全设置。</p>
+<h2 id="1-2-6-伸缩"><a href="#1-2-6-伸缩" class="headerlink" title="1.2.6 伸缩"></a>1.2.6 伸缩</h2><ul>
+<li><p>垂直扩展： 伸缩数据库的最简单方式就是升级服务器硬件。如果你的应用是运行在单个节点上，则通常可行的方案就是通过组合添加更快的磁盘、更多内存以及更强的CPU来解除数据库性能瓶颈。<br>提升单节点参数的做法也称垂直扩展（vertical scaling或scaling up）。垂直扩展非常简单可靠，但是达到某个节点后成本很高，最终我们会达到一个无法低成本垂直扩展的临界点。</p>
+</li>
+<li><p>水平扩展： horizontally或scaling out。水平扩展指的是在多太机器上分布式存储数据库，而不是提升单个节点的配置。水平扩展架构可以运行在许多台很小、廉价的机器上，通常可以减少硬件成本。而且，跨机器分布式存储数据可以降低宕机带来的丢失数据的后果。</p>
+</li>
+</ul>
+<p>设计MongoDB的目标就是利用其水平伸缩。它通过基于范围的分区机制来实现水平扩展，称为分片机制，它可以自动化管理每个分布式节点存储的数据。另外，还有基于哈希和基于tag的分片机制，这也是另外一种形式的基于范围的分片机制。</p>
 
       
     </div>
@@ -592,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-为互联网而生"><span class="nav-number">1.</span> <span class="nav-text">1.1 为互联网而生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-MongoDB-键特性"><span class="nav-number">2.</span> <span class="nav-text">1.2 MongoDB 键特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-文档数据模型"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 文档数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-ad-hoc-查询"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 ad hoc 查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-3-索引"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.3 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-复制"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.4 复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-加速与持久化"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.5 加速与持久化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-为互联网而生"><span class="nav-number">1.</span> <span class="nav-text">1.1 为互联网而生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-MongoDB-键特性"><span class="nav-number">2.</span> <span class="nav-text">1.2 MongoDB 键特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-文档数据模型"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 文档数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-ad-hoc-查询"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 ad hoc 查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-3-索引"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.3 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-复制"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.4 复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-加速与持久化"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.5 加速与持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-伸缩"><span class="nav-number">2.6.</span> <span class="nav-text">1.2.6 伸缩</span></a></li></ol></li></ol></div>
             
 
           </div>
