@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。学习一下RabbitMQ确有必要，不啰嗦了，开始吧。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-11T08:14:57.888Z">
+<meta property="og:updated_time" content="2019-12-11T10:04:06.794Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《RabbitMQ实战指南》学习笔记（一）">
 <meta name="twitter:description" content="又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。学习一下RabbitMQ确有必要，不啰嗦了，开始吧。">
@@ -364,7 +364,6 @@
       
         <p>又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。<br>学习一下RabbitMQ确有必要，不啰嗦了，开始吧。</p>
 <a id="more"></a>
-
 <p>本笔记对应于该书的第一章　RabbitMQ简介<br>RabbitMQ 是目前非常热门的一款消息中间件，不管是互联网行业还是传统行业都在大量地使用。RabbitMQ凭借其高可靠、易扩展、高可用及丰富的功能特性受到越来越多企业的青睐。作为一个合格的开发者，有必要深入地了解RabbitMQ的相关知识，为自己的职业生涯添砖加瓦。</p>
 <h1 id="1-1-什么是消息中间件"><a href="#1-1-什么是消息中间件" class="headerlink" title="1.1 什么是消息中间件"></a>1.1 什么是消息中间件</h1><ul>
 <li>消息（message）是指在应用间传送的数据。消息可以非常简单，比如只包含文本字符串、JSON等，也可以很复杂，比如内嵌对象。</li>
@@ -384,7 +383,26 @@
 <li>缓冲　在任何重要的系统中，都会存在需要不同处理事假的元素。消息中间件通过一个缓冲层来帮助任务最高效率地执行，写入消息中间件的处理会尽可能快速。该缓冲层有助于控制和优化数据流经过系统的速度。</li>
 <li>异步通信　在很多时候应用不想也不需要立即处理消息。消息中间件提供了异步处理机制，允许应用吧一些消息放入消息中间件中，但并不立即处理它，在之后需要的时候在慢慢处理。</li>
 </ul>
-
+<h1 id="1-3-RabbitMQ的起源"><a href="#1-3-RabbitMQ的起源" class="headerlink" title="1.3 RabbitMQ的起源"></a>1.3 RabbitMQ的起源</h1><p>RabbitMQ是采用Erlang 语言实现AMQP(advance message queuing protocal, 高级消息队列协议)的消息中间件，它最初起源于金融系统，用于在分布式系统中存储转发消息。</p>
+<ul>
+<li>早期消息中间件的商业实现，微软 MSMQ(microsoft message queue)、IBM的websphere等。由于高昂的价格，一般只用于大型组织机构，它们需要可靠性、解耦及实时消息通信的功能。由于商业壁垒，商业MQ供应商想要解决应用互动的问题，而不是创建标准来实现不同的MQ产品间的互通，或者允许应用程序更改MQ平台。</li>
+<li>为了打破这个壁垒，同时为了能够让消息在各个消息队列平台间互融互通，JMS(java message service)应运而生。JMS试图提供公共java api的方式，隐藏单独MQ产品供应商提供的实际接口，从而跨越了壁垒，以及解决了互通问题。从技术来讲，java应用程序只需要针对JMS api编程，选择合适的MQ驱动即可，JMS会打理好其他部分。ActiveMQ就是JMS的一种实现。不过尝试使用单独标准化接口来胶合众多不同的接口，最终会暴露出问题，使得应用程序变得更加脆弱，所以急需一种新的消息通信标准化方案。</li>
+<li>2006年６月，Cisco、Redhat、iMatix等联合制定了AMQP的公开标准，由此AMQP登上了历史舞台。它是应用层协议的一个开放标准，以解决众多消息中间件的需求和拓扑结构问题。它为面向消息的中间件设计，基于此协议的客户端和消息中间件可以传递消息，并不受产品、开发语言等条件的限制。</li>
+<li>RabbitMQ最初版本实现了AMQP的一个关键特性：使用协议本身就可以对队列和交换器（exchange）这样的资源进行配置。对于商业MQ供应商来说，资源配置需要通过管理终端的特定工具才能完成。RabbitMQ的资源配置能力使其成为构建分布式应用最完美的通信总线，特别有助于充分利用基于云的资源和进行快速开发。</li>
+<li>RabbitMQ是由RabbitMQ technologies ltd 开发并且提供商业支持的。取Rabbit这样一个名字，是因为兔子行动非常迅速且繁殖起来非常疯狂，RabbitMQ的开创者认为以此命名这个分布式软件再合适不过了。RabbiteMQ ltd 在2010年4月被SpringSource(VMWare的一个部门)收购，在2013年5月并入Pivotal，其实VMWare、Pivotal和EMC本质上是一家。 不同的是VMWare是独立上市子公司，而Pivotal是整合了EMC的某些资源，现在没有上市。至今你也可以在rabbitemq的官网上的logo看到“by pivotal”的字样。</li>
+</ul>
+<p>RabbitMQ发展到今天，被越来越多的人认可，这和它在易用性、扩展性、可靠性和高可用性等方面的卓著表现是分不开的。RabbitMQ的具体特点可以概括为以下几点。</p>
+<ul>
+<li>可靠性　rabbitmq使用一些机制来保证可靠性，入持久化、传输确认以及发布确认</li>
+<li>灵活的路由 在消息进入队列之前，通过交换机来路由消息。对于典型的路由功能，RabbitMQ已经提供了一些内置的交换器实现。针对更复杂的路由功能，可以将多个交换器绑定在一起，也可以通过插件机制来实现自己的交换器。</li>
+<li>扩展性 多个RabbitMQ节点可以组成一个集群，也可以根据实际业务情况动态的扩展集群中节点。</li>
+<li>高可用性　队列可以在集群中的机器上设置镜像，使得在部分节点出现问题的情况下队列仍然可用</li>
+<li>多种协议　RabbitMQ除了原生支持AMQP协议，还支持STOMP、MQTT等多种消息中间件协议</li>
+<li>多语言客户端　RabbitMQ几乎支持所有常用语言，比如java、python、ruby、php、C#、js等</li>
+<li>管理界面　rabbitmq提供了一个易用的用户界面，使得用户可以监控和管理信息、集群中的节点等</li>
+<li>插件机制 Rabbitmq提供了许多插件，以实现从多方面进行扩展，当然也可以编写自己的插件</li>
+</ul>
+<h1 id="1-4-RabbitMQ的安装及简单使用"><a href="#1-4-RabbitMQ的安装及简单使用" class="headerlink" title="1.4 RabbitMQ的安装及简单使用"></a>1.4 RabbitMQ的安装及简单使用</h1>
       
     </div>
     
@@ -576,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-什么是消息中间件"><span class="nav-number">1.</span> <span class="nav-text">1.1 什么是消息中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-消息中间件的作用"><span class="nav-number">2.</span> <span class="nav-text">1.2 消息中间件的作用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-什么是消息中间件"><span class="nav-number">1.</span> <span class="nav-text">1.1 什么是消息中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-消息中间件的作用"><span class="nav-number">2.</span> <span class="nav-text">1.2 消息中间件的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-3-RabbitMQ的起源"><span class="nav-number">3.</span> <span class="nav-text">1.3 RabbitMQ的起源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-4-RabbitMQ的安装及简单使用"><span class="nav-number">4.</span> <span class="nav-text">1.4 RabbitMQ的安装及简单使用</span></a></li></ol></div>
             
 
           </div>
