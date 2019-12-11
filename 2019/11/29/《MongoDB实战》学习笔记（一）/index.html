@@ -88,7 +88,7 @@
 <meta property="og:description" content="emmm，水老陈又开新篇啦，认识一下 Mongo。 MongoDB 实战之第一部分第一章 全新 WEB 数据库">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/11/29/《MongoDB实战》学习笔记（一）/scaling.jpg">
-<meta property="og:updated_time" content="2019-12-10T01:55:16.276Z">
+<meta property="og:updated_time" content="2019-12-11T05:06:27.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《MongoDB实战》学习笔记（一）">
 <meta name="twitter:description" content="emmm，水老陈又开新篇啦，认识一下 Mongo。 MongoDB 实战之第一部分第一章 全新 WEB 数据库">
@@ -407,6 +407,68 @@
 </ul>
 <p>设计MongoDB的目标就是利用其水平伸缩。它通过基于范围的分区机制来实现水平扩展，称为分片机制，它可以自动化管理每个分布式节点存储的数据。另外，还有基于哈希和基于tag的分片机制，这也是另外一种形式的基于范围的分片机制。</p>
 <p><img src="scaling.jpg" alt></p>
+<h1 id="1-3-核心服务和工具"><a href="#1-3-核心服务和工具" class="headerlink" title="1.3 核心服务和工具"></a>1.3 核心服务和工具</h1><p>MongoDB 使用C++编写，由MongoDB, inc 公司负责开发。这个项目支持主流系统，包括Mac OS X、Windows、Solaris 以及最流行的Linux版本。MongoDB是开源的，基于GNU-Affero General Public License(AGPL)开源协议。</p>
+<blockquote>
+<p>关于GNU-AGPL 开源协议，GNU-AGPL 开源协议存在一些争议。实际上，这个许可协议意味着源代码可以下载，鼓励社区参与。但是GNU-AGPL要求，任何对于源码的修改必须公开发布造福社区。这可能对那些想修改MongoDB源码，但是不想公开的公司是个困扰。对于这些想要保护自己公司核心服务器代码的公司，MongoDB,Inc提供了特别的商业许可证。</p>
+</blockquote>
+<h2 id="1-3-1-核心服务器"><a href="#1-3-1-核心服务器" class="headerlink" title="1.3.1 核心服务器"></a>1.3.1 核心服务器</h2><p>核心服务器通过名为mongod的可执行文件运行，Mongod服务器进程使用自定义的二进制协议从网络上接收命令。所有mongod进程的数据库在类Unix系统中默认存储在/data/db路径下。绝大部分MongoDB生产服务器都运行在Linux上，因为他们更加可靠、应用广泛和更具优越性。</p>
+<p>Mongod 可以在几种模式下运行，比如独立模式，或者可复制集群模式。</p>
+<h2 id="1-3-2-JavaScript-shell"><a href="#1-3-2-JavaScript-shell" class="headerlink" title="1.3.2 JavaScript shell"></a>1.3.2 JavaScript shell</h2><p>MongoDB命令行工具是一个基于JavaScript 的数据库操作和管理工具。Mongo加载命令shell后链接特定的mongod进程，或者默认本地运行。MongoDB shell 和 Mysql　shell 类似，最大的不同是它基于javascript和SQL脚本。例如，可以选择一个数据库，然后插入一个简单的文档对象到users集合中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; use my_database</span><br><span class="line">&gt; db.users.insert(&#123;name: &quot;Kyle&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>注：　我本地是用docker 运行的，用　sudo docker exec -it mongo bash 进入bash 后，再用 mongo admin 进入 mongo 自带shell 命令</p>
+<h2 id="1-3-3-数据库驱动"><a href="#1-3-3-数据库驱动" class="headerlink" title="1.3.3 数据库驱动"></a>1.3.3 数据库驱动</h2><p>驱动是应用程序用来与MongoDB服务器通信的代码。所有驱动都保护查询功能、搜索结果、写入数据和运行数据库命令。针对MongoDB驱动开发提供的API都尽量保证所有的语言使用统一的接口。例如，所有的驱动都实现了相似的方法来保存数据到集合中，但是文档的表示类型都是基于自己语言最原始的类型定义。</p>
+<p>在Ruby语言中使用Ruby哈希；在Python中，字典是合适的数据结构类型；在java中，缺少类似的语言基元类型，通常使用Map对象表示，或者其他类似的类型。有些开发者喜欢使用ORM框架来管理这些数据的表示工作，但是实际上，MongoDB驱动已经非常强大，这些工作都是多余的。</p>
+<h2 id="1-3-4-命令行工具"><a href="#1-3-4-命令行工具" class="headerlink" title="1.3.4 命令行工具"></a>1.3.4 命令行工具</h2><p>MongoDB 包含了几个命令行工具。</p>
+<ul>
+<li>mongodump 和 mongorestore: 备份和恢复数据库的工具。mongodump把数据库数据保存为原生的BSON格式，因此最适用于备份。这个工具的一大有点是适合热备份，而且非常容易适用mongorestore命令恢复。</li>
+<li>mongoexport 和　mongoimport: 导入或者导出JSON、CSV、TSV格式的数据。这个在大家需要多种格式的数据时非常有用。Mongoimport 还可以用来导入大数据集合，只是经常需要在导入之前调整数据模型以便于发挥MongoDB的最大优势。此时最简单的导入数据的方式就是使用自定义脚本。</li>
+<li>Mongosniff: 一个用于查看发送给数据库命令的嗅探工具。通常会把BSON转换为人类可读的shell语句。</li>
+<li>mongostat: 与iostat 类似，这个工具用来轮训MongoDB，提供有帮助的状态信息，包括没秒的操作数（增删改查等），分配虚拟内存的数量，以及服务器的链接数量。</li>
+<li>mongotop: 与top类似，这个工具用来轮询MongoDB，并且显示它在每个集合里花费的读取和写入数据的总时间。</li>
+<li>mongoperf: 帮助我么了解MongoDB实例磁盘操作的情况。</li>
+<li>mongooplog: 展示Mongo操作日志里的信息。</li>
+<li>Bsondump: 把BSON文件转换为人类可读的格式，包括JSON </li>
+</ul>
+<h1 id="1-4-为什么是MongoDDB"><a href="#1-4-为什么是MongoDDB" class="headerlink" title="1.4 为什么是MongoDDB"></a>1.4 为什么是MongoDDB</h1><p>MongoDB的设计目标：</p>
+<blockquote>
+<p>根据MongoDB之父的解释，它被用来设计组合键值对存储和关系数据库的最佳特性。<br>因为简单，所以键值对存储非常快，而且容易伸缩。<br>关系型数据库难以伸缩，至少在水平方向是这样的，但是拥有更加丰富的数据模型和查询语言。<br>MongoDB 在两者之间做了妥协，具备了二者的某些有用的功能。它最终的目标就是易于伸缩，存储丰富的数据结构，并且提供了复杂的查询语言。</p>
+</blockquote>
+<p>关于使用场景：</p>
+<ul>
+<li>MongoDB是做Web应用、分析应用的首要数据库。</li>
+<li>此外，它还比较容易存储无schema数据，也就是弱数据结构的数据。</li>
+<li>MongoDB 也适用与存储无法事先知道的数据结构的数据。</li>
+</ul>
+<h2 id="1-4-1-MongoDB-和其他数据库的对比"><a href="#1-4-1-MongoDB-和其他数据库的对比" class="headerlink" title="1.4.1 MongoDB 和其他数据库的对比"></a>1.4.1 MongoDB 和其他数据库的对比</h2><h3 id="简单的键值存储"><a href="#简单的键值存储" class="headerlink" title="简单的键值存储"></a>简单的键值存储</h3><p>简单的键值存储功能如其名字所示：　索引值是基于提供的key键。常见的使用场景就是缓存。这种简单系统非常快速和容易伸缩</p>
+<p>最有名的键值存储就是Memcached，它只在内存里存储数据，是以牺牲持久性来换取速度。它也是分布式的。与MongoDB相比，像Memcached这样简单的键值存储允许更快的读写速度。与MongoDB不同，这些系统不能作为主要的存储数据库。简单的键值存储最好作为辅助手段，或者用作关系型数据库的缓存层，或者作为简单持久性的临时服务，比如工作队列。</p>
+<h3 id="复杂的键值存储"><a href="#复杂的键值存储" class="headerlink" title="复杂的键值存储"></a>复杂的键值存储</h3><p>可以通过简单的键值存储模型来处理复杂的读写模式或者更为丰富的数据类型。此时，需要使用复杂的键值存储。其中一个例子就是亚马逊的Dynamo，在一篇非常流行的论文里有介绍，标题是<br>《Dynamo: Amazon’s Highly Available Key-Value Store》。Dynamo的设计目标是在网络失败、数据中心故障时可以正常提供强壮的数据库功能，这需要数据可以一直读写，本质上需要数据自动化复制到各个节点上。如果一个节点失败，系统的用户，此时使用亚马逊购物车，不会经理任何的服务中断。Dynamo提供了一种系统向多个节点写入相同数据时解决不可避免冲突的方法，而且Dynamo易于伸缩。因为它是无主的，所有节点都一样。这样比较容易理解系统是一个整体，而且可以方便的加入新节点。虽然Dynamo是个亚马逊的数据库系统，但是它的设计思想启发和影响了许多NoSQL数据库的设计，包括Cassandra、HBase、Riak KV。</p>
+<p>通过了解谁开发了这些复杂的键值数据库，以及如何在实际项目中使用，我们可以知道这些系统如何发挥作用。我们来看下Cassandra，它实现了Dynamo的许多伸缩属性，而且收到Google的BigTable启发，提供了面向列的数据模型。Cassandra是个开源数据库，由Facebook构建，其目标是支持站内搜索功能。这个系统水平伸缩，支持索引超过50TB的数据，允许用户关键字搜索，属于基于用户ID索引，每条记录都由一组搜索关键字数组和用户ID数组组成，就是为了基于用户进行搜索。</p>
+<p>复杂键值存储由主流的互联网公司开发，比如Amazon、Google、Facebook，用来管理分布式系统中的超大量数据。换句话说，复杂键值存储管理着一个要求大存储与高可用的相对独立的域。因为它们采用了无主架构，系统容易使用额外的节点进行伸缩。它们选择了最终一致性，意味着读不一定必须反映最新的写。但是为了换取弱一致性，牺牲的是写入时可能出现的节点失败。</p>
+<p>对比MongoDB，它提供了更强的一致性、更丰富的数据模型以及辅助索引。后两者特性简单容易；键值存储可以在值里存储任意结构的数据，但是数据库不能查询这些值，除非他们被索引过。也可以使用主键进行查询，或者扫描索引的键，但是如果不使用索引，数据库对于这种查询毫无用处。</p>
+<h3 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h3><p>为了简洁起见，我们只需要讨论RDBMS(关系型数据库管理系统)与MongoDB的异同。流行的关系型数据库包括MySQL、PostgreSQL、Microsoft SQL Server、Oracle Database、IBM DB2等，有些开源，有些不开源。MongDB和关系型数据库都可以表示丰富的数据模型。而关系型数据库使用固定格式的schema表，MongoDB属于无schema文档。绝大部分关系型数据库支持辅助索引和聚合查询。</p>
+<p>从用户角度来看，关系型数据库最大的特性就是支持SQL查询语言。SQL 是处理数据强大的工具，但是并非能完美解决所有的工作问题。某些情况下，相比MongoDB，他处理数据是更易于表示和更简单。此外，SQL在各个数据库之间的移植性很强，即使各个数据库支持有点差别。一种思考方式就是，SQL对于数据科学家和分析师来说更容易编写查询语句。MongoDB的查询语言更偏向于开发者，它们在程序里嵌入自己的查询代码。两个模型各有自己的优点和缺点，有时候还取决于个人喜好。</p>
+<p>许多关系型数据库支持数据分析，而不仅仅作为数据库。通常数据可以大量导入数据库，然后通过分析来支持商务智能决策问题。这个领域被HP Vertica 或　Teradata Database大公司垄断了，他们都可以提供水平伸缩的SQL数据库。</p>
+<p>现在通过在Hadoop存储的数据上运行SQL查询来分析数据的情况越来越多。Apache Hive就是一个广泛使用的工具，可以把SQL查询语言转换为Map-Reduce的工作，这提供了一种伸缩性的方式来查询大的数据集。这些查询使用了关系型模型，但是只针对满速的分析查询，而不是应用内置的查询。</p>
+<h3 id="文档数据库"><a href="#文档数据库" class="headerlink" title="文档数据库"></a>文档数据库</h3><p>很少有数据库标示自己是文档数据库。在编写本书是，对比MongoDB最近的开源数据库是Apache的CouchDB。CouchDB的文档模型与MongoDB的有些类似，虽然数据库使用了原始的Json格式，而MongoDB使用了BSON格式。与MongoDB的有些相似，CouchDB支持辅助索引；不同点在于，CouchDB的索引通过编写mapreduce函数代码实现，相比Mysql 和 MongoDB，其进程不仅仅使用的是声明式语法。在伸缩型方面也不一样，CoucnDB不支持跨机器分区；相反，CouchDB节点只是其他节点的完整的复制。</p>
+<h2 id="1-4-2-使用场景和部署"><a href="#1-4-2-使用场景和部署" class="headerlink" title="1.4.2 使用场景和部署"></a>1.4.2 使用场景和部署</h2><p>坦率的说，你不会只根据数据库特性来选择数据库。我们需要知道真实行业里的成功使用案例。</p>
+<h3 id="Web-应用"><a href="#Web-应用" class="headerlink" title="Web 应用"></a>Web 应用</h3><p>MongoDB非常适合做Web应用的主存储数据库。即使是简单的web应用，也需要使用许多数据模型，比如管理用户、会话、App专有数据、上传以及权限等。这也可以与关系型数据库提供的表格方法很好地兼容，它也可以从MongoDB的集合和文档模型里获取好处。因为文档模型可以表示更丰富的数据结构，需要的集合数量肯定比关系型数据库表的数量要少很多，因为关系型数据库的表需要规范化设计范式。此外，动态查询和索引让我们可以轻易实现绝大多数SQL支持的查询功能。最后，随着web应用的增长，MongoDB提供了更加清晰的伸缩路径。</p>
+<p>MongoDB可以很好的解决高吞吐量的web网站需求，例如The Business Insider (TBI) 案例。它们从2008年１月就开始用MongoDB作为主要的存储库。TBI是一个新闻网站，它每天的吞吐量超过100万独立的页面浏览。有意思的是，除处理网站主要的内容（文章、评论、用户等）以外，MongoDB还要处理和存储实时的分析数据。这些分析数据被TBI用来生成动态心跳地图，以显示不同新闻的点击量。</p>
+<h3 id="敏捷开发"><a href="#敏捷开发" class="headerlink" title="敏捷开发"></a>敏捷开发</h3><p>无论你怎么看待敏捷开发，都无法否认快速构建应用系统的热情。许多开发团队，包括Shutterfly和纽约时报，都部分选择了MongoDB，因为他们可以比关系型数据库更快速的开发应用。另外一个显著的原因就是MongoDB没有固定的数据架构定义schema，所以大量节约了花费在提交、沟通和应用schema修改上的时间。</p>
+<p>此外，花费在将数据关系表示推进到面向对象数据模型中和优化ORM框架生成的SQL语句工作上的时间大大减少了。因此，MongoDB通常适用于实现较短的开发周期的项目，以及敏捷、中等规模的团队。</p>
+<h3 id="分析和日志"><a href="#分析和日志" class="headerlink" title="分析和日志"></a>分析和日志</h3><p>我们之前说过MongoDB也适用于分析和日志，而且使用MongoDB分析的应用还在增长。通常情况下，一个完善的公司会开始考虑使用MongDB来做特护的APP分析工作。这些公司包括github、disqus、justin.tv、gilt groupe等</p>
+<p>MongoDB的相关性分析得益于他的速度和两个特性： 针对性原子更新和盖子集合。原子更新允许客户端高效的地增加计数器，而且把值推进数组里。盖子集合对于日志非常有用，因为它只存储最近的文档数据。存储日志数据在数据库里与之对应的是文件系统，提供了更简单的组织和更强大的查询功能。现在，用户可以使用MongoDB查询来获取日志信息，而不是grep或者自定义的搜索工具。</p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>许多web应用使用缓存层来帮助快速返回内容数据。允许支持更多对象结构的数据模型（可以把任意文档存储到MongoDB而不用担心数据结构），结合更快的查询速度，经常允许MongoDB可以作为支持更多查询功能的缓存使用，或者直接与缓存层集成到一起。以The Business　Insider网站为例，可以抛弃Memcached，直接从MongoDB处理页面请求。</p>
+<h3 id="可变schema"><a href="#可变schema" class="headerlink" title="可变schema"></a>可变schema</h3><p>json文件直接导入，不需要提前声明数据的结构。<br>你的应用需要调用Json api时，有这样一个可以自动转换json的系统是非常棒的。在存储数据之前不用知道数据结构，而且mongoDB缺少schema约束，因此可以简化我们的数据模型。</p>
+<h2 id="1-5-提示和限制"><a href="#1-5-提示和限制" class="headerlink" title="1.5 提示和限制"></a>1.5 提示和限制</h2><ul>
+<li>MongoDB通常用于64位系统。</li>
+<li>使用虚拟内存映射的第二个结构是数据内存会根据需要自动分配。这使得在共享环境中运行数据库变得复杂。通常对于数据库服务器，MongoDB最好运行在专门的服务器上。</li>
+<li>或许关于MongoDB使用内存映射文件最重要的知识就是它在底层如何处理超过内存大小的数据集。当查询如此大的数据集时，它通常需要通过访问磁盘来获取额外的数据。结果是许多用户报告卓越的MongoDB性能，知道处理的数据超过了内存，而且查询开始变慢。这个问题不仅仅存在于MongoDB中，他也是一个常见的陷阱，值得去留意。</li>
+<li>一个关联的问题是MongoDB用来存储集合和文档的数据结构，从数据大小的角度来看并非是最有效的。例如，MongoDB在每个文档里存储key,意味着对于每个包含”username”字段的文档，都必须使用8个字节来存储该字段的名称。</li>
+<li>对于SQL开发者，使用MongoDB常见的痛苦就是，他的查询语言与SQL差别很大，而且有时候确实是事实。MongoDB比绝大多数数据库更针对开发人员－－－不是分析远。它的哲学是查询一次编写，然后嵌入应用中。MongoDB查询通常由JSON对象组成而不是SQL文本。这使得查询更容易创建和解析，这是个重要的考虑，但是很难为ad-hoc查询去改变。如果你是分析员，每天要编写查询语句，你会愿意选择使用SQL语句。</li>
+<li>最后值得一提的是，虽说MongoDB是最简单的数据库之一，可以作为单个节点运行，但是运行大规模集群还是有维护的成本的。大部分分布式数据库都有类似的问题，而MongoDB更是如此，因为它的集群需要三个配置节点来单独处理分片集群的复制问题。在一些数据库，例如HBase中，数据存储在每个片上，每个分片的数据可以在集群的任意集群上复制。MongoDB不会在所有分片节点上复制数据，而是在每个可复制集群里复制数据。分片和可复制集群是单独的概念，这样有特殊的有事，但是也意味着在配置MongoDb集群时需要单独配置和管理。</li>
+</ul>
+<h2 id="1-8-总结"><a href="#1-8-总结" class="headerlink" title="1.8 总结"></a>1.8 总结</h2><p>总结一下，MongoDB是一个开源的、面向文档的数据库管理系统，为全新的互联网应用的数据模型和伸缩性而设计，具有动态查询和辅助索引、快速原子更新以及复杂聚合，支持自动化灾备的复制，还有水平伸缩的分片集群等特性。</p>
 
       
     </div>
@@ -605,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-为互联网而生"><span class="nav-number">1.</span> <span class="nav-text">1.1 为互联网而生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-MongoDB-键特性"><span class="nav-number">2.</span> <span class="nav-text">1.2 MongoDB 键特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-文档数据模型"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 文档数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-ad-hoc-查询"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 ad hoc 查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-3-索引"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.3 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-复制"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.4 复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-加速与持久化"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.5 加速与持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-伸缩"><span class="nav-number">2.6.</span> <span class="nav-text">1.2.6 伸缩</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-为互联网而生"><span class="nav-number">1.</span> <span class="nav-text">1.1 为互联网而生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-MongoDB-键特性"><span class="nav-number">2.</span> <span class="nav-text">1.2 MongoDB 键特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-文档数据模型"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 文档数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-ad-hoc-查询"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 ad hoc 查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-3-索引"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.3 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-4-复制"><span class="nav-number">2.4.</span> <span class="nav-text">1.2.4 复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-5-加速与持久化"><span class="nav-number">2.5.</span> <span class="nav-text">1.2.5 加速与持久化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-6-伸缩"><span class="nav-number">2.6.</span> <span class="nav-text">1.2.6 伸缩</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-3-核心服务和工具"><span class="nav-number">3.</span> <span class="nav-text">1.3 核心服务和工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-1-核心服务器"><span class="nav-number">3.1.</span> <span class="nav-text">1.3.1 核心服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-2-JavaScript-shell"><span class="nav-number">3.2.</span> <span class="nav-text">1.3.2 JavaScript shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-3-数据库驱动"><span class="nav-number">3.3.</span> <span class="nav-text">1.3.3 数据库驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-4-命令行工具"><span class="nav-number">3.4.</span> <span class="nav-text">1.3.4 命令行工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-4-为什么是MongoDDB"><span class="nav-number">4.</span> <span class="nav-text">1.4 为什么是MongoDDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-1-MongoDB-和其他数据库的对比"><span class="nav-number">4.1.</span> <span class="nav-text">1.4.1 MongoDB 和其他数据库的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的键值存储"><span class="nav-number">4.1.1.</span> <span class="nav-text">简单的键值存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂的键值存储"><span class="nav-number">4.1.2.</span> <span class="nav-text">复杂的键值存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系型数据库"><span class="nav-number">4.1.3.</span> <span class="nav-text">关系型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文档数据库"><span class="nav-number">4.1.4.</span> <span class="nav-text">文档数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-2-使用场景和部署"><span class="nav-number">4.2.</span> <span class="nav-text">1.4.2 使用场景和部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-应用"><span class="nav-number">4.2.1.</span> <span class="nav-text">Web 应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#敏捷开发"><span class="nav-number">4.2.2.</span> <span class="nav-text">敏捷开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析和日志"><span class="nav-number">4.2.3.</span> <span class="nav-text">分析和日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存"><span class="nav-number">4.2.4.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可变schema"><span class="nav-number">4.2.5.</span> <span class="nav-text">可变schema</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-提示和限制"><span class="nav-number">4.3.</span> <span class="nav-text">1.5 提示和限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-总结"><span class="nav-number">4.4.</span> <span class="nav-text">1.8 总结</span></a></li></ol></li></ol></div>
             
 
           </div>
