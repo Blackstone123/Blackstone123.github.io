@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="RabbitMQ,消息中间件,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="Clay&apos;s Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Clay&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta name="description" content="又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。学习一下RabbitMQ确有必要，不啰嗦了，开始吧。">
+<meta name="keywords" content="RabbitMQ,消息中间件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《RabbitMQ实战指南》学习笔记（一）">
+<meta property="og:url" content="http://yoursite.com/2019/12/11/《RabbitMQ实战指南》学习笔记（一）/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="Clay&apos;s Blog">
+<meta property="og:description" content="又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。学习一下RabbitMQ确有必要，不啰嗦了，开始吧。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-11T08:14:57.888Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Clay&#39;s Blog">
-<meta name="twitter:description" content="Clay&apos;s Blog">
+<meta name="twitter:title" content="《RabbitMQ实战指南》学习笔记（一）">
+<meta name="twitter:description" content="又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。学习一下RabbitMQ确有必要，不啰嗦了，开始吧。">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/page/2/">
+  <link rel="canonical" href="http://yoursite.com/2019/12/11/《RabbitMQ实战指南》学习笔记（一）/">
 
 
 
 
 
-  <title>Clay's Blog</title>
+  <title>《RabbitMQ实战指南》学习笔记（一） | Clay's Blog</title>
   
 
 
@@ -153,8 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -257,9 +258,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -272,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/Django用户权限管理学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/11/《RabbitMQ实战指南》学习笔记（一）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Clay Chen">
@@ -289,9 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/20/Django用户权限管理学习/" itemprop="url">Django用户权限管理学习</a></h1>
+          <h1 class="post-title" itemprop="name headline">《RabbitMQ实战指南》学习笔记（一）</h1>
         
 
         <div class="post-meta">
@@ -303,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T10:12:53+08:00">
-                2019-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-11T14:36:57+08:00">
+                2019-12-11
               </time>
             
 
@@ -326,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/WEB/" itemprop="url" rel="index">
-                    <span itemprop="name">WEB</span>
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
                   </a>
                 </span>
 
@@ -363,16 +362,29 @@
       
 
       
-        
-          <p>借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/20/Django用户权限管理学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <p>又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。<br>学习一下RabbitMQ确有必要，不啰嗦了，开始吧。</p>
+<a id="more"></a>
+
+<p>本笔记对应于该书的第一章　RabbitMQ简介<br>RabbitMQ 是目前非常热门的一款消息中间件，不管是互联网行业还是传统行业都在大量地使用。RabbitMQ凭借其高可靠、易扩展、高可用及丰富的功能特性受到越来越多企业的青睐。作为一个合格的开发者，有必要深入地了解RabbitMQ的相关知识，为自己的职业生涯添砖加瓦。</p>
+<h1 id="1-1-什么是消息中间件"><a href="#1-1-什么是消息中间件" class="headerlink" title="1.1 什么是消息中间件"></a>1.1 什么是消息中间件</h1><ul>
+<li>消息（message）是指在应用间传送的数据。消息可以非常简单，比如只包含文本字符串、JSON等，也可以很复杂，比如内嵌对象。</li>
+<li>消息队列中间件（Message Queue Middleware，简称MQ）是指利用高效可靠的消息传递机制进行与平台无关的数据交流，并基于数据通信来进行分布式系统的集成。通过提供消息传递和消息排队模型，它可以在分布式环境下扩展进程间的通信。</li>
+<li>消息队列中间件，也可以称为消息队列或者消息中间件。它一般有两种传递模式：点对点(p2p，point-to-point)模式和发布/订阅（pub/sub）模式。点对点模式是基于队列的，消息生产者发送消息到队列，消息消费者从队列中接收消息，队列的存在使得消息的异步传输成为可能。发布订阅模式定义了如何想一个内容节点发布和订阅消息，这个内容节点称为主题（topic）,主题可以认为是消息传递的中介，消息发布者将消息发布到某个主题，而消息订阅者则从主题中订阅消息。主题使得消息的订阅者与消息的发布者互相保持独立，不需要进行接触即可保证消息的传递，发布/订阅模式在消息的一对多广播时采用。</li>
+<li>目前开源的消息中间件有很多，比较主流的有 RabbitMQ、Kafka、ActiveMQ、RocketMQ等。面向消息的中间件（简称为MOM，Message Oriented Middleware）提供了以松散耦合的灵活方式集成应用程序的一种机制。它们提供了基于存储和转发的应用程序之间的异步数据发送，即应用程序彼此不直接通信，而是与作为中介的消息中间件通信。消息中间件提供了保证的消息发送，应用程序开发人员无须了解远程过程调用（ＲＰＣ）和网络通信协议的细节。</li>
+<li>消息中间件适用于需要可靠的数据传送的分布式环境。采用消息中间件的系统中，不同对象之间通过传递消息来激活对方的时间，以完成相应的操作。发送者将消息发送给消息服务器，消息服务器将消息存放在若干队列中，在合适的时候在将消息转发给接受者。消息中间件能在不同平台之间通信，它常被用来屏蔽各种平台及协议之间的特性，实现应用程序之间的协同，其优点在于能够在客户和服务器之间提供同步和异步的连接，并且在任何时刻都可以将消息进行传送或者存储转发，这也是它比远程过程调用更进步的原因。</li>
+</ul>
+<h1 id="1-2-消息中间件的作用"><a href="#1-2-消息中间件的作用" class="headerlink" title="1.2 消息中间件的作用"></a>1.2 消息中间件的作用</h1><p>消息中间见凭借其独到的特性，在不同的应用场景下可以展现不同的作用。总的来说，消息中间件的作用可以概括如下：</p>
+<ul>
+<li>解耦 在项目启动之初来预测将来会碰到什么需求是及其困难的。消息中间件在处理过程中间插入了一个隐含的、基于数据的接口层，两边的处理过程都要实现这一接口，这允许你独立地扩展或修改两边的处理过程，只要确保他们遵守同样的接口约束即可。</li>
+<li>冗余（存储） 有些情况下，处理数据的过程会失败。消息中间件可以把数据进行持久化直到他们被完全处理，通过这一方法规避了数据丢失风险。在把一个消息从消息中间件中删除之前，需要你的处理系统明确地指出该消息已经被处理完成，从而确保你的数据被安全的保存直到你使用完毕。</li>
+<li>扩展性　因为消息中间件解耦了应用的处理过程，所以提高消息入队和处理的效率是很容易的，只要另外增加处理过程即可，不需要修改代码，也不需要调节参数。</li>
+<li>削峰 在访问量剧增的情况下，应用仍然需要继续发挥作用，但是这样的突发流量并不常见。如果以能处理这类峰值为标准而投入资源，无疑是巨大的浪费。使用消息中间件能够使关键组件支撑突发访问压力，不会因为突发的超负荷请求而完全崩溃。</li>
+<li>可恢复性　当系统一部分组件失效时，不会影响到整个系统。消息中间件降低了进程间的耦合度，所以即使一个处理消息的进程挂掉，加入消息中间件中的消息仍然可以在系统恢复后进行处理。</li>
+<li>顺序保证　在大多数使用场景下，数据处理的顺序很重要，大部分消息中间件支持一定程度上的顺序性。</li>
+<li>缓冲　在任何重要的系统中，都会存在需要不同处理事假的元素。消息中间件通过一个缓冲层来帮助任务最高效率地执行，写入消息中间件的处理会尽可能快速。该缓冲层有助于控制和优化数据流经过系统的速度。</li>
+<li>异步通信　在很多时候应用不想也不需要立即处理消息。消息中间件提供了异步处理机制，允许应用吧一些消息放入消息中间件中，但并不立即处理它，在之后需要的时候在慢慢处理。</li>
+</ul>
+
       
     </div>
     
@@ -387,306 +399,38 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/19/流水帐啊，我的流水帐～/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Clay Chen">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clay's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/19/流水帐啊，我的流水帐～/" itemprop="url">流水帐啊，我的流水帐～</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T10:18:13+08:00">
-                2019-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂记/" itemprop="url" rel="index">
-                    <span itemprop="name">杂记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/RabbitMQ/" rel="tag"># RabbitMQ</a>
           
-
+            <a href="/tags/消息中间件/" rel="tag"># 消息中间件</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p>我这博客既然还有人瞄，那么昨天的flag就不能这么快倒掉。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/19/流水帐啊，我的流水帐～/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/29/《Go-Web-Programming》学习笔记之leveraging-go-concurrency/" rel="next" title="《Go-Web-Programming》学习笔记之leveraging-go-concurrency">
+                <i class="fa fa-chevron-left"></i> 《Go-Web-Programming》学习笔记之leveraging-go-concurrency
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/my-first-blog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Clay Chen">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clay's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/02/my-first-blog/" itemprop="url">Hello, world!</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T11:54:47+08:00">
-                2019-09-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂记/" itemprop="url" rel="index">
-                    <span itemprop="name">杂记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>hello, world 这个博客是9月2日创建的，还没有什么内容，就把hexo给荒废了。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/02/my-first-blog/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -696,14 +440,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -711,6 +452,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -731,8 +476,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -812,6 +566,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-什么是消息中间件"><span class="nav-number">1.</span> <span class="nav-text">1.1 什么是消息中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-消息中间件的作用"><span class="nav-number">2.</span> <span class="nav-text">1.2 消息中间件的作用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -945,6 +715,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
