@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。学习一下RabbitMQ确有必要，不啰嗦了，开始吧。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-11T10:04:06.794Z">
+<meta property="og:updated_time" content="2019-12-12T06:12:33.632Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《RabbitMQ实战指南》学习笔记（一）">
 <meta name="twitter:description" content="又开始水RabbitMQ啦。虽然在DDD中闻说，对于服务间的解耦而言，采用消息中间件是最好的方式，但是苦于实际工作中没有遇到，这一块一直很生疏。学习一下RabbitMQ确有必要，不啰嗦了，开始吧。">
@@ -402,7 +402,87 @@
 <li>管理界面　rabbitmq提供了一个易用的用户界面，使得用户可以监控和管理信息、集群中的节点等</li>
 <li>插件机制 Rabbitmq提供了许多插件，以实现从多方面进行扩展，当然也可以编写自己的插件</li>
 </ul>
-<h1 id="1-4-RabbitMQ的安装及简单使用"><a href="#1-4-RabbitMQ的安装及简单使用" class="headerlink" title="1.4 RabbitMQ的安装及简单使用"></a>1.4 RabbitMQ的安装及简单使用</h1>
+<h1 id="1-4-RabbitMQ的安装及简单使用"><a href="#1-4-RabbitMQ的安装及简单使用" class="headerlink" title="1.4 RabbitMQ的安装及简单使用"></a>1.4 RabbitMQ的安装及简单使用</h1><h1 id="1-4-1-1-4-2-1-4-3-安装与运行"><a href="#1-4-1-1-4-2-1-4-3-安装与运行" class="headerlink" title="1.4.1 1.4.2 1.4.3 安装与运行"></a>1.4.1 1.4.2 1.4.3 安装与运行</h1><p>这里没有按照书上，先安装erlang，再安装rabbitmq。我这里直接用 docker 安装了，更方便一些。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run -d --hostname my-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3.8.2-management</span><br><span class="line">$ sudo docker exec -it container_name bash</span><br><span class="line">root@my-rabbit:/# rabbitmqctl status</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-4-生产和消费信息"><a href="#1-4-4-生产和消费信息" class="headerlink" title="1.4.4 生产和消费信息"></a>1.4.4 生产和消费信息</h3><p>先创建用户，并添加权限，设置root 用户为管理员角色。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@my-rabbit:/# rabbitmqctl add_user root root</span><br><span class="line">root@my-rabbit:/# rabbitmqctl set_permissions -p / root &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br><span class="line">root@my-rabbit:/# rabbitmqctl set_user_tags root administrator</span><br></pre></td></tr></table></figure>
+
+<p>rabbitemq　的　hello world。慢着，我觉得这本书，我看不下去了。因为他的案例是用java。。。。<br>还是用官网的 python 版吧。</p>
+<ul>
+<li><p>创建虚拟环境，我这里用pyenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$pyenv virtualenv -p python3 rabbitmq_learn_env</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装rabbitmq的python 客户端，Pika</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$python -m pip install pika --upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发送 Sending</p>
+<blockquote>
+<ul>
+<li>建立链接</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pika</span><br><span class="line">connection = pika.BlockingConnection(pika.ConnectionParameters(<span class="string">'localhost'</span>))</span><br><span class="line">channel = connection.channel()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>创建队列</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.queue_declare(queue=<span class="string">'hello'</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>发送消息（采用默认exchange）</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.basic_publish(exchange=&apos;&apos;, routing_key=&apos;hello&apos;, body=&apos;Hello World!&apos;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>关闭链接</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connection.close()</span><br></pre></td></tr></table></figure>
+
+<p>这个时候，进入 rabbitmq容器，可以查看已有的队列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker exec -it wonderful_black bash</span><br><span class="line">root@my-rabbit:/# rabbitmqctl list_queues</span><br><span class="line">Timeout: 60.0 seconds ...</span><br><span class="line">Listing queues for vhost / ...</span><br><span class="line">name    messages</span><br><span class="line">hello   1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>接收 Receiving<blockquote>
+<ul>
+<li>声明队列，这个命令可以运行多次，但是只有第一次会创建</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">channel = connection.channel()</span><br><span class="line">channel.queue_declare(queue=<span class="string">'hello'</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>编写回调函数</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">callback</span><span class="params">(ch, method, properties, body)</span>:</span></span><br><span class="line">    print(<span class="string">"[x] Received %r"</span> % body)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>设置消费者</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.basic_consume(queue=<span class="string">"hello"</span>, auto_ack=<span class="literal">True</span>, on_message_callback=callback)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>消费</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">channel.start_consuming()</span><br><span class="line">[x] Received <span class="string">b'second hello world!'</span></span><br><span class="line">[x] Received <span class="string">b'a second hello world!'</span></span><br><span class="line">[x] Received <span class="string">b'a second hello'</span></span><br><span class="line">[x] Received <span class="string">b'a second'</span></span><br><span class="line">[x] Received <span class="string">b'a secon'</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="1-5-小结"><a href="#1-5-小结" class="headerlink" title="1.5 小结"></a>1.5 小结</h1><p>本章首先针对消息中间件做了一个摘要性的介绍，包括什么是消息中间件、消息中间件的作用及消息中间件的特点。之后引入RabbitMQ，对其历史做一个简单的阐述，比如RabbitMQ具备哪些特点。本章后面的篇幅介绍了RabbitMQ的安装及简单使用，通过阐述生产者生产消息，以及消费者消费消息来给堵着一个对于RabbitMQ的最初印象，为后面的探索打下基础。</p>
+
       
     </div>
     
@@ -594,7 +674,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-什么是消息中间件"><span class="nav-number">1.</span> <span class="nav-text">1.1 什么是消息中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-消息中间件的作用"><span class="nav-number">2.</span> <span class="nav-text">1.2 消息中间件的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-3-RabbitMQ的起源"><span class="nav-number">3.</span> <span class="nav-text">1.3 RabbitMQ的起源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-4-RabbitMQ的安装及简单使用"><span class="nav-number">4.</span> <span class="nav-text">1.4 RabbitMQ的安装及简单使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-什么是消息中间件"><span class="nav-number">1.</span> <span class="nav-text">1.1 什么是消息中间件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-消息中间件的作用"><span class="nav-number">2.</span> <span class="nav-text">1.2 消息中间件的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-3-RabbitMQ的起源"><span class="nav-number">3.</span> <span class="nav-text">1.3 RabbitMQ的起源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-4-RabbitMQ的安装及简单使用"><span class="nav-number">4.</span> <span class="nav-text">1.4 RabbitMQ的安装及简单使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-4-1-1-4-2-1-4-3-安装与运行"><span class="nav-number">5.</span> <span class="nav-text">1.4.1 1.4.2 1.4.3 安装与运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-生产和消费信息"><span class="nav-number">5.0.1.</span> <span class="nav-text">1.4.4 生产和消费信息</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#1-5-小结"><span class="nav-number">6.</span> <span class="nav-text">1.5 小结</span></a></li></div>
             
 
           </div>
