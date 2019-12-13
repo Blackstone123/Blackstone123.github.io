@@ -87,10 +87,13 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="docker 在工作上有用到，但只限于非常基本的使用，一直想更加深入学习，构建更为完整、牢靠的知识图景。多谢老黎的资源，能翻翻这本书，记点笔记注点水。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-12T10:04:00.611Z">
+<meta property="og:image" content="http://yoursite.com/2019/12/12/《Docker技术入门与实战》学习笔记（一）/Docker%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF%E4%B8%8E%E4%BC%A0%E7%BB%9F%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8A%80%E6%9C%AF%E7%9A%84%E6%AF%94%E8%BE%83.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/12/12/《Docker技术入门与实战》学习笔记（一）/Docker%E5%92%8C%E4%BC%A0%E7%BB%9F%E7%9A%84%E8%99%9A%E6%8B%9F%E5%8C%96%E6%96%B9%E5%BC%8F%E7%9A%84%E4%B8%8D%E5%90%8C%E4%B9%8B%E5%A4%84.jpg">
+<meta property="og:updated_time" content="2019-12-13T03:16:08.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Docker技术入门与实战》学习笔记（一）">
 <meta name="twitter:description" content="docker 在工作上有用到，但只限于非常基本的使用，一直想更加深入学习，构建更为完整、牢靠的知识图景。多谢老黎的资源，能翻翻这本书，记点笔记注点水。">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/12/《Docker技术入门与实战》学习笔记（一）/Docker%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF%E4%B8%8E%E4%BC%A0%E7%BB%9F%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8A%80%E6%9C%AF%E7%9A%84%E6%AF%94%E8%BE%83.jpg">
 
 
 
@@ -388,8 +391,32 @@
 <li>更快速的交付和部署。使用Docker，开发人员可以使用镜像来快速构建一套标准的开发环境；开发完成之后，测试和运维人员可以直接使用完全相同的环境来部署代码。只要是开发测试过的代码，就可以确保在生产环境无缝运行。Docker可以快速创建和删除容器，实现快速迭代，节约开发、测试、部署的大量时间。并且，整个过程全程可见，是团队更容易理解应用的创建和工作过程。</li>
 <li>更高效的资源利用　运行Docker容器不需要额外的虚拟化管理程序（Virtual Machine Manager，VMM，以及Hypervisor）的支持，Docker是内核级的虚拟化，可以实现更高的性能，同时对资源的额外需求很低。与传统虚拟机方式相比，Docker的性能要提高1~2个数量级。</li>
 <li>更轻松的迁移和扩展　Docker容器几乎可以在任意的平台上运行，包括物理机、虚拟机、公有云、私有云、个人电脑、服务器等，同时支持主流的操作系统发行版本。这种兼容性让用户可以在不同平台之间轻松的迁移应用。</li>
-<li>更简单的更新管理　使用Dockerfile，只需要小小的配置修改，就可以</li>
+<li>更简单的更新管理　使用Dockerfile，只需要小小的配置修改，就可以替代以往大量的更新工作。所有修改都以增量的方式被分发和更新，从而实现自动化并且高效的容器管理</li>
 </ul>
+<h2 id="1-2-3-Docker与虚拟机的比较"><a href="#1-2-3-Docker与虚拟机的比较" class="headerlink" title="1.2.3 Docker与虚拟机的比较"></a>1.2.3 Docker与虚拟机的比较</h2><ul>
+<li>Docker容器和快，启动和停止可以在秒级实现，这相比传统的虚拟机方式（数分钟）要快得多；</li>
+<li>Docker容器对系统资源需求很少，一台主机上可以同时运行数千个Docker容器(在IBM服务器上已经实现了同时运行10K量级的容器实例)；</li>
+<li>Docker通过类似Git设计理念的操作来方便用户获取、分发和更新应用镜像，存储复用，增量更新；</li>
+<li>Docker通过Dockerfile支持灵活的自动化创建和部署机制，以提高工作效率，并标准化流程。</li>
+</ul>
+<p>可归来为下表：<br><img src="Docker%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF%E4%B8%8E%E4%BC%A0%E7%BB%9F%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8A%80%E6%9C%AF%E7%9A%84%E6%AF%94%E8%BE%83.jpg" alt></p>
+<h1 id="1-3-Docker与虚拟化"><a href="#1-3-Docker与虚拟化" class="headerlink" title="1.3 Docker与虚拟化"></a>1.3 Docker与虚拟化</h1><p>虚拟化(virtualization)技术是一个通用的概念，在不同领域有不同的理解。在计算领域，一般只的是计算虚拟化，或者通常说的服务器虚拟化。维基百科上的定义如下：</p>
+<blockquote>
+<p>在计算机技术中，虚拟化是一种资源管理技术，是将计算机的各种实体资源，如服务器、网络、内存及存储等，予以抽象、转换后呈现出来，打破实体结构间的不可切割的障碍，使得用户可以用比原来的组态更好的方式来应用这些资源。</p>
+</blockquote>
+<p>虚拟化的核心是对资源的抽象，目标往往是为了在同一个主机上同时运行多个系统或应用，从而提高系统资源的利用率，并且带来降低成本、方便管理和容错容灾等好处。</p>
+<p>虚拟化技术可分为基于硬件的虚拟化和基于软件的虚拟化。真正意义上的基于硬件的虚拟化技术并不多见，少数如网卡中的单根多IO虚拟化等技术，超出本书讨论范畴。</p>
+<p>基于软件的虚拟化从对象所在的层次，又可以分为应用虚拟化和平台虚拟化。前者一般指的是一些模拟设备或者诸如Wine这样的软件，后者又可以细分为几个子类：</p>
+<ul>
+<li>完全虚拟化　虚拟机模拟完整的底层硬件环境和特权指令的执行过程，客户操作系统无需修改。例如VMware workstation、VirtualBox、QEMU等</li>
+<li>硬件辅助虚拟化　利用硬件（主要是CPU）辅助支持处理敏感指令来实现完全虚拟化的功能，客户操作系统无需修改。</li>
+<li>部分虚拟化　只针对部分硬件资源进行虚拟化，客户操作系统需要进行修改。现在有些虚拟化技术的早期版本仅支持部分虚拟化</li>
+<li>超虚拟化　部分硬件接口以软件的形式提供给客户机操作系统，客户操作系统需要修改，例如早期的Xen</li>
+<li>操作系统级虚拟化　内核通过创建多个虚拟的操作系统实例（内核和库）来隔离不同的进程。容器相关技术即在这个范畴。</li>
+</ul>
+<p>Docker以及其他容器技术都属于操作系统级虚拟化这个范畴，操作系统虚拟化最大的特点就是不需要额外的supervisor支持。Docker虚拟化方式之所以有众多优势，跟操作系统虚拟化技术自身的设计和实现是分不开的。<br>传统方式是在硬件层面实现虚拟化，需要有额外的虚拟机管理应用和虚拟机操作系统层。Docker容器是在操作系统层面上实现虚拟化，直接复用本地主机的操作系统，因此更加轻量级。</p>
+<p><img src="Docker%E5%92%8C%E4%BC%A0%E7%BB%9F%E7%9A%84%E8%99%9A%E6%8B%9F%E5%8C%96%E6%96%B9%E5%BC%8F%E7%9A%84%E4%B8%8D%E5%90%8C%E4%B9%8B%E5%A4%84.jpg" alt></p>
+<h1 id="1-4-本章小结"><a href="#1-4-本章小结" class="headerlink" title="1.4 本章小结"></a>1.4 本章小结</h1><p>本章介绍了容器虚拟化的基本概念、Docker的诞生历史，以及容器在云时代应用分发场景下的巨大优势。<br>与传统的虚拟机方式相比，容器虚拟化方式在很多场景下都存在极为明显的优势。无论是系统管理员、应用开发人员、测试人员，还是运维管理人员，都应该尽快掌握Docker，尽早享受其带来的巨大便利。</p>
 
       
     </div>
@@ -582,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-什么是Docker"><span class="nav-number">1.</span> <span class="nav-text">1.1 什么是Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-1-Docker开源项目背景"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.1 Docker开源项目背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-2-Linux容器技术－－巨人的肩膀"><span class="nav-number">1.2.</span> <span class="nav-text">1.1.2 Linux容器技术－－巨人的肩膀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-3-从Linux容器到Docker"><span class="nav-number">1.3.</span> <span class="nav-text">1.1.3 从Linux容器到Docker</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-为什么要使用Docker"><span class="nav-number">2.</span> <span class="nav-text">1.2 为什么要使用Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-Docker容器虚拟化的好处"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 Docker容器虚拟化的好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-Docker-在开发和运维中的优势"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 Docker 在开发和运维中的优势</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-什么是Docker"><span class="nav-number">1.</span> <span class="nav-text">1.1 什么是Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-1-Docker开源项目背景"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.1 Docker开源项目背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-2-Linux容器技术－－巨人的肩膀"><span class="nav-number">1.2.</span> <span class="nav-text">1.1.2 Linux容器技术－－巨人的肩膀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-3-从Linux容器到Docker"><span class="nav-number">1.3.</span> <span class="nav-text">1.1.3 从Linux容器到Docker</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2-为什么要使用Docker"><span class="nav-number">2.</span> <span class="nav-text">1.2 为什么要使用Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-1-Docker容器虚拟化的好处"><span class="nav-number">2.1.</span> <span class="nav-text">1.2.1 Docker容器虚拟化的好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-2-Docker-在开发和运维中的优势"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.2 Docker 在开发和运维中的优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-3-Docker与虚拟机的比较"><span class="nav-number">2.3.</span> <span class="nav-text">1.2.3 Docker与虚拟机的比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-3-Docker与虚拟化"><span class="nav-number">3.</span> <span class="nav-text">1.3 Docker与虚拟化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-4-本章小结"><span class="nav-number">4.</span> <span class="nav-text">1.4 本章小结</span></a></li></ol></div>
             
 
           </div>
