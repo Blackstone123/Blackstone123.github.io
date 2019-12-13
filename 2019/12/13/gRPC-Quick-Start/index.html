@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="gRPC,服务间通信,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="gRPC 在工作中有接触，但是自己还没有亲手实践过，确实有待加强。九层之台起于垒土，先写 python 的 hello world 吧。">
+<meta name="keywords" content="gRPC,服务间通信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gRPC Quick Start">
+<meta property="og:url" content="http://yoursite.com/2019/12/13/gRPC-Quick-Start/index.html">
+<meta property="og:site_name" content="Clay&#39;s Blog">
+<meta property="og:description" content="gRPC 在工作中有接触，但是自己还没有亲手实践过，确实有待加强。九层之台起于垒土，先写 python 的 hello world 吧。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-13T09:48:50.320Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gRPC Quick Start">
+<meta name="twitter:description" content="gRPC 在工作中有接触，但是自己还没有亲手实践过，确实有待加强。九层之台起于垒土，先写 python 的 hello world 吧。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/13/gRPC-Quick-Start/">
+
+
+
+
+
+  <title>gRPC Quick Start | Clay's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?02f45f165696c8a588e08806d3cc79e0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">他山之石，可以攻玉</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/13/gRPC-Quick-Start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clay Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">gRPC Quick Start</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-13T11:25:27+08:00">
+                2019-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>gRPC 在工作中有接触，但是自己还没有亲手实践过，确实有待加强。九层之台起于垒土，先写 python 的 hello world 吧。</p>
+<a id="more"></a>
+
+<h1 id="1-基于-python-的-gRPC-hello-world"><a href="#1-基于-python-的-gRPC-hello-world" class="headerlink" title="1 基于 python 的 gRPC hello world"></a>1 基于 python 的 gRPC hello world</h1><h2 id="1-1-准备工作"><a href="#1-1-准备工作" class="headerlink" title="1.1 准备工作"></a>1.1 准备工作</h2><p>创建虚拟环境并激活，我这里用pyenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ pyenv virtualenv -p python3 grpc_learn_env</span><br><span class="line">$ pyenv shell grpc_learn_env</span><br><span class="line">$ pyenv -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-安装gRPC"><a href="#1-2-安装gRPC" class="headerlink" title="1.2 安装gRPC"></a>1.2 安装gRPC</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m pip install grpcio</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-安装-gRPC-tools"><a href="#1-3-安装-gRPC-tools" class="headerlink" title="1.3 安装　gRPC tools"></a>1.3 安装　gRPC tools</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m pip install grpcio-tools</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-下载案例"><a href="#1-4-下载案例" class="headerlink" title="1.4 下载案例"></a>1.4 下载案例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone -b v1.25.0 https://github.com/grpc/grpc</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-运行一个-gRPC-application"><a href="#1-5-运行一个-gRPC-application" class="headerlink" title="1.5 运行一个 gRPC application"></a>1.5 运行一个 gRPC application</h2><p>在上一步中下载的代码中，找到examples/python/helloworld/greeter_server.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python greeter_server.py</span><br></pre></td></tr></table></figure>
+
+<p>运行客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python greeter_client.py</span><br><span class="line">Greeter client received: Hello, you!</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-6-更新-gRPC-服务"><a href="#1-6-更新-gRPC-服务" class="headerlink" title="1.6 更新 gRPC 服务"></a>1.6 更新 gRPC 服务</h2><p>由官方文档可知，gRPC 服务是通过 protocal buffers 定义的。<br>在server和client 的桩代码中，有一个SayHello　rpc 方法，该方法以来自客户端的HelloRequest作为参数输入，并返回从服务端的HelloReply。代码如下：</p>
+<figure class="highlight plain"><figcaption><span>buffers</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// Copyright 2015 gRPC authors.</span><br><span class="line">//</span><br><span class="line">// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line">// you may not use this file except in compliance with the License.</span><br><span class="line">// You may obtain a copy of the License at</span><br><span class="line">//</span><br><span class="line">//     http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line">//</span><br><span class="line">// Unless required by applicable law or agreed to in writing, software</span><br><span class="line">// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line">// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line">// See the License for the specific language governing permissions and</span><br><span class="line">// limitations under the License.</span><br><span class="line"></span><br><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option java_multiple_files = true;</span><br><span class="line">option java_package = &quot;io.grpc.examples.helloworld&quot;;</span><br><span class="line">option java_outer_classname = &quot;HelloWorldProto&quot;;</span><br><span class="line">option objc_class_prefix = &quot;HLW&quot;;</span><br><span class="line"></span><br><span class="line">package helloworld;</span><br><span class="line"></span><br><span class="line">// The greeting service definition.</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  // Sends a greeting</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// The request message containing the user&apos;s name.</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更新Greeter服务，使其拥有两个方法，就是复制一下SayHello方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// The greeting service definition.</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  // Sends a greeting</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">  // Sends another greeting</span><br><span class="line">  rpc SayHelloAgain (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// The request message containing the user&apos;s name.</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// The response message containing the greetings</span><br><span class="line">message HelloReply &#123;</span><br><span class="line">  string message = 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-7-生成-gRPC-代码"><a href="#1-7-生成-gRPC-代码" class="headerlink" title="1.7 生成 gRPC 代码"></a>1.7 生成 gRPC 代码</h2><p>在 example/python/helloworld 路径下，执行如下命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m grpc_tools.protoc -I../../protos --python_out=. --grpc_python_out=. ../../protos/helloworld.proto</span><br></pre></td></tr></table></figure>
+
+<p>重新生成　helloworld_pb2.py 和　helloworld_pb2_grpc.py，前者包含生成的请求和响应类，后者包含生成的客户端和服务端类。</p>
+<h2 id="1-8-更新并运行application"><a href="#1-8-更新并运行application" class="headerlink" title="1.8 更新并运行application"></a>1.8 更新并运行application</h2><p>greeter_server.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greeter</span><span class="params">(helloworld_pb2_grpc.GreeterServicer)</span>:</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">SayHello</span><span class="params">(self, request, context)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> helloworld_pb2.HelloReply(message=<span class="string">'Hello, %s!'</span> % request.name)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">SayHelloAgain</span><span class="params">(self, request, context)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> helloworld_pb2.HelloReply(message=<span class="string">'Hello again, %s!'</span> % request.name)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>greeter_client.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">  channel = grpc.insecure_channel(<span class="string">'localhost:50051'</span>)</span><br><span class="line">  stub = helloworld_pb2_grpc.GreeterStub(channel)</span><br><span class="line">  response = stub.SayHello(helloworld_pb2.HelloRequest(name=<span class="string">'you'</span>))</span><br><span class="line">  print(<span class="string">"Greeter client received: "</span> + response.message)</span><br><span class="line">  response = stub.SayHelloAgain(helloworld_pb2.HelloRequest(name=<span class="string">'you'</span>))</span><br><span class="line">  print(<span class="string">"Greeter client received: "</span> + response.message)</span><br></pre></td></tr></table></figure>
+
+<p>Run the server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python greeter_server.py</span><br><span class="line">$ python greeter_client.py</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gRPC/" rel="tag"># gRPC</a>
+          
+            <a href="/tags/服务间通信/" rel="tag"># 服务间通信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/12/《Docker技术入门与实战》学习笔记（一）/" rel="next" title="《Docker技术入门与实战》学习笔记（一）">
+                <i class="fa fa-chevron-left"></i> 《Docker技术入门与实战》学习笔记（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="Clay Chen">
+            
+              <p class="site-author-name" itemprop="name">Clay Chen</p>
+              <p class="site-description motion-element" itemprop="description">Clay's Blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://endlex.net/" title="优秀的老马" target="_blank">优秀的老马</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.fullstackpentest.com/" title="腻害的小黎" target="_blank">腻害的小黎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-基于-python-的-gRPC-hello-world"><span class="nav-number">1.</span> <span class="nav-text">1 基于 python 的 gRPC hello world</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-准备工作"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-安装gRPC"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 安装gRPC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-安装-gRPC-tools"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 安装　gRPC tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-下载案例"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 下载案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-运行一个-gRPC-application"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 运行一个 gRPC application</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-更新-gRPC-服务"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 更新 gRPC 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-生成-gRPC-代码"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 生成 gRPC 代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-更新并运行application"><span class="nav-number">1.8.</span> <span class="nav-text">1.8 更新并运行application</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clay Chen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
