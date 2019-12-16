@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="老史语录：  操作系统(页面置换、单线程（僵尸进程，孤儿进程，写时拷贝）、多线程（线程上下文，内核态用　户态，系统调用）、信号量、死锁)网络 （三次握手、四次挥手，文件描述符，监听套接字， select，poll，epoll，红黑树）数据结构（老爷爷的书加DP）数据库 （索引， B+树，事务，Innodb， myIsam）   额外加干活需要的东西：Python（Cookbook + Fluent">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-16T02:11:29.741Z">
+<meta property="og:updated_time" content="2019-12-16T01:49:18.676Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日常流水帐">
 <meta name="twitter:description" content="老史语录：  操作系统(页面置换、单线程（僵尸进程，孤儿进程，写时拷贝）、多线程（线程上下文，内核态用　户态，系统调用）、信号量、死锁)网络 （三次握手、四次挥手，文件描述符，监听套接字， select，poll，epoll，红黑树）数据结构（老爷爷的书加DP）数据库 （索引， B+树，事务，Innodb， myIsam）   额外加干活需要的东西：Python（Cookbook + Fluent">
@@ -372,6 +372,21 @@
 <blockquote>
 <p>不过这也只是一个方向而已….  具体面试会不会问这些问题还是看面试官的喜好。还是多刷leetcode来的直接…</p>
 </blockquote>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="计算机操作系统"><a href="#计算机操作系统" class="headerlink" title="计算机操作系统"></a>计算机操作系统</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><h4 id="基本特征"><a href="#基本特征" class="headerlink" title="基本特征"></a>基本特征</h4><ul>
+<li>并发　并发是指宏观上在一段时间内能同时运行多个程序，而并行则指同一时刻能运行多个指令。并行需要硬件支持，如多流水线、多核处理器或者分布式计算系统。操作系统通过引入进程和线程，使得程序能够并发运行。</li>
+<li>共享　共享是指系统中的资源可以被多个并发进程共同使用。有两种共享方式：互斥共享和同时共享。互斥共享的资源称为临界资源，例如打印机等，在同一时刻只允许一个进程访问，需要用同步机制来实现互斥访问。</li>
+<li>虚拟　虚拟技术把一个物理实体转换为多个逻辑实体。主要有两种虚拟技术：时（时间）分复用技术和空（空间）分复用技术。多个进程能在同一个处理器上并发执行使用了时分复用技术，让每个进程轮流占用处理器，每次只执行一小个时间片并快速切换。虚拟内存使用了空分复用技术，它将物理内存抽象为地址空间，每个进程都有各自的地址空间。地址空间的页被映射到物理内存，地址空间的页并不需要全部在物理内存中，当使用到一个没有在物理内存的页时，执行页面置换算法，将该页置换到内存中。</li>
+<li>异步　<h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4></li>
+<li>进程管理</li>
+<li>内存管理</li>
+<li>文件管理</li>
+<li>设备管理<h4 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h4><h4 id="大内核和微内核"><a href="#大内核和微内核" class="headerlink" title="大内核和微内核"></a>大内核和微内核</h4></li>
+<li>大内核</li>
+<li>微内核<h4 id="中断分类"><a href="#中断分类" class="headerlink" title="中断分类"></a>中断分类</h4></li>
+<li>外中断</li>
+<li>异常</li>
+<li>陷入<h3 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h3><h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><h3 id="设备管理"><a href="#设备管理" class="headerlink" title="设备管理"></a>设备管理</h3><h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="计算机网路"><a href="#计算机网路" class="headerlink" title="计算机网路"></a>计算机网路</h2><h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h2 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h2><h1 id="算法"><a href="#算法" class="headerlink" title="算法　"></a>算法　</h1><h2 id="剑指"><a href="#剑指" class="headerlink" title="剑指"></a>剑指</h2><h2 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h2><h2 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h2><h2 id="题库"><a href="#题库" class="headerlink" title="题库"></a>题库</h2><h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="面向对象思想"><a href="#面向对象思想" class="headerlink" title="面向对象思想"></a>面向对象思想</h2><h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="数据库系统原理"><a href="#数据库系统原理" class="headerlink" title="数据库系统原理"></a>数据库系统原理</h2><h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><h2 id="Leetcode-database"><a href="#Leetcode-database" class="headerlink" title="Leetcode-database"></a>Leetcode-database</h2><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><h1 id="Golang"><a href="#Golang" class="headerlink" title="Golang"></a>Golang</h1><h1 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h1><h2 id="系统设计基础"><a href="#系统设计基础" class="headerlink" title="系统设计基础"></a>系统设计基础</h2><h2 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h2><h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2><h2 id="攻击技术"><a href="#攻击技术" class="headerlink" title="攻击技术"></a>攻击技术</h2><h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><h2 id="构建工具"><a href="#构建工具" class="headerlink" title="构建工具"></a>构建工具</h2><h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h1 id="编程实践"><a href="#编程实践" class="headerlink" title="编程实践"></a>编程实践</h1><h2 id="代码可读性"><a href="#代码可读性" class="headerlink" title="代码可读性"></a>代码可读性</h2><h2 id="代码风格规范"><a href="#代码风格规范" class="headerlink" title="代码风格规范"></a>代码风格规范</h2></li>
+</ul>
 
       
     </div>
@@ -468,8 +483,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -549,6 +573,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统"><span class="nav-number">1.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机操作系统"><span class="nav-number">1.1.</span> <span class="nav-text">计算机操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.1.1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本特征"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">基本特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本功能"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">基本功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统调用"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">系统调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大内核和微内核"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">大内核和微内核</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中断分类"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">中断分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程管理"><span class="nav-number">1.1.2.</span> <span class="nav-text">进程管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁"><span class="nav-number">1.1.3.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存管理"><span class="nav-number">1.1.4.</span> <span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设备管理"><span class="nav-number">1.1.5.</span> <span class="nav-text">设备管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接"><span class="nav-number">1.1.6.</span> <span class="nav-text">链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">1.2.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">2.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网路"><span class="nav-number">2.1.</span> <span class="nav-text">计算机网路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP"><span class="nav-number">2.2.</span> <span class="nav-text">HTTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Socket"><span class="nav-number">2.3.</span> <span class="nav-text">Socket</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法"><span class="nav-number">3.</span> <span class="nav-text">算法　</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#剑指"><span class="nav-number">3.1.</span> <span class="nav-text">剑指</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Leetcode"><span class="nav-number">3.2.</span> <span class="nav-text">Leetcode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-1"><span class="nav-number">3.3.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题库"><span class="nav-number">3.4.</span> <span class="nav-text">题库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象"><span class="nav-number">4.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象思想"><span class="nav-number">4.1.</span> <span class="nav-text">面向对象思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式"><span class="nav-number">4.2.</span> <span class="nav-text">设计模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库"><span class="nav-number">5.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库系统原理"><span class="nav-number">5.1.</span> <span class="nav-text">数据库系统原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL"><span class="nav-number">5.2.</span> <span class="nav-text">SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Leetcode-database"><span class="nav-number">5.3.</span> <span class="nav-text">Leetcode-database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL"><span class="nav-number">5.4.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">5.5.</span> <span class="nav-text">Redis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python"><span class="nav-number">6.</span> <span class="nav-text">Python</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Golang"><span class="nav-number">7.</span> <span class="nav-text">Golang</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统设计"><span class="nav-number">8.</span> <span class="nav-text">系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计基础"><span class="nav-number">8.1.</span> <span class="nav-text">系统设计基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式"><span class="nav-number">8.2.</span> <span class="nav-text">分布式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群"><span class="nav-number">8.3.</span> <span class="nav-text">集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击技术"><span class="nav-number">8.4.</span> <span class="nav-text">攻击技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">8.5.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息队列"><span class="nav-number">8.6.</span> <span class="nav-text">消息队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具"><span class="nav-number">9.</span> <span class="nav-text">工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git"><span class="nav-number">9.1.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker"><span class="nav-number">9.2.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建工具"><span class="nav-number">9.3.</span> <span class="nav-text">构建工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">9.4.</span> <span class="nav-text">正则表达式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编程实践"><span class="nav-number">10.</span> <span class="nav-text">编程实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码可读性"><span class="nav-number">10.1.</span> <span class="nav-text">代码可读性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码风格规范"><span class="nav-number">10.2.</span> <span class="nav-text">代码风格规范</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
