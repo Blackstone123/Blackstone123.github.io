@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Clay&#39;s Blog">
 <meta property="og:description" content="emmm，学习consul啦，它的工作方式，一直没弄懂，非得好好研究下不可。以官方的文档作为学习材料，毕竟没有发现系统性讲解的书。https://www.consul.io/intro/本文是针对 introduction to consul 的摘录。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-18T08:45:36.953Z">
+<meta property="og:updated_time" content="2019-12-18T08:52:33.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Consul入门">
 <meta name="twitter:description" content="emmm，学习consul啦，它的工作方式，一直没弄懂，非得好好研究下不可。以官方的文档作为学习材料，毕竟没有发现系统性讲解的书。https://www.consul.io/intro/本文是针对 introduction to consul 的摘录。">
@@ -387,10 +387,11 @@
 <h1 id="Consul-基本架构-Basic-Architecture"><a href="#Consul-基本架构-Basic-Architecture" class="headerlink" title="Consul 基本架构 Basic Architecture"></a>Consul 基本架构 Basic Architecture</h1><ul>
 <li>Consul is a distributed, highly available system. 分布式，高可用性系统。</li>
 <li>Every node that provides services to Consul runs a Consul agent. Running an agent is not required for discovering other services or getting/setting key/value data. The agent is responsible for health checking the services on the node as well as the node itself. 每个为consul提供服务的节点都会运行一个consul客户端。运行一个客户端并不是为了发现其他服务或者获取/设置键值对数据。客户端是为了对节点上的服务以及节点本身进行健康检查。</li>
-<li>The agents talk to one or more Consul servers. The Consul servers are where data is stored and replicated. The servers themselves elect a leader. While Consul can function with one server, 3 to 5 is recommended to avoid failure scenarios leading to data loss. A cluster of Consul servers is recommended for each datacenter.</li>
-<li>Components of your infrastructure that need to discover other services or nodes can query any of the Consul servers or any of the Consul agents. The agents forward queries to the servers automatically.</li>
+<li>The agents talk to one or more Consul servers. The Consul servers are where data is stored and replicated. The servers themselves elect a leader. While Consul can function with one server, 3 to 5 is recommended to avoid failure scenarios leading to data loss. A cluster of Consul servers is recommended for each datacenter. 这些客户端和一个或者多个consul服务端通信。数据的存储以及复制正是在conful服务端进行。</li>
+<li>Components of your infrastructure that need to discover other services or nodes can query any of the Consul servers or any of the Consul agents. The agents forward queries to the servers automatically. 一些基础设施的组件如果需要去发现其他一些服务或者节点，可以对任意一个consul服务端或者客户端发起请求。这些客户端会自动进一步地对服务端进行请求。</li>
 <li>Each datacenter runs a cluster of Consul servers. When a cross-datacenter service discovery or configuration request is made, the local Consul servers forward the request to the remote datacenter and return the result. 这里对数据中心还不是很理解。</li>
 </ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>introduction 就到此为止吧，下一篇介绍consul和其他软件的对比。</p>
 
       
     </div>
@@ -583,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-Consul"><span class="nav-number">1.</span> <span class="nav-text">What is Consul?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Consul-基本架构-Basic-Architecture"><span class="nav-number">2.</span> <span class="nav-text">Consul 基本架构 Basic Architecture</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-Consul"><span class="nav-number">1.</span> <span class="nav-text">What is Consul?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Consul-基本架构-Basic-Architecture"><span class="nav-number">2.</span> <span class="nav-text">Consul 基本架构 Basic Architecture</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
