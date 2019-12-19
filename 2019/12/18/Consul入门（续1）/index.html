@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Consul,服务发现,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文依循官方入门教程 https://learn.hashicorp.com/consul/getting-started/consul-gs-intro加油鸭～～～">
+<meta name="keywords" content="Consul,服务发现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Consul入门（续1）">
+<meta property="og:url" content="http://yoursite.com/2019/12/18/Consul入门（续1）/index.html">
+<meta property="og:site_name" content="Clay&#39;s Blog">
+<meta property="og:description" content="本文依循官方入门教程 https://learn.hashicorp.com/consul/getting-started/consul-gs-intro加油鸭～～～">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-19T03:59:06.288Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Consul入门（续1）">
+<meta name="twitter:description" content="本文依循官方入门教程 https://learn.hashicorp.com/consul/getting-started/consul-gs-intro加油鸭～～～">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/18/Consul入门（续1）/">
+
+
+
+
+
+  <title>Consul入门（续1） | Clay's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?02f45f165696c8a588e08806d3cc79e0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">他山之石，可以攻玉</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/18/Consul入门（续1）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clay Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Consul入门（续1）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-18T16:58:31+08:00">
+                2019-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文依循官方入门教程 <a href="https://learn.hashicorp.com/consul/getting-started/consul-gs-intro" target="_blank" rel="noopener">https://learn.hashicorp.com/consul/getting-started/consul-gs-intro</a><br>加油鸭～～～</p>
+<a id="more"></a>
+<h1 id="introduction-介绍"><a href="#introduction-介绍" class="headerlink" title="introduction 介绍"></a>introduction 介绍</h1><p>This “Getting Started” section of Learn will help you build mental models to understand how Consul works with guides that you can run locally on your computer. Complete the guides in this section sequentially; some of them rely on the previous ones.</p>
+<h1 id="install-consul-安装-consul"><a href="#install-consul-安装-consul" class="headerlink" title="install consul 安装 consul"></a>install consul 安装 consul</h1><p>教程采用的方法是下载源文件压缩包，解压后得到二进制可运行文件，将文件移动到系统路径列表所对应的一个路径中，或者将文件路径添加到系统路径 Path。<br>不过，我不打算这么安装，想通过docker安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull consul</span><br></pre></td></tr></table></figure>
+
+<h1 id="run-the-consul-agent-运行consul-客户端"><a href="#run-the-consul-agent-运行consul-客户端" class="headerlink" title="run the consul agent 运行consul 客户端"></a>run the consul agent 运行consul 客户端</h1><h2 id="Server-and-Client-agents"><a href="#Server-and-Client-agents" class="headerlink" title="Server and Client agents"></a>Server and Client agents</h2><p>In production you would run each Consul agent in either in server or client mode. Each Consul datacenter must have at least one server, which is responsible for maintaining Consul’s state. This includes information about other Consul servers and clients, what services are available for discovery, and which services are allowed to talk to which other services.</p>
+<p>Warning: We highly discourage single-server production deployments.</p>
+<p>In order to make sure that Consul’s state is preserved even if a server fails, you should always run either three or five servers in production. The odd number of servers (and no more than five of them) strikes a balance between performance and failure tolerance. You can learn more about these requirements in Consul’s architecture documentation.</p>
+<p>Non-server agents run in client mode. A client is a lightweight process that registers services, runs health checks, and forwards queries to servers. A client must be running on every node in the Consul datacenter that runs services, since clients are the source of truth about service health.</p>
+<p>When you’re ready to got into production you can find more guidance on production deployment of servers and clients in this guide. For now, lets start our local agent in development mode, which is an in memory server mode with some common features enabled (despite security risks) for ease of use, and all persistence options turned off.</p>
+<p>Warning: Never run Consul in -dev mode in production.</p>
+<h2 id="starting-the-agent"><a href="#starting-the-agent" class="headerlink" title="starting the agent"></a>starting the agent</h2><p>如果单机安装，运行如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ consul agent -dev</span><br></pre></td></tr></table></figure>
+
+<p>我感觉自己用docker 运行 consul 玩不转，汗。还是老实跟着教程走吧。<br>Ubuntu 安装consul，同时查得自己的私有ip 为192.168.2.92</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install consul</span><br><span class="line">$ consul agent -dev -bind 192.168.2.92</span><br></pre></td></tr></table></figure>
+
+<p>如果正常运行，log会显示运行的过程，涉及一些网络设置信息、选举leader的过程以及约每分钟一次的同步？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2019/12/19 10:05:37 [DEBUG] agent: Service &apos;consul&apos; in sync</span><br><span class="line">2019/12/19 10:06:39 [DEBUG] agent: Service &apos;consul&apos; in sync</span><br><span class="line">2019/12/19 10:07:50 [DEBUG] agent: Service &apos;consul&apos; in sync</span><br><span class="line">2019/12/19 10:09:28 [DEBUG] agent: Service &apos;consul&apos; in sync</span><br><span class="line">2019/12/19 10:10:35 [DEBUG] agent: Service &apos;consul&apos; in sync</span><br></pre></td></tr></table></figure>
+
+<p>The logs report that the Consul agent has started and is streaming some log data. They also report that the agent is running as a server and has claimed leadership. Additionally, the local agent has been marked as a healthy member of the datacenter.</p>
+<h2 id="datacenter-members"><a href="#datacenter-members" class="headerlink" title="datacenter members"></a>datacenter members</h2><p>Check the membership of the Consul datacenter by running the consul members command in a new terminal window. The output lists the agents in the datacenter. We’ll cover ways to join Consul agents together later on, but for now there is only one member (your machine).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ consul members</span><br><span class="line">Node                    Address            Status  Type    Build  Protocol  DC</span><br><span class="line">clay-HP-ProBook-446-G3  192.168.2.92:8301  alive   server  0.6.4  2         dc1</span><br></pre></td></tr></table></figure>
+
+<p>The output displays your agent, its IP address, its health state, its role in the datacenter, and some version information. You can discover additional metadata by providing the -detailed flag.</p>
+<p>The members command runs against the Consul client, which gets its information via gossip protocol. The information that the client has is eventually consistent, but at any point in time its view of the world may not exactly match the state on the servers. For a strongly consistent view of the world, query the HTTP API, which forwards the request to the Consul servers.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ curl localhost:8500/v1/catalog/nodes</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Node&quot;:&quot;clay-HP-ProBook-446-G3&quot;,</span><br><span class="line">        &quot;Address&quot;:&quot;192.168.2.92&quot;,</span><br><span class="line">        &quot;TaggedAddresses&quot;:&#123;</span><br><span class="line">            &quot;wan&quot;:&quot;192.168.2.92&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;CreateIndex&quot;:3,</span><br><span class="line">        &quot;ModifyIndex&quot;:4</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>In addition to the HTTP API, you can use the DNS interface to discover the nodes. The DNS interface will send your query to the Consul servers unless you’ve enabled caching. To perform DNS lookups you have to point to the Consul agent’s DNS server, which runs on port 8600 by default. The format of the DNS entries (such as Judiths-MBP.node.consul) will be covered in more detail later.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dig @127.0.0.1 -p 8600 Judiths-MBP.node.consul</span><br></pre></td></tr></table></figure>
+
+<h2 id="stopping-the-agent"><a href="#stopping-the-agent" class="headerlink" title="stopping the agent"></a>stopping the agent</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ consul leave</span><br></pre></td></tr></table></figure>
+
+<p>If you switch back to the window with Consul’s streaming log output, the logs indicate that the Consul agent left the datacenter.</p>
+<p>When you issue the leave command, Consul notifies other members that the agent left the datacenter. When an agent leaves, its local services running on the same node and their checks are removed from the catalog and Consul doesn’t try to contact that node again.</p>
+<p>Forcibly killing the agent process indicates to other agents in the Consul datacenter that the node failed instead of left. When a node fails, its health is marked as critical, but it is not removed from the catalog. Consul will automatically try to reconnect to a failed node, assuming that it may be unavailable because of a network partition, and that it may be coming back.</p>
+<p>If an agent is operating as a server, a graceful leave is important to avoid causing a potential availability outage affecting the consensus protocol. See the Adding and Removing Servers guide for details on how to safely add and remove servers.</p>
+<h2 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h2><p>Now that you have started and stopped a Consul agent in development mode, continue to the next guide where you will learn how Consul knows about the existence and location of services in your datacenter.</p>
+<h1 id="Register-a-Service-and-Health-Check-Service-Discovery"><a href="#Register-a-Service-and-Health-Check-Service-Discovery" class="headerlink" title="Register a Service and Health Check - Service Discovery"></a>Register a Service and Health Check - Service Discovery</h1><p>In the previous guide you ran a local Consul agent, and checked for other members of the datacenter. In this guide you will start using Consul by registering a service and a health check.</p>
+<p>One of the major use cases for Consul is service discovery. Consul provides a DNS interface that downstream services can use to find the IP addresses of their upstream dependencies.</p>
+<p>Consul knows where these services are located because each service registers with its local Consul client. Operators can register services manually, configuration management tools can register services when they are deployed, or container orchestration platforms can register services automatically via integrations.</p>
+<p>In this guide, you’ll register a service and health check manually by providing Consul with a configuration file, and use Consul discover its location using the DNS interface and HTTP API. Manually registering a service will help you understand the information that your automation tooling will ultimately need to provide Consul in order to take advantage of service discovery.</p>
+<h2 id="defining-a-service"><a href="#defining-a-service" class="headerlink" title="defining a service"></a>defining a service</h2><p>You can register services either by providing a service definition, which is the most common way to register services, or by making a call to the HTTP API. Here we will use a service definition.</p>
+<p>First, create a directory for Consul configuration. Consul loads all configuration files in the configuration directory, so a common convention on Unix systems is to name the directory something like /etc/consul.d (the .d suffix implies “this directory contains a set of configuration files”).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /etc</span><br><span class="line">$ mkdir ./consul.d</span><br></pre></td></tr></table></figure>
+
+<p>Next, write a service definition configuration file. Pretend there is a service named “web” running on port 80. Use the following command to create a file called web.json in the configuration directory. This file will contain the service definition: name, port, and an optional tag you can use to find the service later on. (In this case copy the whole code block except for the $ to run the command and create the file.)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ echo &apos;&#123;&quot;service&quot;:</span><br><span class="line">  &#123;&quot;name&quot;: &quot;web&quot;,</span><br><span class="line">   &quot;tags&quot;: [&quot;rails&quot;],</span><br><span class="line">   &quot;port&quot;: 80</span><br><span class="line">  &#125;</span><br><span class="line">&#125;&apos; &gt; ./consul.d/web.json</span><br></pre></td></tr></table></figure>
+
+<p>Now, restart the agent, using command line flags to specify the configuration directory and enable script checks on the agent.<br>走到这里，其实下面的命令运行不通，把consul卸载了（用apt-get install 安装的版本太老了），然后从官网下载压缩包，解压，移动到 /usr/local/bin/ 里面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /etc/consul.d/</span><br><span class="line">$ consul agent -dev -enable-script-checks -config-dir=./</span><br></pre></td></tr></table></figure>
+
+<p>You’ll notice in the output that Consul “synced” the web service. This means that the agent loaded the service definition from the configuration file, and has successfully registered it in the service catalog.</p>
+<p>Note: We never started a web service in this example. Consul can register services that aren’t running yet. It correlates each running service with its registration based on the service’s port.</p>
+<p>In a multi-agent Consul datacenter, each service would register with its local Consul client, and the clients would forward the registration to the Consul servers, which maintain the service catalog.</p>
+<p>If you wanted to register multiple services, you could create multiple service definition files in the Consul configuration directory.</p>
+<h2 id="quering-services"><a href="#quering-services" class="headerlink" title="quering services"></a>quering services</h2><p>Once the agent adds the service to Consul’s service catalog you can query it using either the DNS interface or HTTP API.</p>
+<h3 id="DNS-interface"><a href="#DNS-interface" class="headerlink" title="DNS interface"></a>DNS interface</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Consul/" rel="tag"># Consul</a>
+          
+            <a href="/tags/服务发现/" rel="tag"># 服务发现</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/18/Consul入门/" rel="next" title="Consul入门">
+                <i class="fa fa-chevron-left"></i> Consul入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="Clay Chen">
+            
+              <p class="site-author-name" itemprop="name">Clay Chen</p>
+              <p class="site-description motion-element" itemprop="description">Clay's Blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://endlex.net/" title="优秀的老马" target="_blank">优秀的老马</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.fullstackpentest.com/" title="腻害的小黎" target="_blank">腻害的小黎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#introduction-介绍"><span class="nav-number">1.</span> <span class="nav-text">introduction 介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#install-consul-安装-consul"><span class="nav-number">2.</span> <span class="nav-text">install consul 安装 consul</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#run-the-consul-agent-运行consul-客户端"><span class="nav-number">3.</span> <span class="nav-text">run the consul agent 运行consul 客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-and-Client-agents"><span class="nav-number">3.1.</span> <span class="nav-text">Server and Client agents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#starting-the-agent"><span class="nav-number">3.2.</span> <span class="nav-text">starting the agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datacenter-members"><span class="nav-number">3.3.</span> <span class="nav-text">datacenter members</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stopping-the-agent"><span class="nav-number">3.4.</span> <span class="nav-text">stopping the agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#summary"><span class="nav-number">3.5.</span> <span class="nav-text">summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Register-a-Service-and-Health-Check-Service-Discovery"><span class="nav-number">4.</span> <span class="nav-text">Register a Service and Health Check - Service Discovery</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#defining-a-service"><span class="nav-number">4.1.</span> <span class="nav-text">defining a service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#quering-services"><span class="nav-number">4.2.</span> <span class="nav-text">quering services</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-interface"><span class="nav-number">4.2.1.</span> <span class="nav-text">DNS interface</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clay Chen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
