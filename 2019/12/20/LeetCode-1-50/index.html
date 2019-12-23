@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Docker,容器技术,">
+  <meta name="keywords" content="Golang,Algorithm,Python,">
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="这几天，抽时间集中在看这本书。一到七章已看完，第一章（讲容器概念和docker历史）、第三章（Docker镜像）、第四章（Docker容器）、第五章（Docker仓库）、第六章（Docker数据管理）、第七章（端口映射和容器互联）。除了第一章，有诸多重要概念，有记笔记的必要外，其他几章以浏览理解为主，考虑到进度，就没有作笔记。不过后期确实有归纳出docker常用命令的必要。 到此，对于当前的我而言">
-<meta name="keywords" content="Docker,容器技术">
+<meta name="description" content="emmm，老老实实刷题吧，加油~。拟每篇记录50道算法题，分别用python 和 Golang 实现。">
+<meta name="keywords" content="Golang,Algorithm,Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《Docker技术入门与实战》学习笔记（二）">
-<meta property="og:url" content="http://yoursite.com/2019/12/18/《Docker技术入门与实战》学习笔记（二）/index.html">
+<meta property="og:title" content="LeetCode_1_50">
+<meta property="og:url" content="http://yoursite.com/2019/12/20/LeetCode-1-50/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="这几天，抽时间集中在看这本书。一到七章已看完，第一章（讲容器概念和docker历史）、第三章（Docker镜像）、第四章（Docker容器）、第五章（Docker仓库）、第六章（Docker数据管理）、第七章（端口映射和容器互联）。除了第一章，有诸多重要概念，有记笔记的必要外，其他几章以浏览理解为主，考虑到进度，就没有作笔记。不过后期确实有归纳出docker常用命令的必要。 到此，对于当前的我而言">
+<meta property="og:description" content="emmm，老老实实刷题吧，加油~。拟每篇记录50道算法题，分别用python 和 Golang 实现。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-18T04:01:45.548Z">
+<meta property="og:image" content="http://yoursite.com/2019/12/20/LeetCode-1-50/1799927671.jpg">
+<meta property="og:updated_time" content="2019-12-23T07:22:43.480Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《Docker技术入门与实战》学习笔记（二）">
-<meta name="twitter:description" content="这几天，抽时间集中在看这本书。一到七章已看完，第一章（讲容器概念和docker历史）、第三章（Docker镜像）、第四章（Docker容器）、第五章（Docker仓库）、第六章（Docker数据管理）、第七章（端口映射和容器互联）。除了第一章，有诸多重要概念，有记笔记的必要外，其他几章以浏览理解为主，考虑到进度，就没有作笔记。不过后期确实有归纳出docker常用命令的必要。 到此，对于当前的我而言">
+<meta name="twitter:title" content="LeetCode_1_50">
+<meta name="twitter:description" content="emmm，老老实实刷题吧，加油~。拟每篇记录50道算法题，分别用python 和 Golang 实现。">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/20/LeetCode-1-50/1799927671.jpg">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/18/《Docker技术入门与实战》学习笔记（二）/">
+  <link rel="canonical" href="http://yoursite.com/2019/12/20/LeetCode-1-50/">
 
 
 
 
 
-  <title>《Docker技术入门与实战》学习笔记（二） | Clay's Blog</title>
+  <title>LeetCode_1_50 | Clay's Blog</title>
   
 
 
@@ -273,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/18/《Docker技术入门与实战》学习笔记（二）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/20/LeetCode-1-50/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Clay Chen">
@@ -290,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《Docker技术入门与实战》学习笔记（二）</h1>
+          <h1 class="post-title" itemprop="name headline">LeetCode_1_50</h1>
         
 
         <div class="post-meta">
@@ -302,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-18T10:59:29+08:00">
-                2019-12-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-20T09:13:19+08:00">
+                2019-12-20
               </time>
             
 
@@ -325,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web/" itemprop="url" rel="index">
-                    <span itemprop="name">Web</span>
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
                   </a>
                 </span>
 
@@ -362,11 +364,17 @@
       
 
       
-        <p>这几天，抽时间集中在看这本书。一到七章已看完，第一章（讲容器概念和docker历史）、第三章（Docker镜像）、第四章（Docker容器）、第五章（Docker仓库）、第六章（Docker数据管理）、第七章（端口映射和容器互联）。<br>除了第一章，有诸多重要概念，有记笔记的必要外，其他几章以浏览理解为主，考虑到进度，就没有作笔记。不过后期确实有归纳出docker常用命令的必要。</p>
-<p>到此，对于当前的我而言，还有比较重要的三块块是“使用Dockerfile创建镜像”（第八章），“Docker三剑客之Compose”和“Kubernetes”，需要仔细学习作笔记。Docker 告一段落后，打算开展对consul的学习（同时加深和巩固网络那一块），加油鸭！</p>
+        <p>emmm，老老实实刷题吧，加油~。拟每篇记录50道算法题，分别用python 和 Golang 实现。</p>
 <a id="more"></a>
+<h1 id="1-Two-Sum"><a href="#1-Two-Sum" class="headerlink" title="1 Two Sum"></a>1 Two Sum</h1><p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。<br>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。<br>示例:<br>给定 nums = [2, 7, 11, 15], target = 9<br>因为 nums[0] + nums[1] = 2 + 7 = 9<br>所以返回 [0, 1]<br>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/two-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/two-sum</a></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>两层循环，最坏需要 （n-1）+ (n-2) + … + 3 + 2 + 1 次循环。也就是n(n-1)/2次。<br>但是从后面运行的效率来看，这种思路并不好。参考下其他解法，说只循环一次，但是让一个字典记录下已经循环的元素，直到循环到某个元素，它和字典里记录下的某个元素满足条件。</p>
+<h2 id="solution-by-Python"><a href="#solution-by-Python" class="headerlink" title="solution by Python"></a>solution by Python</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], tartget: int)</span> -&gt; List[int]:</span></span><br><span class="line">        prev_dic = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> index, item <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            <span class="keyword">if</span> target - item <span class="keyword">in</span> prev_dic:</span><br><span class="line">                <span class="keyword">return</span> [index, prev_dic[target-item]]</span><br><span class="line">            prev_dic[item] = index</span><br></pre></td></tr></table></figure>
 
-<h1 id="第8章-使用Dockerfile-创建镜像"><a href="#第8章-使用Dockerfile-创建镜像" class="headerlink" title="第8章 使用Dockerfile 创建镜像"></a>第8章 使用Dockerfile 创建镜像</h1><h2 id="8-1-基本结构"><a href="#8-1-基本结构" class="headerlink" title="8.1 基本结构"></a>8.1 基本结构</h2><h2 id="8-2-指令说明"><a href="#8-2-指令说明" class="headerlink" title="8.2 指令说明"></a>8.2 指令说明</h2><h3 id="8-2-1-配置指令"><a href="#8-2-1-配置指令" class="headerlink" title="8.2.1 配置指令"></a>8.2.1 配置指令</h3><h3 id="8-2-2-操作指令"><a href="#8-2-2-操作指令" class="headerlink" title="8.2.2 操作指令"></a>8.2.2 操作指令</h3><h2 id="8-3-创建镜像"><a href="#8-3-创建镜像" class="headerlink" title="8.3 创建镜像"></a>8.3 创建镜像</h2><h3 id="8-3-1-命令选项"><a href="#8-3-1-命令选项" class="headerlink" title="8.3.1 命令选项"></a>8.3.1 命令选项</h3><h3 id="8-3-2-选择父镜像"><a href="#8-3-2-选择父镜像" class="headerlink" title="8.3.2 选择父镜像"></a>8.3.2 选择父镜像</h3><h3 id="8-3-3-使用-dockerignore文件"><a href="#8-3-3-使用-dockerignore文件" class="headerlink" title="8.3.3 使用 .dockerignore文件"></a>8.3.3 使用 .dockerignore文件</h3><h3 id="8-3-4-多步骤创建"><a href="#8-3-4-多步骤创建" class="headerlink" title="8.3.4 多步骤创建"></a>8.3.4 多步骤创建</h3><h2 id="8-4-最佳实践"><a href="#8-4-最佳实践" class="headerlink" title="8.4 最佳实践"></a>8.4 最佳实践</h2><h2 id="8-5-本章小结"><a href="#8-5-本章小结" class="headerlink" title="8.5 本章小结"></a>8.5 本章小结</h2><h1 id="第24章-Docker-三剑客之Compose"><a href="#第24章-Docker-三剑客之Compose" class="headerlink" title="第24章 Docker 三剑客之Compose"></a>第24章 Docker 三剑客之Compose</h1><h2 id="24-1-Compose-简介"><a href="#24-1-Compose-简介" class="headerlink" title="24.1 Compose 简介"></a>24.1 Compose 简介</h2><h2 id="24-2-安装与卸载"><a href="#24-2-安装与卸载" class="headerlink" title="24.2 安装与卸载"></a>24.2 安装与卸载</h2><h2 id="24-3-Compose模板文件"><a href="#24-3-Compose模板文件" class="headerlink" title="24.3 Compose模板文件"></a>24.3 Compose模板文件</h2><h2 id="24-4-Compose命令说明"><a href="#24-4-Compose命令说明" class="headerlink" title="24.4 Compose命令说明"></a>24.4 Compose命令说明</h2><h2 id="24-5-Compose环境变量"><a href="#24-5-Compose环境变量" class="headerlink" title="24.5 Compose环境变量"></a>24.5 Compose环境变量</h2><h2 id="24-6-Compose应用案例一：Web负载均衡"><a href="#24-6-Compose应用案例一：Web负载均衡" class="headerlink" title="24.6 Compose应用案例一：Web负载均衡"></a>24.6 Compose应用案例一：Web负载均衡</h2><h2 id="24-7-Compose应用案例二：大数据Spark集群"><a href="#24-7-Compose应用案例二：大数据Spark集群" class="headerlink" title="24.7 Compose应用案例二：大数据Spark集群"></a>24.7 Compose应用案例二：大数据Spark集群</h2><h2 id="24-8-本章小结"><a href="#24-8-本章小结" class="headerlink" title="24.8 本章小结"></a>24.8 本章小结</h2>
+<p>我尝试去写下golang 的解法，发现自己不会。咦，好弱啊。抄下其他人的。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">twoSum</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	valueStore := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line">	<span class="keyword">var</span> result []<span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> i:=<span class="number">0</span>; i &lt; <span class="built_in">len</span>(nums); i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> value, ok :=valueStore[target - nums[i]]; ok &#123;</span><br><span class="line">			result = <span class="built_in">append</span>(result, value, i)</span><br><span class="line">			<span class="keyword">return</span> result</span><br><span class="line">		&#125;</span><br><span class="line">		valueStore[nums[i]] = i </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上传，看了下结果，我震惊了。同样的思路，go实现起来，无论时间维度还是空间维度，都碾压python。赶紧去练习一波golang。<br><img src="1799927671.jpg" alt></p>
+
       
     </div>
     
@@ -383,9 +391,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Docker/" rel="tag"># Docker</a>
+            <a href="/tags/Golang/" rel="tag"># Golang</a>
           
-            <a href="/tags/容器技术/" rel="tag"># 容器技术</a>
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
         </div>
       
@@ -398,8 +408,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/17/《Pro-TypeScripyt》学习笔记（一）/" rel="next" title="《Pro TypeScripyt》学习笔记（一）">
-                <i class="fa fa-chevron-left"></i> 《Pro TypeScripyt》学习笔记（一）
+              <a href="/2019/12/18/Consul入门（续1）/" rel="next" title="Consul入门（续1）">
+                <i class="fa fa-chevron-left"></i> Consul入门（续1）
               </a>
             
           </div>
@@ -407,10 +417,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/18/Consul入门/" rel="prev" title="Consul入门">
-                Consul入门 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -562,7 +568,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第8章-使用Dockerfile-创建镜像"><span class="nav-number">1.</span> <span class="nav-text">第8章 使用Dockerfile 创建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-基本结构"><span class="nav-number">1.1.</span> <span class="nav-text">8.1 基本结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-指令说明"><span class="nav-number">1.2.</span> <span class="nav-text">8.2 指令说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-1-配置指令"><span class="nav-number">1.2.1.</span> <span class="nav-text">8.2.1 配置指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-2-操作指令"><span class="nav-number">1.2.2.</span> <span class="nav-text">8.2.2 操作指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-创建镜像"><span class="nav-number">1.3.</span> <span class="nav-text">8.3 创建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-1-命令选项"><span class="nav-number">1.3.1.</span> <span class="nav-text">8.3.1 命令选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-2-选择父镜像"><span class="nav-number">1.3.2.</span> <span class="nav-text">8.3.2 选择父镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-3-使用-dockerignore文件"><span class="nav-number">1.3.3.</span> <span class="nav-text">8.3.3 使用 .dockerignore文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-4-多步骤创建"><span class="nav-number">1.3.4.</span> <span class="nav-text">8.3.4 多步骤创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-最佳实践"><span class="nav-number">1.4.</span> <span class="nav-text">8.4 最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-5-本章小结"><span class="nav-number">1.5.</span> <span class="nav-text">8.5 本章小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第24章-Docker-三剑客之Compose"><span class="nav-number">2.</span> <span class="nav-text">第24章 Docker 三剑客之Compose</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#24-1-Compose-简介"><span class="nav-number">2.1.</span> <span class="nav-text">24.1 Compose 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-2-安装与卸载"><span class="nav-number">2.2.</span> <span class="nav-text">24.2 安装与卸载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-3-Compose模板文件"><span class="nav-number">2.3.</span> <span class="nav-text">24.3 Compose模板文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-4-Compose命令说明"><span class="nav-number">2.4.</span> <span class="nav-text">24.4 Compose命令说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-5-Compose环境变量"><span class="nav-number">2.5.</span> <span class="nav-text">24.5 Compose环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-6-Compose应用案例一：Web负载均衡"><span class="nav-number">2.6.</span> <span class="nav-text">24.6 Compose应用案例一：Web负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-7-Compose应用案例二：大数据Spark集群"><span class="nav-number">2.7.</span> <span class="nav-text">24.7 Compose应用案例二：大数据Spark集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-8-本章小结"><span class="nav-number">2.8.</span> <span class="nav-text">24.8 本章小结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Two-Sum"><span class="nav-number">1.</span> <span class="nav-text">1 Two Sum</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">1.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solution-by-Python"><span class="nav-number">1.2.</span> <span class="nav-text">solution by Python</span></a></li></ol></li></ol></div>
             
 
           </div>
