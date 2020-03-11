@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="python,Django,用户权限管理,">
+  <meta name="keywords" content="python,Django,DRF,Responses,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。">
-<meta name="keywords" content="python,Django,用户权限管理">
+<meta name="description" content="虽然变阅读边翻译有点慢，但是理解会深一些，加油鸭。">
+<meta name="keywords" content="python,Django,DRF,Responses">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Django用户权限管理学习">
-<meta property="og:url" content="http://yoursite.com/2019/09/20/Django用户权限管理学习/index.html">
+<meta property="og:title" content="Django REST framework API Guide 之 Responses">
+<meta property="og:url" content="http://yoursite.com/2020/03/10/Django-REST-framework-API-Guide-之-Responses/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。">
+<meta property="og:description" content="虽然变阅读边翻译有点慢，但是理解会深一些，加油鸭。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-12T01:15:56.208Z">
+<meta property="og:updated_time" content="2020-03-11T01:16:32.494Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Django用户权限管理学习">
-<meta name="twitter:description" content="借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。">
+<meta name="twitter:title" content="Django REST framework API Guide 之 Responses">
+<meta name="twitter:description" content="虽然变阅读边翻译有点慢，但是理解会深一些，加油鸭。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/20/Django用户权限管理学习/">
+  <link rel="canonical" href="http://yoursite.com/2020/03/10/Django-REST-framework-API-Guide-之-Responses/">
 
 
 
 
 
-  <title>Django用户权限管理学习 | Clay's Blog</title>
+  <title>Django REST framework API Guide 之 Responses | Clay's Blog</title>
   
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/Django用户权限管理学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/10/Django-REST-framework-API-Guide-之-Responses/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Clay Chen">
@@ -290,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Django用户权限管理学习</h1>
+          <h1 class="post-title" itemprop="name headline">Django REST framework API Guide 之 Responses</h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T10:12:53+08:00">
-                2019-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-10T21:00:36+08:00">
+                2020-03-10
               </time>
             
 
@@ -362,18 +362,70 @@
       
 
       
-        <p>借Django切入后端，已正式工作一年半，对用户权限这一块仍然一知半解。考虑到用户权限管理是网站开发中的普适功能，非深刻理解不可。探微而知著，欲借对Django用户权限管理的剖解，来掌握这一块。对于将来无论是转换框架，还是转换语言，都是重要参考，故起愿挖坑（～回应老马每天的督促）。</p>
+        <p>虽然变阅读边翻译有点慢，但是理解会深一些，加油鸭。</p>
 <a id="more"></a>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><ul>
-<li>Python == 3.6.8</li>
-<li>Django == 2.2.5 </li>
-<li>DocUrl == <a href="https://docs.djangoproject.com/en/2.2/" target="_blank" rel="noopener">https://docs.djangoproject.com/en/2.2/</a></li>
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>在官网上，DRF 的 API Guide 涉及如下模块：</p>
+<ul>
+<li>Requests                     请求</li>
+<li>Response                     响应</li>
+<li>Views                        视图</li>
+<li>Generic views                通用视图</li>
+<li>Viewsets                     视图集合类</li>
+<li>Routers                      路由器</li>
+<li>Parsers                      解释器</li>
+<li>Renderers                    渲染器</li>
+<li>Serializers                  序列化器</li>
+<li>Serializer fields            序列化器字段</li>
+<li>Serializer relations         序列化器之间的关系</li>
+<li>Validators                   验证器</li>
+<li>Authentication               认证</li>
+<li>Permissions                  权限</li>
+<li>Caching                      缓存</li>
+<li>throttling                   限流</li>
+<li>Filtering                    过滤</li>
+<li>Pagination                   分页</li>
+<li>Versioning                   版本</li>
+<li>Content negotiation          内容协商</li>
+<li>Metadata                     元数据</li>
+<li>Schemas                      架构</li>
+<li>Format suffixes              格式后缀</li>
+<li>Returning URLS               返回url </li>
+<li>Exceptions                   异常</li>
+<li>Status codes                 状态码</li>
+<li>Testing                      测试</li>
+<li>Settings                     设置</li>
 </ul>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>blabla</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>blabla</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>blabla</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>blabla</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><h1 id="…-待续-2019-09-20"><a href="#…-待续-2019-09-20" class="headerlink" title="….待续(2019.09.20)"></a>….待续(2019.09.20)</h1>
+<h1 id="Responses"><a href="#Responses" class="headerlink" title="Responses"></a>Responses</h1><blockquote>
+<p>Unlike basic HttpResponse objects, TemplateResponse objects retain the details of the context that was provided by the view to compute the response. The final output of the response is not computed until it is needed, later in the response process.<br>— Django documentation</p>
+</blockquote>
+<p>REST framework 通过提供一个 Response 类来支持 HTTP 内容协商，这个 Response 类允许你按照客户端的请求，将内容渲染成多种类型后返回。</p>
+<p>Response 类继承于 Django 的 SimpleTemplateResponse。Response 对象在初始化时所用的数据应该是 python 原生的数据类型。REST framework 之后会依据 HTTP 内容协商来决定这些数据最终会渲染成何种类型。</p>
+<p>你并没有被强制要求使用 Response 类，如果你认为有必要，你也可以返回常规的 HttpResponse 或者 StreamHttpResponse 对象。使用 Response 类仅仅提供了一个更好接口去返回经过内容协商后的 Web API 响应，因为它可以将内容渲染成不同格式。</p>
+<p>除非出于某种特殊原因，你想魔改 REST framework，否则对于view而言，你应该用 APIView 类，或者　＠api_view 函数，并返回　Response 对象。这样做可以确保 view 可以进行内容协商，在响应返回前，view 可以选择合适的渲染器（去渲染需要返回的数据）。</p>
+<h2 id="Creating-Responses"><a href="#Creating-Responses" class="headerlink" title="Creating Responses"></a>Creating Responses</h2><h3 id="Response"><a href="#Response" class="headerlink" title="Response()"></a>Response()</h3><p>实例化：　Response(data, status=None, template_name=None, headers=None, content_type=None)<br>与常规的 HttpResponse 对象不同，你初始化 Response 对象的时候，你并不使用已经渲染好的数据。相反你放入为渲染的数据，可能是任何的　python 基础类型数据。</p>
+<p>Response 类所用的渲染器并不能天然地处理复杂的数据类型，比如 Django 的model 实例。所以你需要在创建 Response 对象之前，将数据序列化为 python 基础数据类型。</p>
+<p>你可以使用 REST framework 的 Serializer 类来进行数据序列化，或者你自己的序列化器。</p>
+<p>参数解释：</p>
+<ul>
+<li>data: 用于response 的序列化后的数据。</li>
+<li>status: 用于 response 的状态码，默认值是 200, 更多细节参看<a href="https://www.django-rest-framework.org/api-guide/status-codes/" target="_blank" rel="noopener">https://www.django-rest-framework.org/api-guide/status-codes/</a></li>
+<li>template_name: 一个模板名称，如果 HTMLRenderer 被选了。</li>
+<li>headers: 包含response中HTTP headers 的字典。</li>
+<li>content_type: response 的内容格式。一般而言，这个会基于内容协商所定的渲染器而自动设置，当然有时候也需要你显示的设置内容格式。</li>
+</ul>
+<h2 id="Attributes"><a href="#Attributes" class="headerlink" title="Attributes"></a>Attributes</h2><h3 id="data"><a href="#data" class="headerlink" title=".data"></a>.data</h3><p>response 已经序列化后但是未被渲染的数据。</p>
+<h3 id="status-code"><a href="#status-code" class="headerlink" title=".status_code"></a>.status_code</h3><p>HTTP response 状态码（数字形式）</p>
+<h3 id="content"><a href="#content" class="headerlink" title=".content"></a>.content</h3><p>resonse 已经被渲染后的内容，在获取.content之前，.render()方法需要先被执行。</p>
+<h3 id="template-name"><a href="#template-name" class="headerlink" title=".template_name"></a>.template_name</h3><p>如果提供了模板名。只有在 HTMLRender 或者用户提供的模板渲染器是被接受的渲染器的时候，这个值才是必须的。</p>
+<h3 id="accepted-renderer"><a href="#accepted-renderer" class="headerlink" title=".accepted_renderer"></a>.accepted_renderer</h3><p>被用于渲染response 的渲染器。在 response 即将从view被返回时，这个值被APIView和＠api_view自动设置。</p>
+<h3 id="accepted-media-type"><a href="#accepted-media-type" class="headerlink" title=".accepted_media_type"></a>.accepted_media_type</h3><p>依据内容协商而被选中的媒体格式类型。在 response 即将从view被返回时，这个值被APIView和＠api_view自动设置。</p>
+<h3 id="renderer-context"><a href="#renderer-context" class="headerlink" title=".renderer_context"></a>.renderer_context</h3><p>一组字典形式的额外上下文信息，会被传递到 renderer 的　.render()方法中。<br>在 response 即将从view被返回时，这个值被APIView和＠api_view自动设置。</p>
+<h2 id="Standard-HttpResponse-attributes"><a href="#Standard-HttpResponse-attributes" class="headerlink" title="Standard HttpResponse attributes"></a>Standard HttpResponse attributes</h2><p>Response 类是对 SimpleTemplateResponse 的扩展，所以后者中所有的普通字段和方法在前者中同样可用。比如，你可以在Response 对象中像在SimpleTemplate　对象中那样去设置HTTP头部信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response = Response()</span><br><span class="line">response[<span class="string">'Cache-Control'</span>] = <span class="string">'no-cache'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="render"><a href="#render" class="headerlink" title=".render()"></a>.render()</h3><p>如同想其他 TemplateResponse 那样，当这个方法被调用时，序列化后的数据会被渲染成最后返回的数据。更具体地，该方法被调用时，.content 未被设置为　accepted_renderer.render(data, accepted_media_type, renderer_context)的返回值。</p>
+<p>一般而言，你不需要亲自调用 .render()，因为它会被按照 Django 的标准响应流程进行处理。</p>
+
       
     </div>
     
@@ -394,7 +446,9 @@
           
             <a href="/tags/Django/" rel="tag"># Django</a>
           
-            <a href="/tags/用户权限管理/" rel="tag"># 用户权限管理</a>
+            <a href="/tags/DRF/" rel="tag"># DRF</a>
+          
+            <a href="/tags/Responses/" rel="tag"># Responses</a>
           
         </div>
       
@@ -407,8 +461,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/02/my-first-blog/" rel="next" title="Hello, world!">
-                <i class="fa fa-chevron-left"></i> Hello, world!
+              <a href="/2020/03/09/Django-REST-framework-API-Guide-之-Requests/" rel="next" title="Django REST framework API Guide 之 Requests">
+                <i class="fa fa-chevron-left"></i> Django REST framework API Guide 之 Requests
               </a>
             
           </div>
@@ -416,10 +470,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/24/Pro-Vue-js-2-学习笔记 1/" rel="prev" title="Pro Vue.js 2 学习笔记 1">
-                Pro Vue.js 2 学习笔记 1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -571,7 +621,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置条件"><span class="nav-number">1.1.</span> <span class="nav-text">前置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">1.3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#…-待续-2019-09-20"><span class="nav-number">4.</span> <span class="nav-text">….待续(2019.09.20)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概览"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Responses"><span class="nav-number">2.</span> <span class="nav-text">Responses</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-Responses"><span class="nav-number">2.1.</span> <span class="nav-text">Creating Responses</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Response"><span class="nav-number">2.1.1.</span> <span class="nav-text">Response()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attributes"><span class="nav-number">2.2.</span> <span class="nav-text">Attributes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-number">2.2.1.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#status-code"><span class="nav-number">2.2.2.</span> <span class="nav-text">.status_code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#content"><span class="nav-number">2.2.3.</span> <span class="nav-text">.content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#template-name"><span class="nav-number">2.2.4.</span> <span class="nav-text">.template_name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#accepted-renderer"><span class="nav-number">2.2.5.</span> <span class="nav-text">.accepted_renderer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#accepted-media-type"><span class="nav-number">2.2.6.</span> <span class="nav-text">.accepted_media_type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#renderer-context"><span class="nav-number">2.2.7.</span> <span class="nav-text">.renderer_context</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Standard-HttpResponse-attributes"><span class="nav-number">2.3.</span> <span class="nav-text">Standard HttpResponse attributes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#render"><span class="nav-number">2.3.1.</span> <span class="nav-text">.render()</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
