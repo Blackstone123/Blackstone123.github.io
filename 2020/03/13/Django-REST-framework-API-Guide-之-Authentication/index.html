@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,Django,DRF,Generic Views,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="由于业务需要，打乱之前的计划，提前梳理 Authentication 这块。">
+<meta name="keywords" content="python,Django,DRF,Generic Views">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django REST framework API Guide 之 Authentication">
+<meta property="og:url" content="http://yoursite.com/2020/03/13/Django-REST-framework-API-Guide-之-Authentication/index.html">
+<meta property="og:site_name" content="Clay&#39;s Blog">
+<meta property="og:description" content="由于业务需要，打乱之前的计划，提前梳理 Authentication 这块。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-03-19T02:38:16.755Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django REST framework API Guide 之 Authentication">
+<meta name="twitter:description" content="由于业务需要，打乱之前的计划，提前梳理 Authentication 这块。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/13/Django-REST-framework-API-Guide-之-Authentication/">
+
+
+
+
+
+  <title>Django REST framework API Guide 之 Authentication | Clay's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?02f45f165696c8a588e08806d3cc79e0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">他山之石，可以攻玉</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/Django-REST-framework-API-Guide-之-Authentication/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clay Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django REST framework API Guide 之 Authentication</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-13T18:25:07+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>由于业务需要，打乱之前的计划，提前梳理 Authentication 这块。</p>
+<a id="more"></a>
+
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>在官网上，DRF 的 API Guide 涉及如下模块：</p>
+<ul>
+<li>Requests                     请求</li>
+<li>Response                     响应</li>
+<li>Views                        视图</li>
+<li>Generic views                通用视图</li>
+<li>Viewsets                     视图集合类</li>
+<li>Routers                      路由器</li>
+<li>Parsers                      解释器</li>
+<li>Renderers                    渲染器</li>
+<li>Serializers                  序列化器</li>
+<li>Serializer fields            序列化器字段</li>
+<li>Serializer relations         序列化器之间的关系</li>
+<li>Validators                   验证器</li>
+<li>Authentication               认证</li>
+<li>Permissions                  权限</li>
+<li>Caching                      缓存</li>
+<li>throttling                   限流</li>
+<li>Filtering                    过滤</li>
+<li>Pagination                   分页</li>
+<li>Versioning                   版本</li>
+<li>Content negotiation          内容协商</li>
+<li>Metadata                     元数据</li>
+<li>Schemas                      架构</li>
+<li>Format suffixes              格式后缀</li>
+<li>Returning URLS               返回url </li>
+<li>Exceptions                   异常</li>
+<li>Status codes                 状态码</li>
+<li>Testing                      测试</li>
+<li>Settings                     设置</li>
+</ul>
+<h1 id="Authentication"><a href="#Authentication" class="headerlink" title="Authentication"></a>Authentication</h1><blockquote>
+<p>“Auth needs to be pluggable.”</p>
+<ul>
+<li>Jacob Kaplan-Moss, “REST worst practices”</li>
+</ul>
+</blockquote>
+<p>Authentication 是一种将到来的请求附带上一系列身份信息，比如请求是从哪个用户过来的，或者后端所签发的 token。<br>依据这些身份信息或者token，后续的权限（permission）或者限流（throttling）策略才能实施。</p>
+<p>REST framework 提供了一些开箱即用的 authentication schemes，同样也允许你采用自定义的 schemes。</p>
+<p>在每个view 非常早的时候都会进行身份验证（Authentication ），在权限（permission）和限流(throttling)检测前进行，也发生在其他代码被允许执行前。</p>
+<p>一般而言，request.user 会被设置为一个 contrib.auth 包中的 User 类的实例。<br>request.auth 用于任何额外的认证信息，比如，它可能代表 request 被签发的 authentication token。</p>
+<p>注意：<br>不要忘记 身份认证（authentication）本身不会允许或者不允许一个到来的请求（request），它只是简单的对请求（request）发起者的身份进行验证。对于如何为api设置权限策略,可参看 permission documentation (<a href="https://www.django-rest-framework.org/api-guide/permissions/" target="_blank" rel="noopener">https://www.django-rest-framework.org/api-guide/permissions/</a>)</p>
+<h2 id="How-authentication-is-determined"><a href="#How-authentication-is-determined" class="headerlink" title="How authentication is determined"></a>How authentication is determined</h2><p>authentication schemes 通常被定义为一个类的列表。REST framework 会尝试用列表中的每个类对请求进行验证，将首个验证成功的类的返回值来对 request.user 和 request.auth 进行赋值。</p>
+<p>如果没有一个类有成功验证的结果，request.user 会被设定为一个 django.contrib.auth.models.AnonymousUser 的一个实例，而 request.auth 会被设定为 None。</p>
+<p>未被身份认证成功 request 的 request.user 和 request.auth的默认值可以通过 settings 中的 UNAUTHENTICATED_USER 和 UNAUTHENTICATED_TOKEN 来进行修改。</p>
+<h2 id="Setting-the-authentication-scheme"><a href="#Setting-the-authentication-scheme" class="headerlink" title="Setting the authentication scheme"></a>Setting the authentication scheme</h2><p>默认的 authentication schemes 可以进行全局设置，用 DEFAULT_AUTHENTICATION_CLASSES，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span><br><span class="line">    <span class="string">'DEFAULT_AUTHENTICATION_CLASSES'</span>: [</span><br><span class="line">        <span class="string">'rest_framework.authentication.BasicAuthentication'</span>,</span><br><span class="line">        <span class="string">'rest_framework.authentication.SessionAuthentication'</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你也可以针对每一个基于类(继承APIView)的 view 或者 viewset 单独设置 authentication scheme。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.authentication <span class="keyword">import</span> SessionAuthentication, BasicAuthentication</span><br><span class="line"><span class="keyword">from</span> rest_framework.permissions <span class="keyword">import</span> IsAuthenticated</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleView</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    authentication_classes = [SessionAuthentication, BasicAuthentication]</span><br><span class="line">    permission_classes = [IsAuthenticated]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, format=None)</span>:</span></span><br><span class="line">        content = &#123;</span><br><span class="line">            <span class="string">'user'</span>: unicode(request.user),  <span class="comment"># `django.contrib.auth.User` instance.</span></span><br><span class="line">            <span class="string">'auth'</span>: unicode(request.auth),  <span class="comment"># None</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Response(content)</span><br></pre></td></tr></table></figure>
+
+<p>或者如果你使用 @api_view 装饰器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@api_view(['GET'])</span></span><br><span class="line"><span class="meta">@authentication_classes([SessionAuthentication, BasicAuthentication])</span></span><br><span class="line"><span class="meta">@permission_classes([IsAuthenticated])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">example_view</span><span class="params">(request, format=None)</span>:</span></span><br><span class="line">    content = &#123;</span><br><span class="line">        <span class="string">'user'</span>: unicode(request.user),  <span class="comment"># `django.contrib.auth.User` instance.</span></span><br><span class="line">        <span class="string">'auth'</span>: unicode(request.auth),  <span class="comment"># None</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Response(content)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Unauthorized-and-Forbidden-responses"><a href="#Unauthorized-and-Forbidden-responses" class="headerlink" title="Unauthorized and Forbidden responses"></a>Unauthorized and Forbidden responses</h2><p>当一个未被认证的request的权限被拒绝，这会有两个不同的错误码：</p>
+<ul>
+<li>HTTP 401 Unauthorized 总是会包含一个 www-Authenticate header，指导客户端如何认证。</li>
+<li>HTTP 403 Permission Denied 不会包含 www-Authenticate header。</li>
+</ul>
+<p>response 的种类取决于 authentication scheme。尽管多个 authentication scheme 可能被用到，但是只有一个scheme 可能用于去决定 response 的种类。view 中设定的第一个 authentication 类被用于去决定response 的类型。</p>
+<p>注意到一个request 可能成功验证，但是仍然有可能被决绝去执行该请求，在这种情况下， 403 Permission Denied 会被经常用到，而不管 authentication scheme 是哪个。</p>
+<h2 id="Apache-mod-wsgi-specific-configuration"><a href="#Apache-mod-wsgi-specific-configuration" class="headerlink" title="Apache mod_wsgi specific configuration"></a>Apache mod_wsgi specific configuration</h2><p>Note that if deploying to Apache using mod_wsgi, the authorization header is not passed through to a WSGI application by default, as it is assumed that authentication will be handled by Apache, rather than at an application level.</p>
+<p>If you are deploying to Apache, and using any non-session based authentication, you will need to explicitly configure mod_wsgi to pass the required headers through to the application. This can be done by specifying the WSGIPassAuthorization directive in the appropriate context and setting it to ‘On’.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># this can go in either server config, virtual host, directory or .htaccess</span><br><span class="line">WSGIPassAuthorization On</span><br></pre></td></tr></table></figure>
+
+<h2 id="API-Reference"><a href="#API-Reference" class="headerlink" title="API Reference"></a>API Reference</h2><h3 id="BasicAuthentication"><a href="#BasicAuthentication" class="headerlink" title="BasicAuthentication"></a>BasicAuthentication</h3><p>这个 authentication scheme 使用 HTTP Basic Authentication，针对 用户的 username 和 password。Basic authentication 一般主要适用于测试。</p>
+<p>如果身份验证成功，BasicAuthentication 提供如下证明信息：</p>
+<ul>
+<li>request.user 会被设置成一个 User 实例。</li>
+<li>request.auth 会是 None。</li>
+</ul>
+<p>未被验证、被拒绝授权的 responses 会导致一个 HTTP 401 Unauthorized response，同时附带一个合适的 WWW-Authenticate header。比如：</p>
+<blockquote>
+<p>WWW-Authenticate: Basic realm=”api”</p>
+</blockquote>
+<p>注意：<br>如果你在生产环境中使用 BasicAuthentication，你必须确保你的API 只对 https 适用。你同样需要确保使用你 API 的客户端每次登录都会请求 username 和 password，并且不会永久存储这些细节。（这一段没怎么懂）</p>
+<h3 id="TokenAuthentication"><a href="#TokenAuthentication" class="headerlink" title="TokenAuthentication"></a>TokenAuthentication</h3><p>这种 authentication scheme 使用一个简单的基于 tokn 的 HTTP Authentication cheme。Token 验证适用于 Client-Server 模式，比如桌面客户端以及手机客户端。</p>
+<p>为了使用 TokenAuthentication scheme，你需要在 authentication classes中配置 TokenAuthentication，并且在你的 INSTALLED_APPS 中添加 rest_framework.authentoken：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    ...</span><br><span class="line">    <span class="string">'rest_framework.authtoken'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>注意：<br>确保在你更改 settings 后运行　manage.py migrate。rest_framework.authentoken app 提供了 Django database migrations。</p>
+<p>你同样需要问你的用户创建 token：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.authtoken.models <span class="keyword">import</span> Token</span><br><span class="line"></span><br><span class="line">token = Token.objects.create(user=...)</span><br><span class="line">print(token.key)</span><br></pre></td></tr></table></figure>
+
+<p>如果客户端需要验证，Authorization HTTP header 中应该包含 token key。这个key 应该在前面添加一个字符串 “Token”，两个字符串间用空格连接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b</span><br></pre></td></tr></table></figure>
+
+<p>注意：<br>如果你想在 header　中使用其他的关键字，比如　Bearer，只需简单的继承　TokenAuthentication 并设置设置类 keyword。</p>
+<p>如果验证成功，TokenAuthentication 提供如下认证信息：</p>
+<ul>
+<li>request.user 会被设置成一个 Django User 实例。</li>
+<li>request.auth 会被设置为　rest_framework.authtoken.models.Token 实例。</li>
+</ul>
+<p>未被验证、被拒绝授权的 responses 会导致一个 HTTP 401 Unauthorized response，同时附带一个合适的 WWW-Authenticate header。比如：</p>
+<blockquote>
+<p>WWW-Authenticate: Token</p>
+</blockquote>
+<p>curl 命令工具对于测试　token authentication API 非常有用。比如给：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET http://127.0.0.1:8000/api/example/ -H &apos;Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b&apos;</span><br></pre></td></tr></table></figure>
+
+<p>注意，如果在生产环境中使用 TokenAuthentication，你需要你的API 只适用于 https。</p>
+<h4 id="Generating-Tokens"><a href="#Generating-Tokens" class="headerlink" title="Generating Tokens"></a>Generating Tokens</h4><h5 id="通过使用信号量-signals"><a href="#通过使用信号量-signals" class="headerlink" title="通过使用信号量 signals"></a>通过使用信号量 signals</h5><p>如果你期望每个用户自动地创建 Token，你可以简单地捕捉用户post_save 信号：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">from</span> django.db.models.signals <span class="keyword">import</span> post_save</span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> receiver</span><br><span class="line"><span class="keyword">from</span> rest_framework.authtoken.models <span class="keyword">import</span> Token</span><br><span class="line"></span><br><span class="line"><span class="meta">@receiver(post_save, sender=settings.AUTH_USER_MODEL)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_auth_token</span><span class="params">(sender, instance=None, created=False, **kwargs)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> created:</span><br><span class="line">        Token.objects.create(user=instance)</span><br></pre></td></tr></table></figure>
+
+<p>注意，你需要确保把这段代码放在一个已经安装了的app的model中，或者放在Django在启动时会加载的其他地方。</p>
+<p>如果你已经创建了一些用户，你可以为已经存在的用户创建token:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> User</span><br><span class="line"><span class="keyword">from</span> rest_framework.authtoken.models <span class="keyword">import</span> Token</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> user <span class="keyword">in</span> User.objects.all():</span><br><span class="line">    Token.objects.get_or_create(user=user)</span><br></pre></td></tr></table></figure>
+
+<h5 id="通过暴露一个-api-接口创建"><a href="#通过暴露一个-api-接口创建" class="headerlink" title="通过暴露一个 api 接口创建"></a>通过暴露一个 api 接口创建</h5><p>在使用 TokenAuthentication，你可能希望提供这样一种机制，即让客户端通过提供用户名和密码来获取一个token。REST framework 提供了一个内置的view 来实现这一行为。为了使用它，将 obtain_auth_token 添加到你的　URLconf:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.authtoken <span class="keyword">import</span> views</span><br><span class="line">urlpatterns += [</span><br><span class="line">    url(<span class="string">r'^api-token-auth/'</span>, views.obtain_auth_token)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>当username 和 password　以表单或者JSON 格式，通过 POST 发送到　obtain_auth_token时，obtain_auth_token 会返回一个 JSON response:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; 'token' : '9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b' &#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意默认的　obtain_auth_token view 会显式地使用 JSON requests 和 JSON response，而不会使用在settings中设定的默认 renderer(渲染器) 和　paser(解释器)。</p>
+<p>默认情况下，obtain_auth_token 是没有　permissions（权限审查） 和　throttling（限流）。如果你想应用　throttling，你需要重写这个view 类，用 throttle_classes　来设置。</p>
+<p>如果你需要一个定制化的 obtain_auth_token view，你可以通过继承 ObtainAuthToken　类来实现，同时需要在你的url 配置里改为你写的类。</p>
+<p>比如，你可以在返回的response 中，除了 token 值以外，添加额外的用户信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.authtoken.views <span class="keyword">import</span> ObtainAuthToken</span><br><span class="line"><span class="keyword">from</span> rest_framework.authtoken.models <span class="keyword">import</span> Token</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomAuthToken</span><span class="params">(ObtainAuthToken)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request, *args, **kwargs)</span>:</span></span><br><span class="line">        serializer = self.serializer_class(data=request.data,</span><br><span class="line">                                           context=&#123;<span class="string">'request'</span>: request&#125;)</span><br><span class="line">        serializer.is_valid(raise_exception=<span class="literal">True</span>)</span><br><span class="line">        user = serializer.validated_data[<span class="string">'user'</span>]</span><br><span class="line">        token, created = Token.objects.get_or_create(user=user)</span><br><span class="line">        <span class="keyword">return</span> Response(&#123;</span><br><span class="line">            <span class="string">'token'</span>: token.key,</span><br><span class="line">            <span class="string">'user_id'</span>: user.pk,</span><br><span class="line">            <span class="string">'email'</span>: user.email</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在 urls.py 中添加：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns += [</span><br><span class="line">    url(<span class="string">r'^api-token-auth/'</span>, CustomAuthToken.as_view())</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h5 id="通过-django-admin"><a href="#通过-django-admin" class="headerlink" title="通过 django admin"></a>通过 django admin</h5><p>也可以通过 admin 交互界面手动创建 Token。假使你的用户表数量超大，我们建议你对　TokenAdmin 打猴子补丁，以满足你的需求，贴别的是将user声明为 raw_field。<br>your_app/admin.py:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.authtoken.admin <span class="keyword">import</span> TokenAdmin</span><br><span class="line"></span><br><span class="line">TokenAdmin.raw_id_fields = [<span class="string">'user'</span>]</span><br></pre></td></tr></table></figure>
+
+<h5 id="通过-Django-manage-py-命令"><a href="#通过-Django-manage-py-命令" class="headerlink" title="通过 Django manage.py 命令"></a>通过 Django manage.py 命令</h5><p>3.6.4 版本以后，可以用如下命令创建用户 token：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./manage.py drf_create_token &lt;username&gt;</span><br></pre></td></tr></table></figure>
+
+<p>该命令会对针对给出的用户返回 token，如果不存在的话会创建：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Generated token <span class="number">9944</span>b09199c62bcf9418ad846dd0e4bbdfc6ee4b <span class="keyword">for</span> user user1</span><br></pre></td></tr></table></figure>
+
+<p>如果你想重新生成token，你可以加上额外的参数 -r ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./manage.py drf_create_token -r &lt;username&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SessionAuthentication"><a href="#SessionAuthentication" class="headerlink" title="SessionAuthentication"></a>SessionAuthentication</h3><p>这个 authentication scheme 使用 Django 默认的 session backend。Session authentication 适用于 AJAX 客户端，如同你的 website 运行相同的 session 背景。</p>
+<p>如果认证成功，SessionAuthentication 提供如下认证信息：</p>
+<ul>
+<li>request.user Django User 对象</li>
+<li>request.auth 值是 None</li>
+</ul>
+<p>如果未被认证成功，会返回 HTTP 403 Forbidden response。</p>
+<p>如果你使用一个 AJAX 风格的API(用SessionAuthentication)，你需要确保任何一个不安全的HTTP方法（PUT，PATCH，POST，DELETE）包含一个有效的 CSRF token，参看 <a href="https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax" target="_blank" rel="noopener">Django CSRF 文档</a>了解更多。</p>
+<p>警告：　在创建 login 页面时，请用 Django　标准的 login view。这会确保你的login views会受到很好的保护。</p>
+<p>REST framework 对于 CSRF 的验证，同Django 的标准方式有些许不同，这是由于前者需要在相同的views同时支持基于 session 和非session 的 authentication。这意味着，只有经过认证 authenticated 的请求需要　CSRF token。而匿名请求请求可能不会携带 CSRF　token。这一行为对 login view 并不适用，login view 总是需要 CSRF validation。</p>
+<h3 id="RemoteUserAuthentication"><a href="#RemoteUserAuthentication" class="headerlink" title="RemoteUserAuthentication"></a>RemoteUserAuthentication</h3><p>这个 authentication scheme 允许你将认证流程授权给你的 web 服务，该服务设置　REMOTE_USER 环境变量。</p>
+<p>为了使用它，你必须在你的 AUTHENTICATION_BACKENDS setting　里添加 django.contrib.auth.backends.RemoteUserBackend（或者其子类）。默认情况下，RemoteUserBackend 会为 尚未存在的 username 创建User 对象。如果要改变这种行为，请参考 <a href="https://docs.djangoproject.com/en/3.0/howto/auth-remote-user/" target="_blank" rel="noopener">Django documentation</a></p>
+<p>如果认证成功，RemoteUserAuthentication 提供如下认证信息：</p>
+<ul>
+<li>request.user Django User 实例</li>
+<li>request.auth 会被置为　None</li>
+</ul>
+<p>有关配置认证方法的信息，参考如下：</p>
+<ul>
+<li><a href="https://httpd.apache.org/docs/2.4/howto/auth.html" target="_blank" rel="noopener">Apache Authentication How-To</a></li>
+<li><a href="https://docs.nginx.com/nginx/admin-guide/#restricting_access" target="_blank" rel="noopener">NGINX (Restricting Access)</a></li>
+</ul>
+<h3 id="用户自定义-Custom-authentication"><a href="#用户自定义-Custom-authentication" class="headerlink" title="用户自定义 Custom authentication"></a>用户自定义 Custom authentication</h3><p>使用用户自定义的 authentication scheme，需要继承 BaseAuthentication 以及重写 .authenticate(self, request)方法。当验证成功，该方法应该返回一个包含两个元素的元组(user, auth)，否则返回 None。在某些情形下，当验证失败，你可能不会返回 None，而是从 .authenticate() 方法中抛出一个 AuthenticationFailed 异常。</p>
+<p>一般而言，你应该采取如下行为：</p>
+<ul>
+<li>如果验证没有被尝试（为理解），返回 None。而其他的 authentication scheme 还会继续 check。</li>
+<li>如果认证被尝试，但是失败了，抛出　AuthenticationFailed 异常，一个错误　reponse 会被立即返回，而不会管任何的权限审核，也不会进行其他的身份认证。</li>
+</ul>
+<p>你可能也会重写 .authenticate_header(self, request) method. 如果那样，你需要返回一个字符串，该字符串会被作为 HTTP 401 Unauthorized response 的 WWW-Authenticate header 的值。</p>
+<p>如果 .authenticate_header() 方法未被重写，当一个未被认证 request 被拒绝访问时，authentication scheme 会返回　HTTP 403 Forbidden 响应。</p>
+<p>注意：　当你自定义的 authenticator 被 request 对象的 .user 或者 .auth 属性唤醒时，你可能会看到一个 AttributeError 作为一个　WrappedAttributeError 重新抛出。这可以避免初始异常被外部属性访问封禁掉。Python </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/DRF/" rel="tag"># DRF</a>
+          
+            <a href="/tags/Generic-Views/" rel="tag"># Generic Views</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/13/Django-REST-framework-API-Guide-之-Generic-Views/" rel="next" title="Django REST framework API Guide 之 Generic Views">
+                <i class="fa fa-chevron-left"></i> Django REST framework API Guide 之 Generic Views
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/19/【翻译】Java-Vs-Go-微服务-负载测试（复赛）/" rel="prev" title="【翻译】Java Vs. Go 微服务 - 负载测试（复赛）">
+                【翻译】Java Vs. Go 微服务 - 负载测试（复赛） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="Clay Chen">
+            
+              <p class="site-author-name" itemprop="name">Clay Chen</p>
+              <p class="site-description motion-element" itemprop="description">Clay's Blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://endlex.net/" title="优秀的老马" target="_blank">优秀的老马</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.fullstackpentest.com/" title="腻害的小黎" target="_blank">腻害的小黎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概览"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Authentication"><span class="nav-number">2.</span> <span class="nav-text">Authentication</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#How-authentication-is-determined"><span class="nav-number">2.1.</span> <span class="nav-text">How authentication is determined</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-the-authentication-scheme"><span class="nav-number">2.2.</span> <span class="nav-text">Setting the authentication scheme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unauthorized-and-Forbidden-responses"><span class="nav-number">2.3.</span> <span class="nav-text">Unauthorized and Forbidden responses</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apache-mod-wsgi-specific-configuration"><span class="nav-number">2.4.</span> <span class="nav-text">Apache mod_wsgi specific configuration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-Reference"><span class="nav-number">2.5.</span> <span class="nav-text">API Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BasicAuthentication"><span class="nav-number">2.5.1.</span> <span class="nav-text">BasicAuthentication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TokenAuthentication"><span class="nav-number">2.5.2.</span> <span class="nav-text">TokenAuthentication</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Generating-Tokens"><span class="nav-number">2.5.2.1.</span> <span class="nav-text">Generating Tokens</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通过使用信号量-signals"><span class="nav-number">2.5.2.1.1.</span> <span class="nav-text">通过使用信号量 signals</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#通过暴露一个-api-接口创建"><span class="nav-number">2.5.2.1.2.</span> <span class="nav-text">通过暴露一个 api 接口创建</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#通过-django-admin"><span class="nav-number">2.5.2.1.3.</span> <span class="nav-text">通过 django admin</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#通过-Django-manage-py-命令"><span class="nav-number">2.5.2.1.4.</span> <span class="nav-text">通过 Django manage.py 命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SessionAuthentication"><span class="nav-number">2.5.3.</span> <span class="nav-text">SessionAuthentication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RemoteUserAuthentication"><span class="nav-number">2.5.4.</span> <span class="nav-text">RemoteUserAuthentication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户自定义-Custom-authentication"><span class="nav-number">2.5.5.</span> <span class="nav-text">用户自定义 Custom authentication</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clay Chen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Golang,Java,Benchmark,翻译,微服务,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="(备注：受人所托，翻译此文） 在本文中，我们对两个分别用 Go 语言和 Java 语言开发的基本应用（app）进行对比测试，去看哪一个消耗的 CPU/memory 资源比较少。">
+<meta name="keywords" content="Golang,Java,Benchmark,翻译,微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】Java Vs. Go 微服务 - 负载测试（复赛）">
+<meta property="og:url" content="http://yoursite.com/2020/03/19/【翻译】Java-Vs-Go-微服务-负载测试（复赛）/index.html">
+<meta property="og:site_name" content="Clay&#39;s Blog">
+<meta property="og:description" content="(备注：受人所托，翻译此文） 在本文中，我们对两个分别用 Go 语言和 Java 语言开发的基本应用（app）进行对比测试，去看哪一个消耗的 CPU/memory 资源比较少。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://dzone.com/storage/temp/11240952-instances.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11004742-jmeter-go-4k.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11004744-jmeter-java-4k.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11004746-jmeter-go-10k.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11004747-jmeter-java-10k.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11017335-memory-usage-go-version-upd.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11017313-cpu-usage-go-version-upd.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11017287-memory-usage-java-version-upd.png">
+<meta property="og:image" content="https://dzone.com/storage/temp/11017263-cpu-usage-java-version-upd.png">
+<meta property="og:updated_time" content="2020-03-19T02:41:52.547Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【翻译】Java Vs. Go 微服务 - 负载测试（复赛）">
+<meta name="twitter:description" content="(备注：受人所托，翻译此文） 在本文中，我们对两个分别用 Go 语言和 Java 语言开发的基本应用（app）进行对比测试，去看哪一个消耗的 CPU/memory 资源比较少。">
+<meta name="twitter:image" content="https://dzone.com/storage/temp/11240952-instances.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/19/【翻译】Java-Vs-Go-微服务-负载测试（复赛）/">
+
+
+
+
+
+  <title>【翻译】Java Vs. Go 微服务 - 负载测试（复赛） | Clay's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?02f45f165696c8a588e08806d3cc79e0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">他山之石，可以攻玉</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/19/【翻译】Java-Vs-Go-微服务-负载测试（复赛）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clay Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【翻译】Java Vs. Go 微服务 - 负载测试（复赛）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-19T10:35:13+08:00">
+                2020-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>(备注：受人所托，翻译<a href="https://dzone.com/articles/java-vs-go-microservices-load-testing-rematch" target="_blank" rel="noopener">此文</a>）</p>
+<p>在本文中，我们对两个分别用 Go 语言和 Java 语言开发的基本应用（app）进行对比测试，去看哪一个消耗的 CPU/memory 资源比较少。</p>
+<a id="more"></a>
+<center> Sergey Kirichenko,&nbsp; Alex Kirichenko, &nbsp;2020年3月12日 &nbsp;Performance Zone&nbsp; 分析 </center>
+
+<br>
+
+<p>当 Go 语言在2009年11月首次出现时，我们并没有听说过它多少。我们首次互动发生在2012年，当时谷歌正式官方发布了 Go version 1。我们的团队决定去说服我们的客户在他们的项目中使用 Go 语言，但这是个难以推销的事儿，客户拒接了我们的推荐（大部分原因是他们的支撑团队缺乏 Go 语言的相关知识）。</p>
+<p>然而自那之后，形势已经发生了很大的变化：　Docker 广泛流行、微服务架构兴起，Go 作为一种编程语言更加成熟（在没有多少改变它语法的情况下）。所以，我兄弟和我决定换个角度审视 Go，并重新开始我们的旅程。我们开始阅读官方文档、教程、关于 Go 的博客和文章，尤其是那些包含作者自身从 Java 转换到 Go 的经验分享或者二者之间的对比内容的博客和文章。而在那时，我们使用 Java 语言已经超过15年了。</p>
+<p>我们偶然遇到一篇<a href="https://dzone.com/articles/java-vs-go-multiple-users-load-test-1" target="_blank" rel="noopener">文章</a>比较了在实施微服务中，Java 和 Go 哪一个在相同的硬件条件下可以服务更多的用户。我们对 Java 有很长的使用经验，知晓它的强大之处和弱点，虽然对 Go 只有几个月的使用经验，但已经知道它的优点（编译型语言、用于实现并发的 goroutines 并不是传统的多线程），我们希望获得 Go 在更小的硬件资源条件下（CPU/memory 消耗）更为确切的结果。</p>
+<p>我们惊讶地发现，当并发的用户数量低于 2k 时，Go 性能有所落后。既然我们已经决定在学习 Go 上花费时间，调查出导致这样结果的原因对我们而言就很重要。在本文中，我们会解释我们如何调查这个问题，并如何测试我们的改变(指重新设计实验)。</p>
+<blockquote>
+<hr>
+</blockquote>
+<p align="center" text-align="center">你可能也喜欢: <a href="https://dzone.com/articles/golang-tutorial-learn-golang-by-examples" target="_blank" rel="noopener">Golang 教程: 通过案例学 Golang.</a></p>  
+
+<blockquote>
+<hr>
+</blockquote>
+<h3 id="初始实验的简要描述"><a href="#初始实验的简要描述" class="headerlink" title="初始实验的简要描述"></a>初始实验的简要描述</h3><p>作者创建了有3个 API 接口的服务（service）:</p>
+<ul>
+<li><p>POST /client/new/{balance} — 创建一个账户余额为零的新客户端。</p>
+</li>
+<li><p>POST /transaction — 将钱从一个账户转移到另外一个账户。</p>
+</li>
+<li><p>GET /client/{id}/balance — 返回指定账户的余额。 </p>
+</li>
+</ul>
+<p>分别用 <a href="https://github.com/nikitsenka/bank-java" target="_blank" rel="noopener">Java</a> 和 <a href="https://github.com/nikitsenka/bank-go" target="_blank" rel="noopener">Go</a> 实现上述接口。作者采用 PostgreSQL 实现数据的持久化。为了测试这些服务，作者创建了一个 <a href="https://github.com/nikitsenka/bank-test/blob/master/jmeter/bank-test.jmx" target="_blank" rel="noopener">jmeter scenario</a>，使用从 1k 到 10k 不同的并发用户数量测试组来运行它。</p>
+<p>所有的实验在 AWS 上运行。</p>
+<table>
+<tbody> 
+  <tr> 
+   <td style="text-align: center;"><p style="text-align: center;"><br></p></td> 
+   <td colspan="2" style="text-align: center;"><p style="text-align: center;"><strong>Java</strong></p></td> 
+   <td colspan="2" style="text-align: center;"><p style="text-align: center;"><strong>Go</strong></p></td> 
+  </tr> 
+  <tr> 
+   <td style="text-align: center;"><p dir="ltr" style="text-align: center;"><strong>用户 &nbsp; &nbsp;&nbsp;</strong></p><p dir="ltr" style="text-align: center;"><strong>数量</strong></p></td> 
+   <td style="text-align: center;"><p dir="ltr" style="text-align: center;"><strong>Response time &nbsp; &nbsp;&nbsp;</strong></p><p dir="ltr" style="text-align: center;"><strong>(sec)</strong></p></td> 
+   <td style="text-align: center;"><p style="text-align: center;"><strong>Errors &nbsp; &nbsp;</strong></p><p dir="ltr" style="text-align: center;"><strong>(%)</strong></p></td> 
+   <td style="text-align: center;"><p dir="ltr" style="text-align: center;"><strong>Response time &nbsp; &nbsp;&nbsp;</strong></p><p dir="ltr" style="text-align: center;"><strong>(sec)</strong></p></td> 
+   <td style="text-align: center;"><p dir="ltr" style="text-align: center;"><strong>Errors &nbsp; &nbsp;</strong></p><p dir="ltr" style="text-align: center;"><strong>(%)</strong></p></td> 
+  </tr> 
+  <tr> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+  </tr> 
+  <tr> 
+   <td style="text-align: center;"><p style="text-align: center;">4k</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">5.96</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">2.63%</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">14.20</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">6.62%</p></td> 
+  </tr> 
+  <tr> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">...</p></td> 
+  </tr> 
+  <tr> 
+   <td style="text-align: center;"><p style="text-align: center;">10k</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">42.59</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">16.03%</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">46.50</p></td> 
+   <td style="text-align: center;"><p style="text-align: center;">39.30%</p></td> 
+  </tr> 
+ </tbody>
+</table>
+
+<h3 id="长话短说"><a href="#长话短说" class="headerlink" title="长话短说"></a>长话短说</h3><p>问题的根本原因是 Postgres 的可用连接数的限制（默认是 100 个连接），以及对 SQL DB 对象的不恰当使用。在解决掉这些问题后，所有的服务表现出相似的结果，唯一的不同的是 Java 更大的 CPU 和 memory 消耗（Java 中所有东西都更大）。</p>
+<h3 id="详细分析"><a href="#详细分析" class="headerlink" title="详细分析"></a>详细分析</h3><p>我们决定去分析为什么 Go 版本服务的错误率如此之高。为此，我们在原始代码中添加了日志，并亲自运行负载测试。分析日志之后，我们注意到所有的错误率要归因于与数据库开放连接有关的一个异常。</p>
+<p>仔细审查代码之后，我们首先注意到的是，针对每一次 API 调用，都会有一个新 <a href="https://github.com/nikitsenka/bank-go/blob/2ab1ef2ce8959dd1bc5eb5d324e39ab296efbbe5/bank/postgres.go#L57" target="_blank" rel="noopener">sql.DB</a> 被创建。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetBalance</span><span class="params">(client_id <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    db, err := newDb()</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newDb</span><span class="params">()</span> <span class="params">(*sql.DB, error)</span></span> &#123;</span><br><span class="line">    dbinfo := fmt.Sprintf(<span class="string">"host=%s user=%s password=%s dbname=%s sslmode=disable"</span>,</span><br><span class="line">    DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)</span><br><span class="line">    db, err := sql.Open(<span class="string">"postgres"</span>, dbinfo)</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> db, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你首先需要知道的是，一个 sql.DB 并不是一个数据库连接。<a href="https://golang.org/pkg/database/sql/#DB" target="_blank" rel="noopener">官方文档</a>对其有如下说明</p>
+<blockquote>
+<hr>
+</blockquote>
+<p style="text-align: center;">DB 是一个数据库句柄，代表了一个包含零个或多个连接的连接池。多个 goroutine 并发地使用它是安全的。sql 包会自动创建和释放连接；它同样维护一个包含闲置连接的连接池。返回的 DB 对于多个 goroutine 的并发是安全的，并各自维护自己的空闲连接池。因此，Open 函数应到只被调用一次。没有必要去关闭一个 DB</p>
+
+<blockquote>
+<hr>
+</blockquote>
+<p><a href="https://github.com/nikitsenka/bank-go/blob/2ab1ef2ce8959dd1bc5eb5d324e39ab296efbbe5/bank/postgres.go#L74" target="_blank" rel="noopener">如果一个 app 将连接释放回连接池失败，会导致 db.SQL 去打开很多的其他连接，可能会耗尽资源(太多的连接，太多的打开文件句柄，缺乏足够可用的网络端口，等等)</a>:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetBalance</span><span class="params">(client_id <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    err = db.QueryRow(...)</span><br><span class="line">    checkErr(err)</span><br><span class="line">    db.Close()</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">checkErr</span><span class="params">(err error)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(err);</span><br><span class="line">        <span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果 QueryRow 由于一个错误而失败，它会在调用<code style="color: red;">checkErr</code>时触发 panic，<code style="color: red;">db.Close</code> 也就不会被调用了.</p>
+<p><a href="https://github.com/nikitsenka/bank-java/blob/4708bccaff32023078fbd8e6a1e8e4c1d1d4296f/src/main/java/com/nikitsenka/bankjava/BankPostgresRepository.java#L67" target="_blank" rel="noopener">Java 版本的服务也没有使用连接池，但是由于打开连接是放在try代码块中的，它至少没有泄露连接</a>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Balance <span class="title">getBalance</span><span class="params">(Integer clientId)</span> </span>&#123;</span><br><span class="line">    Balance balance = <span class="keyword">new</span> Balance();</span><br><span class="line">    <span class="keyword">try</span> (Connection con = getConnection();</span><br><span class="line">         PreparedStatement ps = getBalanceStatement(con, clientId);</span><br><span class="line">         ResultSet rs = ps.executeQuery()) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们也注意到另外一个问题，在 app 中，goroutine 的数量和 DB 连接数量并没有受到限制，但是 Postgres DB　的连接数是有限制的。作者没有意识到要去修改 Postgres DB 的设置，而连接的默认限制是 100。这意味着对于 10k 的并发请求测试，由于资源有限，Java(基于多线程）和 Go（基于goroutine）并没有经历充分的对比测试。</p>
+<p>经过上述分析之后，我们开始分析 <a href="https://github.com/nikitsenka/bank-test/blob/master/jmeter/bank-test.jmx" target="_blank" rel="noopener">JMeter test scenario</a>。每运行一次，会创建一个新用户，并把 id 为1的用户的钱转移到 id 为2的用户账上，并返回 id 为1用户的余额。一个新创建的用户会被忽略掉。针对相同 id 的用户，对 transaction 表进行插入和读取操作可能也会降低性能，尤其是在每次运行后，DB 并不一定清除。</p>
+<p>我们最后注意到的是，用于运行 Java 和 Go 服务的实例类型。T2 具备很好的性价比，但是由于它的<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html" target="_blank" rel="noopener">突发性能特征</a>，对于性能测试而言并不是最好的选择。你并不能保证每次运行的结果都会一样。</p>
+<h3 id="接下来…"><a href="#接下来…" class="headerlink" title="接下来…"></a>接下来…</h3><p>再跑测试之前，我们决定处理掉我们所发现的问题。我们的目标并不是写出完美的代码，而是去解决掉相关问题。我们复制了作者的代码仓库，并进行了相关修改。</p>
+<p>对于 Go 版本，我们将 <code style="color: red;">sql.DB</code> 的创建挪到应用启动的地方，并在应用关闭时关闭它。当 DB 操作失败时，也不让 panicking 被触发，而是让应用返回给客户端一个附带错误信息的错误码 500。我们只保留 <code style="color: red;">sql.DB</code> 创建时的 panicking。应用开始运行时并没有去检查 DB 是否正在运行。此外，我们通过使用一个环境变量去设置数据库的连接数量限制。</p>
+<p>对于 Java 版本，我们添加了连接池。<a href="https://github.com/brettwooldridge/HikariCP#jmh-benchmarks-checkered_flag" target="_blank" rel="noopener">我们使用了 Hikary 连接池，因为它比较轻量、性能较好</a></p>
+<p>对于两个版本，我们都修改了 Dockerfile，使用基于 alpine 的镜像进行级联构建。这并不影响性能，但是会让最终的镜像显著更小。</p>
+<p>你可以检查修改后的代码：</p>
+<ul>
+<li><a href="https://github.com/bratc/bank-java" target="_blank" rel="noopener">Java repository</a>.</li>
+<li><a href="https://github.com/bratc/bank-go" target="_blank" rel="noopener">Go repository</a>.</li>
+</ul>
+<p>我们同样修改了 JMeter test scenario。新的 test scenario 在每次运行时，会创建两个新 user (拥有前述的账户余额)。之后，它会发出一个 get 请求，获取每个用户的余额，加以确认。再之后，它会将其中一个用户的钱转移到另外一个上。最后，它会再次发出 get 请求，获取每个用户的余额，检查在转移钱之后，他们的账户余额是否正确。</p>
+<h3 id="新实验"><a href="#新实验" class="headerlink" title="新实验"></a>新实验</h3><p>为了测试修改之后的两个版本服务的性能，我们从 AWS 选择了如下实例：</p>
+<ul>
+<li>Service 本身 (Java 和 Go 版本)使用 <strong>m5.large</strong>.</li>
+<li>Jmter 使用 <strong>m5.xlarge</strong>.</li>
+<li>PosgreSQL 使用 <strong>c5d.xlarge</strong>.</li>
+</ul>
+<p><img src="https://dzone.com/storage/temp/11240952-instances.png" alt></p>
+<figcaption style="text-align:center"><em> AWS 上的实例类型</em></figcaption>
+<br>
+
+<p>实验中的所有元素（Java 和 Go 的服务，JMeter，和 PostgreSQL）都运行在 AWS ECS 中的 Docker 容器中。对于 PostgreSQL 容器，我们创建了卷，用户存储所有数据，避免用一个可写的容器（会影响 DB 性能，尤其在重负载的情况下）。</p>
+<p>每个性能测试之后，我们重新开始 PostgreSQL，以避免上一次运行的任何影响。</p>
+<p>我们选用 m5.large 来运行服务，是由于它在计算能力、内存和网络资源方面的均衡性。对于 PostgreSQL，我们选择了 c5d.2xlarge，考虑到它优化后的计算能力，以及具备基于 NVMe 的 SSD 块级存储能力。</p>
+<p>下面，你可以看到对于 <strong>Go</strong> 版本服务，当并发用户数是 4k 时候，JMeter 的输出：</p>
+<p><img src="https://dzone.com/storage/temp/11004742-jmeter-go-4k.png" alt></p>
+<figcaption style="text-align:center"><em>JMeter 测试结果 4k 并发用户 Go 版本
+</em></figcaption>
+<br>
+
+<p>这里是对于 <strong>Java</strong> 版本服务，当并发用户数是 4k 的时候，JMeter 输出：</p>
+<p><img src="https://dzone.com/storage/temp/11004744-jmeter-java-4k.png" alt></p>
+<figcaption style="text-align:center"><em>JMeter 测试结果 4k 并发用户数量 Java 版本
+</em></figcaption>
+<br>
+
+<p>对于 <strong>Go</strong> 版本服务，当并发用户数是 10k 时候，JMeter 的输出：</p>
+<p><img src="https://dzone.com/storage/temp/11004746-jmeter-go-10k.png" alt></p>
+<figcaption style="text-align:center"><em>JMeter 测试结果 10k 并发用户 Go 版本
+</em></figcaption>
+<br>
+
+
+<p>对于 <strong>Java</strong> 版本服务，当并发用户数是 10k 时候，JMeter 的输出：</p>
+<p><img src="https://dzone.com/storage/temp/11004747-jmeter-java-10k.png" alt></p>
+<figcaption style="text-align:center"><em>JMeter 测试结果 10k 并发用户数量 Java 版本
+</em></figcaption>
+<br>
+
+<p>你可以在<a href="https://github.com/bratc/bank-go/tree/master/testing" target="_blank" rel="noopener">这里</a>找到 Go 版本的 JMeter 结果报告，以及<a href="https://github.com/bratc/bank-java/tree/master/testing" target="_blank" rel="noopener">这里</a>找到 Java 版本的 JMeter 结果报告。</p>
+<p>Go 版本服务的 CPU/memory 占用记录</p>
+<p><img src="https://dzone.com/storage/temp/11017335-memory-usage-go-version-upd.png" alt></p>
+<figcaption style="text-align:center"><em>Memory 占用 % (Go 版本)
+</em></figcaption>
+<br>
+
+<p><img src="https://dzone.com/storage/temp/11017313-cpu-usage-go-version-upd.png" alt></p>
+<figcaption style="text-align:center"><em>CPU 占用 % (Go version)
+</em></figcaption>
+<br>
+
+<p>Java 版本服务的 CPU/memory 占用记录</p>
+<p><img src="https://dzone.com/storage/temp/11017287-memory-usage-java-version-upd.png" alt></p>
+<figcaption style="text-align:center"><em>Memory 占用 % (Java 版本)
+</em></figcaption>
+<br>
+
+<p><img src="https://dzone.com/storage/temp/11017263-cpu-usage-java-version-upd.png" alt></p>
+<figcaption style="text-align:center"><em>CPU 占用 % (Java 版本)
+</em></figcaption>
+<br>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在这篇文章中，我们不会去做任何结论或者挑选一个胜者。你需要自行决定你是否想转换到一个新编程语言，并是否投入巨大努力成为一个专家。已经有很多的文章去讨论 Java 和 Go 各自的优劣利弊。总而言之，任何能够解决你问题的编程语言就是合适的编程语言。</p>
+<h3 id="阅读更多"><a href="#阅读更多" class="headerlink" title="阅读更多"></a>阅读更多</h3><ul>
+<li><a href="https://dzone.com/articles/why-we-switched-from-python-to-go" target="_blank" rel="noopener">我们为什么从 Python 转到 Go, Part 1</a>.</li>
+<li><a href="https://dzone.com/articles/comparing-golang-with-java" target="_blank" rel="noopener">Golang 与 Java 的对比</a>.</li>
+<li><a href="https://dzone.com/articles/go-microservices-part-2-building-our-first-service" target="_blank" rel="noopener">Go 微服务, Part 2: 构建我们的第一个服务</a>.</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Golang/" rel="tag"># Golang</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Benchmark/" rel="tag"># Benchmark</a>
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+            <a href="/tags/微服务/" rel="tag"># 微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/13/Django-REST-framework-API-Guide-之-Authentication/" rel="next" title="Django REST framework API Guide 之 Authentication">
+                <i class="fa fa-chevron-left"></i> Django REST framework API Guide 之 Authentication
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="Clay Chen">
+            
+              <p class="site-author-name" itemprop="name">Clay Chen</p>
+              <p class="site-description motion-element" itemprop="description">Clay's Blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://endlex.net/" title="优秀的老马" target="_blank">优秀的老马</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.fullstackpentest.com/" title="腻害的小黎" target="_blank">腻害的小黎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始实验的简要描述"><span class="nav-number">1.</span> <span class="nav-text">初始实验的简要描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长话短说"><span class="nav-number">2.</span> <span class="nav-text">长话短说</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细分析"><span class="nav-number">3.</span> <span class="nav-text">详细分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接下来…"><span class="nav-number">4.</span> <span class="nav-text">接下来…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新实验"><span class="nav-number">5.</span> <span class="nav-text">新实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阅读更多"><span class="nav-number">7.</span> <span class="nav-text">阅读更多</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clay Chen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

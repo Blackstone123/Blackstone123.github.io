@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,Django,DRF,Generic Views,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近几天，coronavirus 开始在欧美爆发，美股昨天发生本周的第二次熔断。整个世界的节奏都被打乱了，全球进入避险模式。">
+<meta name="keywords" content="python,Django,DRF,Generic Views">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django REST framework API Guide 之 Generic Views">
+<meta property="og:url" content="http://yoursite.com/2020/03/13/Django-REST-framework-API-Guide-之-Generic-Views/index.html">
+<meta property="og:site_name" content="Clay&#39;s Blog">
+<meta property="og:description" content="最近几天，coronavirus 开始在欧美爆发，美股昨天发生本周的第二次熔断。整个世界的节奏都被打乱了，全球进入避险模式。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-03-19T02:38:19.039Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django REST framework API Guide 之 Generic Views">
+<meta name="twitter:description" content="最近几天，coronavirus 开始在欧美爆发，美股昨天发生本周的第二次熔断。整个世界的节奏都被打乱了，全球进入避险模式。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/13/Django-REST-framework-API-Guide-之-Generic-Views/">
+
+
+
+
+
+  <title>Django REST framework API Guide 之 Generic Views | Clay's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?02f45f165696c8a588e08806d3cc79e0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">他山之石，可以攻玉</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/Django-REST-framework-API-Guide-之-Generic-Views/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clay Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django REST framework API Guide 之 Generic Views</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-13T10:38:17+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近几天，coronavirus 开始在欧美爆发，美股昨天发生本周的第二次熔断。整个世界的节奏都被打乱了，全球进入避险模式。</p>
+<a id="more"></a>
+
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>在官网上，DRF 的 API Guide 涉及如下模块：</p>
+<ul>
+<li>Requests                     请求</li>
+<li>Response                     响应</li>
+<li>Views                        视图</li>
+<li>Generic views                通用视图</li>
+<li>Viewsets                     视图集合类</li>
+<li>Routers                      路由器</li>
+<li>Parsers                      解释器</li>
+<li>Renderers                    渲染器</li>
+<li>Serializers                  序列化器</li>
+<li>Serializer fields            序列化器字段</li>
+<li>Serializer relations         序列化器之间的关系</li>
+<li>Validators                   验证器</li>
+<li>Authentication               认证</li>
+<li>Permissions                  权限</li>
+<li>Caching                      缓存</li>
+<li>throttling                   限流</li>
+<li>Filtering                    过滤</li>
+<li>Pagination                   分页</li>
+<li>Versioning                   版本</li>
+<li>Content negotiation          内容协商</li>
+<li>Metadata                     元数据</li>
+<li>Schemas                      架构</li>
+<li>Format suffixes              格式后缀</li>
+<li>Returning URLS               返回url </li>
+<li>Exceptions                   异常</li>
+<li>Status codes                 状态码</li>
+<li>Testing                      测试</li>
+<li>Settings                     设置</li>
+</ul>
+<h1 id="Generic-Views"><a href="#Generic-Views" class="headerlink" title="Generic Views"></a>Generic Views</h1><blockquote>
+<p>“Django’s generic views… were developed as a shortcut for common usage patterns… They take certain common idioms and patterns found in view development and abstract them so that you can quickly write common views of data without having to repeat yourself.”</p>
+<ul>
+<li>Django Documentation</li>
+</ul>
+</blockquote>
+<p>基于类的Views 的一个关键好处是它允许你将一些可复用的行为组合起来。REST framework 同样利用了这一优势，它为一些常规的应用模式预先写好了一些views。</p>
+<p>REST framework 提供的 generic views 允许你快速创建贴近数据库 model 的 API views。</p>
+<p>如果这些 generic views 不能满足你的 API 需求，你可以不用他们而直接使用 APIView 类，或者重新使用 mixins 和 generic view 使用的基础类去组装你自己的可复用的 generic views。</p>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><p>在使用 generic views时，你会重写view,设置一些类字段。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> User</span><br><span class="line"><span class="keyword">from</span> myapp.serializers <span class="keyword">import</span> UserSerializer</span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> generics</span><br><span class="line"><span class="keyword">from</span> rest_framework.permissions <span class="keyword">import</span> IsAdminUser</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserList</span><span class="params">(generics.ListCreateAPIView)</span>:</span></span><br><span class="line">    queryset = User.objects.all()</span><br><span class="line">    serializer_class = UserSerializer</span><br><span class="line">    permission_classes = [IsAdminUser]</span><br></pre></td></tr></table></figure>
+
+<p>在一些复杂的情形下，你可能想去复写view 类中各种方法，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserList</span><span class="params">(generics.ListCreateAPIView)</span>:</span></span><br><span class="line">    queryset = User.objects.all()</span><br><span class="line">    serializer_class = UserSerializer</span><br><span class="line">    permission_classes = [IsAdminUser]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">list</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        <span class="comment"># Note the use of `get_queryset()` instead of `self.queryset`</span></span><br><span class="line">        queryset = self.get_queryset()</span><br><span class="line">        serializer = UserSerializer(queryset, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure>
+
+<p>对于一些特别简单的api 需求，你可能你能想通过 .as_view()方法传递各种类 attributes。比如，你在配置url时，可以同时输入如下一些信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^/users/'</span>, ListCreateAPIView.as_view(queryset=User.objects.all(), serializer_class=UserSerializer), name=<span class="string">'user-list'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="API-Reference"><a href="#API-Reference" class="headerlink" title="API Reference"></a>API Reference</h2><h3 id="GenericAPIView"><a href="#GenericAPIView" class="headerlink" title="GenericAPIView"></a>GenericAPIView</h3><p>这个类拓展了 DRF 的 APIView 类，为标准的 list 和 detail view 添加了一些常用特性。</p>
+<p>每个可用的generic views 都是通过一个或者多个mixin class 同 GenericAPIView联合创建而成。</p>
+<h4 id="Attributes"><a href="#Attributes" class="headerlink" title="Attributes"></a>Attributes</h4><h5 id="Basic-settings"><a href="#Basic-settings" class="headerlink" title="Basic settings"></a>Basic settings</h5><p>下面一些字段控制了view 类的基础行为：</p>
+<ul>
+<li>queryset 用于从本view中返回多个实例。一般而言，你要么直接设置这个值，或者重写 get_queryset() 这个方法。如果你重写一个 view 方法，需要非常注意的是，你去调用 get_queryset() 而不是去直接获取这个值，毕竟 queryset 是一次性设定的值（不会改变），这些结果会被所有后续的requests缓存。</li>
+<li>serializer_class serializer_class 会被用于验证和逆序列化输入数据，序列化输出数据。一般而言，你要么是设定这个值，要么重写 get_serializer_class()值。</li>
+<li>lookup_field model 字段，用于去查找单一的 model 实例。默认情况下是 ‘pk’。当使用 hyperlinked APIs，如果你想用一个自定义的值，你需要确保在 API view 中和 serializer classes 中都有设置 lookup fields。</li>
+<li>lookup_url_kwarg URL keyword 参数会被用于对象查询。URL 设置时，应该包含一个与这个值对应的参数。如果不设置该字段，会默认使用与 lookup_field 相同的值。</li>
+</ul>
+<h5 id="Pagination"><a href="#Pagination" class="headerlink" title="Pagination"></a>Pagination</h5><p>当使用 list view 时，下面的字段用于控制分页：</p>
+<ul>
+<li>pagination_class 在对列表结果进行分页时需要使用该字段。默认情况下，会使用在 ‘rest_framework.pagination.PageNumberPagination’ 设置的 DEFAULT_PAGINATION_CLASS。当设置 pagination_class=None 时，view 会取消分页功能。</li>
+<li>filter_backends 过滤器列表，用于过滤 queryset。默认使用 DEFAULT_FILTER_BACKENDS 的值。</li>
+</ul>
+<h4 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h4><p>基础方法</p>
+<h5 id="get-queryset-self"><a href="#get-queryset-self" class="headerlink" title="get_queryset(self)"></a>get_queryset(self)</h5><p>返回用于 list view 的 queryset,并且会作为 detail view 查询的一个基础。默认情况下，返回 .queryset 值。毕竟 queryset 是一次性设定的值（不会改变），这些结果会被所有后续的requests缓存。</p>
+<p>该方法可以被重写，提供动态的行为，比如对不同用户的访问，返回不同的 queryset。<br>比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_queryset</span><span class="params">(self)</span>:</span></span><br><span class="line">    user = self.request.user</span><br><span class="line">    <span class="keyword">return</span> user.accounts.all()</span><br></pre></td></tr></table></figure>
+
+<h5 id="get-object-self"><a href="#get-object-self" class="headerlink" title="get_object(self)"></a>get_object(self)</h5><p>返回一个用于 detail view 的实例对象。默认情况下是用 lookup_field 参数从基础 queryset 中过滤出来。为了满足复杂需求，该方法可能被重写，比如基于超过一个 url 参数的单个实例查询。</p>
+<p>比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_object</span><span class="params">(self)</span>:</span></span><br><span class="line">    queryset = self.get_queryset()</span><br><span class="line">    filter = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> field <span class="keyword">in</span> self.multiple_lookup_fields:</span><br><span class="line">        filter[field] = self.kwargs[field]</span><br><span class="line"></span><br><span class="line">    obj = get_object_or_404(queryset, **filter)</span><br><span class="line">    self.check_object_permissions(self.request, obj)</span><br><span class="line">    <span class="keyword">return</span> obj</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，如果你的API 不包含任何的 object 级别 permissions，你可以不调用 self.check_object_permissions，仅简单地返回从 get_object_or_404 查询道德实例。</p>
+<h5 id="filter-queryset-self-queryset"><a href="#filter-queryset-self-queryset" class="headerlink" title="filter_queryset(self, queryset)"></a>filter_queryset(self, queryset)</h5><p>对于给定的 queryset，<br>(这一块需要中停一下，需要先去理认证那块)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/DRF/" rel="tag"># DRF</a>
+          
+            <a href="/tags/Generic-Views/" rel="tag"># Generic Views</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/11/Django-REST-framework-API-Guide-之-Views/" rel="next" title="Django REST framework API Guide 之 Views">
+                <i class="fa fa-chevron-left"></i> Django REST framework API Guide 之 Views
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/13/Django-REST-framework-API-Guide-之-Authentication/" rel="prev" title="Django REST framework API Guide 之 Authentication">
+                Django REST framework API Guide 之 Authentication <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="Clay Chen">
+            
+              <p class="site-author-name" itemprop="name">Clay Chen</p>
+              <p class="site-description motion-element" itemprop="description">Clay's Blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://endlex.net/" title="优秀的老马" target="_blank">优秀的老马</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.fullstackpentest.com/" title="腻害的小黎" target="_blank">腻害的小黎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概览"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Generic-Views"><span class="nav-number">2.</span> <span class="nav-text">Generic Views</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Examples"><span class="nav-number">2.1.</span> <span class="nav-text">Examples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-Reference"><span class="nav-number">2.2.</span> <span class="nav-text">API Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GenericAPIView"><span class="nav-number">2.2.1.</span> <span class="nav-text">GenericAPIView</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Attributes"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Attributes</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Basic-settings"><span class="nav-number">2.2.1.1.1.</span> <span class="nav-text">Basic settings</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Pagination"><span class="nav-number">2.2.1.1.2.</span> <span class="nav-text">Pagination</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Methods"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#get-queryset-self"><span class="nav-number">2.2.1.2.1.</span> <span class="nav-text">get_queryset(self)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#get-object-self"><span class="nav-number">2.2.1.2.2.</span> <span class="nav-text">get_object(self)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#filter-queryset-self-queryset"><span class="nav-number">2.2.1.2.3.</span> <span class="nav-text">filter_queryset(self, queryset)</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clay Chen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

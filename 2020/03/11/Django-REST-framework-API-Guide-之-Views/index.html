@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="“御驾亲征　必须有两个条件其一　万不得已其二　征则必胜天子乃国家的命脉不到万不得已不可亲身赴险天子一旦亲征必须有绝对的胜算”－－－　引自《康熙王朝》台词  老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活能恢复正常。今天在家继续复习DRF。">
+<meta name="description" content="“御驾亲征　必须有两个条件其一　万不得已其二　征则必胜天子乃国家的命脉不到万不得已不可亲身赴险天子一旦亲征必须有绝对的胜算”－－－　引自《康熙王朝》台词  老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活节奏能恢复正常。">
 <meta name="keywords" content="python,Django,DRF,View">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django REST framework API Guide 之 Views">
 <meta property="og:url" content="http://yoursite.com/2020/03/11/Django-REST-framework-API-Guide-之-Views/index.html">
 <meta property="og:site_name" content="Clay&#39;s Blog">
-<meta property="og:description" content="“御驾亲征　必须有两个条件其一　万不得已其二　征则必胜天子乃国家的命脉不到万不得已不可亲身赴险天子一旦亲征必须有绝对的胜算”－－－　引自《康熙王朝》台词  老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活能恢复正常。今天在家继续复习DRF。">
+<meta property="og:description" content="“御驾亲征　必须有两个条件其一　万不得已其二　征则必胜天子乃国家的命脉不到万不得已不可亲身赴险天子一旦亲征必须有绝对的胜算”－－－　引自《康熙王朝》台词  老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活节奏能恢复正常。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-11T10:35:56.623Z">
+<meta property="og:updated_time" content="2020-03-19T02:32:02.981Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django REST framework API Guide 之 Views">
-<meta name="twitter:description" content="“御驾亲征　必须有两个条件其一　万不得已其二　征则必胜天子乃国家的命脉不到万不得已不可亲身赴险天子一旦亲征必须有绝对的胜算”－－－　引自《康熙王朝》台词  老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活能恢复正常。今天在家继续复习DRF。">
+<meta name="twitter:description" content="“御驾亲征　必须有两个条件其一　万不得已其二　征则必胜天子乃国家的命脉不到万不得已不可亲身赴险天子一旦亲征必须有绝对的胜算”－－－　引自《康熙王朝》台词  老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活节奏能恢复正常。">
 
 
 
@@ -365,9 +365,41 @@
         <blockquote>
 <p>“御驾亲征　必须有两个条件<br>其一　万不得已<br>其二　征则必胜<br>天子乃国家的命脉<br>不到万不得已不可亲身赴险<br>天子一旦亲征<br>必须有绝对的胜算”<br>－－－　引自《康熙王朝》台词</p>
 </blockquote>
-<p>老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活能恢复正常。今天在家继续复习DRF。</p>
+<p>老大昨天去武汉了，非万不得已，看来是有绝对的胜算了。但愿瘟神快点走，工作生活节奏能恢复正常。</p>
 <a id="more"></a>
-<blockquote>
+
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>在官网上，DRF 的 API Guide 涉及如下模块：</p>
+<ul>
+<li>Requests                     请求</li>
+<li>Response                     响应</li>
+<li>Views                        视图</li>
+<li>Generic views                通用视图</li>
+<li>Viewsets                     视图集合类</li>
+<li>Routers                      路由器</li>
+<li>Parsers                      解释器</li>
+<li>Renderers                    渲染器</li>
+<li>Serializers                  序列化器</li>
+<li>Serializer fields            序列化器字段</li>
+<li>Serializer relations         序列化器之间的关系</li>
+<li>Validators                   验证器</li>
+<li>Authentication               认证</li>
+<li>Permissions                  权限</li>
+<li>Caching                      缓存</li>
+<li>throttling                   限流</li>
+<li>Filtering                    过滤</li>
+<li>Pagination                   分页</li>
+<li>Versioning                   版本</li>
+<li>Content negotiation          内容协商</li>
+<li>Metadata                     元数据</li>
+<li>Schemas                      架构</li>
+<li>Format suffixes              格式后缀</li>
+<li>Returning URLS               返回url </li>
+<li>Exceptions                   异常</li>
+<li>Status codes                 状态码</li>
+<li>Testing                      测试</li>
+<li>Settings                     设置</li>
+</ul>
+<h1 id="Views"><a href="#Views" class="headerlink" title="Views"></a>Views</h1><blockquote>
 <p>“Django’s class-based views are a welcome departure from the old-style views.”<br>－　Reinout van Rees </p>
 </blockquote>
 <p>REST framework 提供了一个 APIView 类，他继承了 Django 的 View 类。<br>APIView 类和Django 标准的view 类在某些方面并不一致：</p>
@@ -491,6 +523,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/03/13/Django-REST-framework-API-Guide-之-Generic-Views/" rel="prev" title="Django REST framework API Guide 之 Generic Views">
+                Django REST framework API Guide 之 Generic Views <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -568,7 +604,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -590,7 +626,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -641,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-attributes"><span class="nav-number">1.</span> <span class="nav-text">API policy attributes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-instantiation-methods"><span class="nav-number">2.</span> <span class="nav-text">API policy instantiation methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-implementation-methods"><span class="nav-number">3.</span> <span class="nav-text">API policy implementation methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dispatch-methods"><span class="nav-number">4.</span> <span class="nav-text">Dispatch methods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#initial-self-request-args-kwargs"><span class="nav-number">4.1.</span> <span class="nav-text">.initial(self, request, args, *kwargs)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#handle-exception-self-exc"><span class="nav-number">4.2.</span> <span class="nav-text">.handle_exception(self, exc)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initialize-request-self-request-args-kwargs"><span class="nav-number">4.3.</span> <span class="nav-text">.initialize_request(self, request, args, *kwargs)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finalize-response-self-request-response-args-kwargs"><span class="nav-number">4.4.</span> <span class="nav-text">.finalize_response(self, request, response, args, *kwargs)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function-Based-Views"><span class="nav-number">5.</span> <span class="nav-text">Function Based Views</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#api-view"><span class="nav-number">5.1.</span> <span class="nav-text">@api_view()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-decorators"><span class="nav-number">6.</span> <span class="nav-text">API policy decorators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View-schema-decorator"><span class="nav-number">7.</span> <span class="nav-text">View schema decorator</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概览"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Views"><span class="nav-number">2.</span> <span class="nav-text">Views</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-attributes"><span class="nav-number">2.1.</span> <span class="nav-text">API policy attributes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-instantiation-methods"><span class="nav-number">2.2.</span> <span class="nav-text">API policy instantiation methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-implementation-methods"><span class="nav-number">2.3.</span> <span class="nav-text">API policy implementation methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dispatch-methods"><span class="nav-number">2.4.</span> <span class="nav-text">Dispatch methods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#initial-self-request-args-kwargs"><span class="nav-number">2.4.1.</span> <span class="nav-text">.initial(self, request, args, *kwargs)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#handle-exception-self-exc"><span class="nav-number">2.4.2.</span> <span class="nav-text">.handle_exception(self, exc)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initialize-request-self-request-args-kwargs"><span class="nav-number">2.4.3.</span> <span class="nav-text">.initialize_request(self, request, args, *kwargs)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finalize-response-self-request-response-args-kwargs"><span class="nav-number">2.4.4.</span> <span class="nav-text">.finalize_response(self, request, response, args, *kwargs)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function-Based-Views"><span class="nav-number">2.5.</span> <span class="nav-text">Function Based Views</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#api-view"><span class="nav-number">2.5.1.</span> <span class="nav-text">@api_view()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-policy-decorators"><span class="nav-number">2.6.</span> <span class="nav-text">API policy decorators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View-schema-decorator"><span class="nav-number">2.7.</span> <span class="nav-text">View schema decorator</span></a></li></ol></li></ol></div>
             
 
           </div>
